@@ -11,45 +11,48 @@ require_once('includes/custom/php/navigation.php');
 
 $template = $twig->loadTemplate('staff_login.html');
 
-/*
 $message = "";
+
 if(isset($_SESSION['u_name'])){
 	session_destroy();
-	$message = "已登出";
+	$message = "已自動登出，請重新登入";
 	header("refresh:1;url=staff_login.php?shop_id=" . $_shopID);
 }
 
 if(isset($_POST['submit'])){
+    echo "DBG: press login button<br>";
+    if(!isset($_POST['password']))
+        $_POST['password'] = '';
 
-	if(!isset($_POST['password']))
-		$_POST['password'] = '';
+    if(!isset($_POST['phone']))
+        $_POST['phone'] = '';
 
-	if(!isset($_POST['phone']))
-		$_POST['phone'] = '';
-
-	if(user_login($_POST['username'] , $_POST['password'], $_POST['phone'], false)){
-		if($_SESSION['shop_id'] == -1 ){
-			$message = "成功登入總店, 兩秒後自動進入總店控制台";
-			header("refresh:2;url=inventory.php?shop_id=" . $_SESSION['shop_id']);
-		}
-		else if($_SESSION['admin'] == 1){
-			$message = "登入成功, 兩秒後自動進入老闆控制台";
-			header("refresh:2;url=report.php?shop_id=" . $_SESSION['shop_id']);
-		}
-		else if ($_SESSION['staff'] == 1) {
-			$message = "登入成功, 兩秒後自動回到首頁";
-			header("refresh:2;url=index.php?shop_id=" . $_SESSION['shop_id']);
+    if(user_login($_POST['username'] , $_POST['password'], $_POST['phone'], false)){
+        if($_SESSION['shop_id'] == -1 ){
+            echo "TODO: 轉跳不同頁面 for 總店老闆 & 總店員工<br>";
+            $message = "成功登入總店，總店控制台讀取中...";
+            header("refresh:2;url=dashboard.php?shop_id=" . $_SESSION['shop_id']);
+        }
+        else if($_SESSION['admin'] == 1){
+            $message = "登入成功，控制台讀取中...";
+            echo "TODO: 自動轉跳 for 分店老闆<br>";
+            //header("refresh:2;url=report.php?shop_id=" . $_SESSION['shop_id']);
+        }
+        else if ($_SESSION['staff'] == 1) {
+            $message = "登入成功，POS系統讀取中...";
+            header("refresh:2;url=index.php?shop_id=" . $_SESSION['shop_id']);
+        }
     }
-	}
-	else
-	{
-		$message = "登入錯誤";
-	}
+    else{
+        $message = "登入失敗";
+    }
 }
-*/
+else{
+    echo "DBG: first time to this page<br>";
+}
 
 $_HTML .= $template->render(array(
-  //'LOGIN_MESSAGE' => $message,
+  'LOGIN_MESSAGE' => $message,
 ));
 
 require_once('includes/custom/php/footer.php');
