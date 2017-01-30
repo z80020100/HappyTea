@@ -16,9 +16,6 @@ define("UNIFORM_TYPE_NONE", 0);
 define("UNIFORM_TYPE_CUSTOM", 1);
 define("UNIFORM_TYPE_SBADMIN2", 2);
 
-$uniform_theme = false; // If enable this function, header_type, nav_type, footer_type will be ignored
-$uniform_type = UNIFORM_TYPE_NONE; // It will be ignored if $uniform_theme is false
-
 define("IDGUEST", 0);
 define("IDCUSTOMER", 1);
 define("IDSTAFF", 2);
