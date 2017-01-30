@@ -9,6 +9,14 @@ if(!isset($header_type)){
     $header_type = HEADER_TYPE_NONE;
 }
 
+if(!isset($uniform_theme)){
+    $uniform_theme = false;
+}
+
+if($uniform_theme == true){
+    $header_type = $uniform_type;
+}
+
 if($header_type == HEADER_TYPE_CUSTOM){
     $template = $twig->loadTemplate('custom_header.html');
 }
