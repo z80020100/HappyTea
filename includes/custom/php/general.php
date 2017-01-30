@@ -34,6 +34,9 @@ if (setShopID()) {
 	die($_SESSION['error_message']);
 }
 
+$uniform_theme = false; // If enable this function, header_type, nav_type, footer_type will be ignored
+$uniform_type = UNIFORM_TYPE_NONE; // It will be ignored if $uniform_theme is false
+
 // 未來要獨立成為設定檔的部分 -----------------------
 // 可能會變成資料庫存取
 

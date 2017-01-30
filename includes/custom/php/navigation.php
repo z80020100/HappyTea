@@ -4,6 +4,14 @@ if(!isset($nav_type)){
     $nav_type = NAV_TYPE_NONE;
 }
 
+if(!isset($uniform_theme)){
+    $uniform_theme = false;
+}
+
+if($uniform_theme == true){
+    $nav_type = $uniform_type;
+}
+
 if($nav_type == NAV_TYPE_CUSTOM){
     $template = $twig->loadTemplate('custom_navigation.html');
 }

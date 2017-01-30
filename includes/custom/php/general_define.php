@@ -12,6 +12,10 @@ define("FOOTER_TYPE_NONE", 0);
 define("FOOTER_TYPE_CUSTOM", 1);
 define("FOOTER_TYPE_SBADMIN2", 2);
 
+define("UNIFORM_TYPE_NONE", 0);
+define("UNIFORM_TYPE_CUSTOM", 1);
+define("UNIFORM_TYPE_SBADMIN2", 2);
+
 define("IDGUEST", 0);
 define("IDCUSTOMER", 1);
 define("IDSTAFF", 2);
