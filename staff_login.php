@@ -36,7 +36,7 @@ if(isset($_POST['submit'])){
         else if($_SESSION['admin'] == 1){
             $message = "登入成功，控制台讀取中...";
             echo "TODO: 自動轉跳 for 分店老闆<br>";
-            //header("refresh:2;url=report.php?shop_id=" . $_SESSION['shop_id']);
+            header("refresh:2;url=dashboard.php?shop_id=" . $_SESSION['shop_id']);
         }
         else if ($_SESSION['staff'] == 1) {
             $message = "登入成功，POS系統讀取中...";

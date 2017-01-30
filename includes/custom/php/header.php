@@ -39,13 +39,12 @@ else{
 	$_USER_NAME = $_SESSION['u_name'];
 }
 
-
 $_HTML .= $template->render(array(
 	'username' => $_USER_NAME,
 	'PAGE_TITLE' => $_PAGE_TITLE,
-	'USER_IDENTITY' => $_USER_IDENTITY,
+	//'USER_IDENTITY' => $_USER_IDENTITY,
 	'all_series' => $all_series,
-	'TOP_SHOP' => $_shopID,
+	//'TOP_SHOP' => $_shopID,
 	'shopname' => $_SESSION['shop_name']
 ));
 

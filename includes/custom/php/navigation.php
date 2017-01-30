@@ -22,8 +22,17 @@ else{
     $template = $twig->loadTemplate('empty.html');
 }
 
+if($_shopID == -1){
+    $top_shop = true;
+}
+else{
+    $top_shop = false;
+}
+
 $_HTML .= $template->render(array(
 	'PAGE_TITLE' => $_PAGE_TITLE,
+    'USER_IDENTITY' => $_USER_IDENTITY,
+    'TOP_SHOP' => $top_shop,
 ));
 
 ?>
