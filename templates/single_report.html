@@ -39,6 +39,7 @@
 
     <div id="wrapper">
 
+
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -378,6 +379,9 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+            <input type="text" id="from_date" data-format="DD-MM-YYYY" data-template="DD / MM / YYYY" name="datetime" value="01-01-2017">
+            <input type="text" id="to_date" data-format="DD-MM-YYYY" data-template="DD / MM / YYYY" name="datetime" value="01-01-2017">
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -474,6 +478,27 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
+
+<!--
+    <script src="js/jquery.js"></script> --> 
+    <script src="./includes/vendor/moment/moment.min.js"></script> 
+    <script src="./includes/vendor/combodate/combodate.js"></script> 
+    <script>
+    $(function(){
+            $('#from_date').combodate({
+                minYear: 2000,
+                maxYear: 2017,
+                minuteStep: 10
+            
+            });  
+            $('#to_date').combodate({
+                minYear: 2000,
+                maxYear: 2017,
+                minuteStep: 10
+            
+            });  
+    });
+    </script>
 
 </body>
 
