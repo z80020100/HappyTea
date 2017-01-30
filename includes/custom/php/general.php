@@ -28,7 +28,7 @@ if(!isset($_SESSION['u_auth']))
 
 $db = new Db(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_DATABASE);
 
-if (setShopID()) {
+if (1) {
 	$_shopID = $_SESSION['GET_shop_id'];
 } else {
 	die($_SESSION['error_message']);
