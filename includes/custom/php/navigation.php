@@ -30,8 +30,9 @@ else{
 }
 
 $_HTML .= $template->render(array(
-	'PAGE_TITLE' => $_PAGE_TITLE,
+    'PAGE_TITLE' => $_PAGE_TITLE,
     'USER_IDENTITY' => $_USER_IDENTITY,
+    'USER_NAME' => $_USER_NAME,
     'TOP_SHOP' => $top_shop,
 ));
 

@@ -113,17 +113,26 @@
                             </div>
                             <!-- /input-group -->
                         </li>
+
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                (DBG) 登入身分：{{USER_NAME}}<br>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+
 {% if USER_IDENTITY == 'admin' %}
     {% if TOP_SHOP == true %}
-        {% include 'nav_top_boss.html' %}
+        {% include 'sbadmin2_nav_top_boss.html' %}
     {% else %}
-        {% include 'nav_bottom_boss.html' %}
+        {% include 'sbadmin2_nav_bottom_boss.html' %}
     {% endif %}
 {% elseif USER_IDENTITY == 'staff' %}
     {% if TOP_SHOP == true %}
-        {% include 'nav_top_staff.html' %}
+        {% include 'sbadmin2_nav_top_staff.html' %}
     {% endif %}
 {% endif %}
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
