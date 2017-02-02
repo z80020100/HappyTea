@@ -108,44 +108,25 @@
                     <!-- .panel-heading -->
                     <div class="panel-body">
                         <div class="panel-group" id="accordion">
+                        {% for shop in allshops %}
+
                         <div class="panel panel-default">
                             <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">高雄孟子店</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{shop.shop_id}}">{{shop.shop_name}}</a>
                             </h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse in">
+                            <div id="collapse{{shop.shop_id}}" class="panel-collapse collapse in">
                             <div class="panel-body">
-                            加盟主姓名：xxx
-                            加盟主電話：xxx
-                            店內電話：xxxx
+                                <li>加盟主姓名：{{shop.shop_owner}}</li>
+                                <li>加盟主電話：{{shop.shop_tel}} </li>
+                                <li>地址：{{shop.shop_address}} </li>
                             </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Collapsible Group Item #2</a>
-                            </h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse">
-                            <div class="panel-body">
-                            edf
-                            </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Collapsible Group Item #3</a>
-                            </h4>
-                            </div>
-                            <div id="collapseThree" class="panel-collapse collapse">
-                            <div class="panel-body">
-                            test
-                            </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+
+
                         </div>
                     </div>
                     <!-- .panel-body -->
@@ -170,3 +151,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
+
+    <script src="./templates/dashboard.js"></script>
+
