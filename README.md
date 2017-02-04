@@ -7,13 +7,13 @@
 
 # DataBase#
 ## additional_item 加料品項##
-ai_id：
-at_id：
+* ai_id：additional_item ID
+* at_id：additional_type ID
 * name：名稱  
-* price：季前
+* price：價錢
 
 ## additional_type 加料分類 ##
-at_id：
+* at_id：additional_type ID
 * option_name：分類名稱 ((大杯中杯
 * multiple_choice：可否多選
 
@@ -32,14 +32,13 @@ price：價錢
 shop_id：
 
 ## main ##
-
-m_id：
-name：名稱
-price：價錢
-s_id：
-at_id：
-required_option：
-order_num：
+* m_id：main ID
+* name：名稱
+* price：價錢
+* s_id：series ID
+* at_id：additional_type ID
+* required_option：true: 我要看 required_option 的table 去看還要那些additional_type
+order_num：排序用的(目前沒有用到)
 
 ## orders ##
 	
@@ -62,10 +61,10 @@ at_id：
 
 ## series 品類大項 ##
 
-s_id：
-order_num：
-name：名稱
-shop_id：
+* s_id：series ID
+* order_num：排序用的(目前沒有用到)
+* name：名稱
+* shop_id：哪間店的品項 (各店菜單完全獨立) 
 
 ## sh-i_ai ##
 	
