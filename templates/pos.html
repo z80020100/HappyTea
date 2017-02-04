@@ -1,0 +1,180 @@
+<!-- CSS -->
+<link rel="stylesheet" href="./templates/includes/css/pos.css">
+<link rel="stylesheet" href="./templates/includes/css/w3.css">
+<!-- jQuery -->
+<script src="./includes/vendor/jquery/jquery.min.js"></script>
+<script src="./templates/includes/js/pos.js"></script>
+<script src="./templates/includes/js/jquery-1.11.3.min.js"></script>
+<script src="./templates/includes/js/jquery.mobile.custom.min.js"></script>
+
+    <div id="add_success" class="w3-center"> 成功加入購物車  </div>
+
+    <!-- 菜單畫面 -->
+    <div class="w3-twothird w3-container" id="all_menu">
+        <ul class="w3-navbar w3-lime ">
+              {% for series in all_series %}
+              <li><a href="javascript:void(0)" onclick="openMenu('s{{series.s_id}}')"> {{series.name}} </a></li>
+              {% endfor %}
+        </ul>
+
+        {% for series in all_series %}
+        <div id="s{{series.s_id}}" class="w3-group w3-row w3-padding-left w3-card-4 menu">
+            {% for main in series.main %}
+                <div id="m{{main.m_id}}_ro_at_id" style="display:none"></div>
+                <button id="m{{main.m_id}}" class="w3-btn  w3-round" data-at_id="{{main.at_id}}" value="{{main.price}}">{{main.name}} </button>
+                <script>
+                    $("#m{{main.m_id}}").data({ "ro_at_id" : [
+                    {% for ro in main.ro %}
+                       {{ro.at_id}},
+                    {% endfor %}
+                        -1] })
+                </script>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+
+    </div>
+
+    <div class="w3-twothird  w3-row w3-container" id="material">
+          {% for a_item in all_material %}
+          <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}{{a_item.price}}</button>
+          {% endfor %}
+          <hr>
+    </div>
+
+    <!-- 即時訂單, 計算機, 登出 -->
+    <div  id="nav_right">
+        <ul class="w3-navbar w3-lime">
+            <li><a href="listorder.php" rel="external" class="w3-center">即時訂單</a></li>
+            <li><a href="javascript:void(0)" onclick="showCalculator()">計算機</a></li>
+            <!-- <li class="w3-right"><a href="staff_login.php" rel="external" class="w3-center">登出&nbsp;{{username}}</a></li> -->
+        </ul>
+    </div>
+    <p></p>
+    <div>
+        <ul class="w3-navbar w3-lime">
+            <li><a  class="w3-center"><b>數量</b></a></li>
+            <li><a  class="w3-center" id="amount_of_item"><b>1</b></a></li>
+            <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(-1)">&emsp;&emsp;&darr;&emsp;&emsp;</a></li>
+            <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(1)">&emsp;&emsp;&uarr;&emsp;&emsp;</a></li>
+        </ul>
+    </div>
+
+    <p></p>
+        <div id="cart_list" class="w3-table w3-third" >
+            <div class="w3-row calculator" >
+                <div class="w3-col" id='calculator' >
+                    <button class="cal_button" value="1">1 </button
+                    ><button class="cal_button" value="2">2</button
+                    ><button class="cal_button" value="3">3</button
+                    ><button class="cal_button" value="4">4 </button
+                    ><button class="cal_button" value="5">5</button
+                    ><button class="cal_button" value="6">6</button
+                    ><button class="cal_button" value="7">7 </button
+                    ><button class="cal_button" value="8">8</button
+                    ><button class="cal_button" value="9">9</button
+                    ><button class="cal_button" value="C">C</button
+                    ><button class="cal_button" value="0">0</button
+                    ><button class="cal_button" value="-1">&larr;</button>
+                    <br><br>
+                </div>
+            </div>
+
+            <!-- 購物清單 -->
+            <ul class="w3-navbar w3-lime" id="nav_discount">
+                  <li><a href="javascript:void(0)" onclick="cacheList(0)">上一筆</a></li>
+                  <li><a href="javascript:void(0)" id="now_list">0</a></li>
+                  <li><a href="javascript:void(0)" onclick="cacheList(1)">下一筆</a></li>
+            </ul>
+
+            <div class="w3-row w3-center" id="table_cart">
+                <div>
+                    <p></p>
+                </div>
+                <div class="w3-row-padding">
+                    <table id="order_list" class="w3-table w3-hoverable w3-bordered w3-border w3-padding" >
+                        <thead>
+                        <tr>
+                            <th style="width:38%"> 品項 </th>
+                            <th style="width:17%"> 數量 </th>
+                            <th style="width:20%"> 金額 </th>
+                            <th style="width:25%"> 備註 </th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+                <div>
+                    <p></p>
+                </div>
+            </div>
+            <footer class="w3-container w3-lime">
+              <div class="w3-col s2 w3-padding-8">
+                  <h5>總共</h5>
+              </div>
+              <div class="w3-col s3 w3-padding-16">
+                  <input id="total_price" class="w3-input w3-sand" type="text" value="0" readonly>
+              </div>
+              <div class="w3-col s1 w3-padding">
+                  <h4>元</h4>
+              </div>
+              <div class="w3-col s4 w3-right w3-padding-16">
+                  <button id="send_order_button" class="w3-btn w3-right w3-input w3-round-xlarge" >下單 </button>
+              </div>
+            </footer>
+        </div>
+
+    <div style="clear:both;"></div> <!-- clear not into footer -->
+  </div>
+    <!-- 結帳畫面 -->
+    <div id="check_out_page" class="w3-modal w3-large"> <!-- check_out_page -->
+      <div class="w3-modal-content w3-card-4">
+          <header class="w3-container w3-lime">
+              <span id="check_out_close_confirm" class="w3-closebtn w3-xxlarge">&times;</span>
+              <h3>結帳</h3>
+          </header>
+
+          <div class="w3-row w3-container">
+              <div class="w3-col s3 w3-padding-8">
+                  <h3>合計</h3>
+                  <input id="check_out_price" class="w3-input w3-sand" type="text" value="0" readonly style="border: none;text-align:center;">
+                  <h3>元</h3>
+              </div>
+              <div class="w3-col s4 w3-padding-16">
+                  <h3>付款金額</h3>
+                  <h3 id="check_out_amount_result">0</h3>
+                  <h3>元</h3>
+              </div>
+
+              <!-- 付款金額 計算機 -->
+              <div class=" w3-col s3 " id='checkout_calculator' >
+                  <button class="cal_button" value="1">1 </button
+                  ><button class="cal_button" value="2">2</button
+                  ><button class="cal_button" value="3">3</button
+                  ><button class="cal_button" value="4">4 </button
+                  ><button class="cal_button" value="5">5</button
+                  ><button class="cal_button" value="6">6</button
+                  ><button class="cal_button" value="7">7 </button
+                  ><button class="cal_button" value="8">8</button
+                  ><button class="cal_button" value="9">9</button
+                  ><button class="cal_button" value="C">C</button
+                  ><button class="cal_button" value="0">0</button
+                  ><button class="cal_button" value="-1">&larr;</button>
+              </div>
+          </div>
+
+          <footer class="w3-container w3-lime">
+              <div class="w3-container w3-col s3 w3-padding-16"> 找零</div>
+              <div class="w3-container w3-col s3 w3-padding">
+                  <input id="check_out_change_price" class="w3-input w3-sand" type="text" value="0" readonly>
+              </div>
+              <div class="w3-container w3-col s4 w3-padding-24">
+                元
+                <button id="check_out_button" class="w3-btn w3-right w3-round">結帳</button>
+              </div>
+          </footer>
+
+      </div>
+    </div>

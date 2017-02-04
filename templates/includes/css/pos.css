@@ -1,0 +1,171 @@
+h1,h3{
+    text-align: center;
+}
+
+#div_of_table_num{
+    text-align: center;
+    margin: 0 auto;
+    margin-right: auto;
+    margin-left: auto;
+    width: 800px;
+}
+button[id^='m']{
+    background-color:#ffc952;
+    color:#ff7473;
+    height:50px;
+    width:125px;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.addition_button{
+    display: inline-block;
+    height: 50px;
+    width: 125px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #555;
+    background-color: #ffc952;
+    border: none;
+    border-radius: 15px;
+    margin: 2px 2px 10px 2px;
+}
+.addition_button:hover {background-color: #3e8e41}
+
+.addition_button:active {
+  background-color: #3e8e41;
+  transform: translateY(4px);
+}
+
+#table_cart{
+    height: 66vh;
+    overflow: scroll;
+}
+#series_name_class{
+    color:#47b8e0;
+}
+#add_success{
+    background-color:#FF0000;
+    color:black;
+    opacity:0.7;
+    z-index:5;
+    position:fixed;
+    visibility:hidden;
+}
+#open_cart{
+    background-color:#ef5285;
+}
+#all_menu{
+    position: relative;
+    padding-top: 5px;
+}
+
+#material{
+    position: absolute;
+    bottom:0vh;
+    padding-top: 5px;
+}
+
+#nav_right{
+  padding-top: 5px;
+}
+header{
+    background-color:#ffc952;
+    color:#ff7473;
+}
+footer{
+    background-color:#ffc952;
+    color:#ff7473;
+}
+#send_order{
+    background-color:#34314c;
+}
+#confirm_item{
+    z-index:2;
+}
+#add_cart{
+    background-color:#34314c;
+}
+
+#calculator{
+    padding-left: 17vh;
+    width:47vh;
+    height:43vh;
+}
+.calculator{
+    text-align:center;
+}
+#checkout_calculator{
+    padding: 1vh 0px;
+    width:30vh;
+    height:43vh;
+}
+
+.cal_button {
+  padding: 0px 20px;
+  font-size: 7vh;
+  width:10vh;
+  height:10vh;
+
+  text-align: justify;;
+  cursor: pointer;
+  outline: solid;
+  color: #111;
+  background-color: #bbb;
+  outline-color: black;
+  border-width:thin;
+}
+.cal_button:hover {background-color: #3e8e41}
+.cal_button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+/* 單選框 */
+.one_choice input[type="radio"] {
+    display: none;
+}
+.one_choice input[type="radio"] + label {
+    display: inline-block;
+    background-color: #ccc;
+    cursor: pointer;
+    padding: 10px 10px;
+}
+.one_choice input[type="radio"]:checked + label {
+    background-color: #ff9900;
+    color: #fff;
+}
+.one_choice {
+  padding: 1px 0px 1px 0px;
+}
+
+/* 複選框 */
+.muti_choice input[type="checkbox"] {
+    display: none;
+}
+.muti_choice input[type="checkbox"] + label {
+    display: inline-block;
+    background-color: #ccc;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+.muti_choice input[type="checkbox"]:checked + label {
+    background-color: #ff99cc;
+}
+.muti_choice {
+  padding: 5px 0px 5px 0px;
+}
+
+.selected td {
+    background-color: #48507b;
+    color: #fff;
+}
+.free td {
+    color: red;
+    font-weight: bold;
+}
