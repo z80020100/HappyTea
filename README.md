@@ -40,17 +40,17 @@ shop_id：
 * required_option：true: 我要看 required_option 的table 去看還要那些additional_type
 order_num：排序用的(目前沒有用到)
 
-## orders ##
+## orders 即時訂單##
 	
-o_id：
-u_id：
-o_time：
-o_utime：
-o_estimate_time：
-table_num：桌號
-people_num：人數 
-status：
-shop_id：
+* o_id： order ID 
+* u_id： user ID
+* o_time： 建立時間
+* o_utime： 修改state的時間
+* o_estimate_time： 完成時間(目前沒有用)
+* table_num：桌號
+* people_num：人數 
+* status：即時訂單的狀態 CANCEL, WAIT, MAKING, DONE, PAID, ARCHIVE
+* shop_id：shop ID
 
 ## required_option ##
 	
