@@ -31,7 +31,7 @@ quantity：數目
 price：價錢
 shop_id：
 
-## main ##
+## main 菜單細項名稱 ##
 * m_id：main ID
 * name：名稱
 * price：價錢
