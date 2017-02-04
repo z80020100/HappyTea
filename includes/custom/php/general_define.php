@@ -26,6 +26,9 @@ define("AUCUSTOMER", (1 << IDCUSTOMER) );
 define("AUSTAFF", (1 << IDSTAFF));
 define("AUADMIN", (1 << IDADMIN));
 
+define("LEVEL_ERR", 0);
+define("LEVEL_DBG", 1);
+
 $_Identity = array();
 $_Identity[IDGUEST] = array('id' => IDGUEST, 'desc' => '訪客/未啟用顧客', 'name' => 'guest');
 $_Identity[IDCUSTOMER] = array('id' => IDCUSTOMER,'desc' => '顧客', 'name' => 'customer');

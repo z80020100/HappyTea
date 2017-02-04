@@ -1,5 +1,18 @@
 <?php
 
+/*
+    Print log to JS console.
+    Example, console(LEVEL_ERR, "TEST", __FUNCTION__, __LINE__);
+ */
+function console($level, $msg, $function, $line){
+    if($level == LEVEL_ERR){
+        echo "<script>console.log(\"ERR: ".$msg." on function ".$function."() line ".$line."\")</script>";
+    }
+    else if($level == LEVEL_DBG){
+        echo "<script>console.log(\"DBG: ".$msg." on function ".$function."() line ".$line."\")</script>";
+    }
+}
+
 function setShopID() {
 	if ( isset($_GET['shop_id']) && strlen($_GET['shop_id']) != 0 ) {
 		if (!preg_match("/(^-1$)|(^0$)|(^[1-9][0-9]*$)/", $_GET['shop_id'])) {
