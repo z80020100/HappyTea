@@ -10,7 +10,7 @@ require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
 
 // List Series by order_num
-$sql = "SELECT * FROM `series` WHERE `shop_id` = '".$_shopID."' ORDER BY `series`.`order_num` ASC ";
+$sql = "SELECT * FROM `series` WHERE `shop_id` = '".$_SHOP_ID."' ORDER BY `series`.`order_num` ASC ";
 $result = $db->query($sql);
 $num = $db->numrow($result);
 $all_series = array();

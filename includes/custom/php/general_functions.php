@@ -5,105 +5,102 @@
     Example, console(LEVEL_ERR, "TEST", __FUNCTION__, __LINE__);
  */
 function console($level, $msg, $function, $line){
+    if(strlen($function) == 0){
+        $function = "root"; // root means not in function
+    }
+
     if($level == LEVEL_ERR){
-        echo "<script>console.log(\"ERR: ".$msg." on function ".$function."() line ".$line."\")</script>";
+        echo "<script>console.log(\"ERR: $msg on function $function() line $line\")</script>";
     }
     else if($level == LEVEL_DBG){
-        echo "<script>console.log(\"DBG: ".$msg." on function ".$function."() line ".$line."\")</script>";
+        echo "<script>console.log(\"DBG: $msg on function $function() line $line\")</script>";
+    }
+    else if($level == LEVEL_INFO){
+        echo "<script>console.log(\"INFO: $msg on function $function() line $line\")</script>";
     }
 }
 
-function setShopID() {
-	if ( isset($_GET['shop_id']) && strlen($_GET['shop_id']) != 0 ) {
-		if (!preg_match("/(^-1$)|(^0$)|(^[1-9][0-9]*$)/", $_GET['shop_id'])) {
-			$_SESSION['error_message'] = "Unvalid shop_id.";
-			return false;
-		}
-
-		if (isset($_SESSION['GET_shop_id']) && $_SESSION['GET_shop_id'] == $_GET['shop_id']) {
-			return true;
-		} else {
-			global $db;
-			$sql = "SELECT * FROM `shop` WHERE `shop_id` = " . $_GET['shop_id'];
-			$Quser = $db->query_select_one($sql);
-
-			if ($Quser) {
-				$_SESSION['GET_shop_id'] = $_GET['shop_id'];
-				$_SESSION['shop_name'] = $Quser['shop_name'];
-				return true;
-			} else {
-				$_SESSION['error_message'] = "No such shop_id.";
-				return false;
-			}
-		}
-	}
-	else {
-		if (isset($_SESSION['GET_shop_id']))
-			return true;
-		else {
-			$_SESSION['error_message'] = "Not provide shop_id.";
-			return false;
-		}
-	}
+// Print all global variables name, $global_key = array_keys(get_defined_vars())
+function printGlobalVariables($global_key){
+    $golbal_key_num = count($global_key);
+    //print_r($global_key);
+    console(LEVEL_INFO, "全域變數數量：$golbal_key_num ", __FUNCTION__, __LINE__);
+    for($i = 0; $i < $golbal_key_num; $i++){
+        if($global_key[$i] != '_GET'     &&
+           $global_key[$i] != '_POST'    &&
+           $global_key[$i] != '_COOKIE'  &&
+           $global_key[$i] != '_FILES'   &&
+           $global_key[$i] != 'loader'   &&
+           $global_key[$i] != 'twig'     &&
+           $global_key[$i] != '_SESSION' &&
+           $global_key[$i] != 'db'       &&
+           $global_key[$i] != 'twig'     &&
+           $global_key[$i] != 'template' &&
+           $global_key[$i] != '_HTML'){
+           console(LEVEL_INFO, "$i. \$$global_key[$i]", __FUNCTION__, __LINE__);
+        }
+    }
 }
 
-function user_login($username, $password, $phone_info, $customer_login){
-	global $db;
+function checkAuth($page_auth) {
+	return ($_SESSION['u_auth'] & $page_auth) != 0;
+}
 
-	$sql = "SELECT * FROM `user` WHERE `u_name` = '".$username."' ";
-	$Quser = $db->query_select_one($sql);
+// verify shop_id from GET
+function verifyGetShopId(){
+    if(isset($_GET['shop_id']) && (strlen($_GET['shop_id']) != 0)){
+        if(!preg_match("/(^-1$)|(^0$)|(^[1-9][0-9]*$)/", $_GET['shop_id'])){
+            // GET取得的shop_id無效
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    else{
+        return false;
+    }
+}
 
-	if( $Quser ){
-		$sql = "SELECT * FROM `user_info` WHERE `u_id` = ".$Quser['u_id'].";";
-		$Quser_info = $db->query_select_one($sql);
+/*
+    Get shop_id from address bar via method "GET" and set to $_SESSION['GOT_shop_id']
+ */
+function setSessionGotShopID(){
+    if(verifyGetShopId()){
+        $_SESSION['GOT_shop_id'] = $_GET['shop_id'];
+        return true;
+    }
+    else{
+        console(LEVEL_ERR, "shop_id is illegal", __FUNCTION__, __LINE__);
+        return false;
+    }
+}
 
-		if($Quser_info['ui_advsecurity'] == 1){
-			// if user enabled advanced security --> check password hash
-			if($Quser['u_pass'] == hash("sha256", $password) ){
+// If $_SESSION['GOT_shop_id'] equal to $_GET['shop_id']return true
+function cmpShopId(){
+    if(verifyGetShopId()){
+        if($_SESSION['GOT_shop_id'] == $_GET['shop_id']){
+            return true;
+        }
+        else{
+            false;
+        }
+    }
+    else{
+        false;
+    }
+}
 
-				$_SESSION['u_name'] = $Quser['u_name'];
-				$_SESSION['u_id'] = $Quser['u_id'];
-				$_SESSION['admin'] = ($Quser['u_type'] == IDADMIN);
-				$_SESSION['staff'] = ($Quser['u_type'] == IDSTAFF);
-				$_SESSION['u_type'] = $Quser['u_type'];
-				$_SESSION['u_auth'] = 1 << $Quser['u_type'];
-				$_SESSION['shop_id'] = $Quser['shop_id'];
-				$_SESSION['ui_phone'] = $Quser_info['ui_phone'];
-
-				if ($_SESSION['admin'] || $_SESSION['staff'])
-					return !$customer_login;
-				else
-					return $customer_login;
-			}
-			else{
-				return false;
-			}
-		}
-		else{
-			// if user disabled advanced security --> check info match --> using phone
-			if($Quser_info['ui_phone'] == $phone_info){
-
-				$_SESSION['u_name'] = $Quser['u_name'];
-				$_SESSION['u_id'] = $Quser['u_id'];
-				$_SESSION['admin'] = ($Quser['u_type'] == IDADMIN);
-				$_SESSION['staff'] = ($Quser['u_type'] == IDSTAFF);
-				$_SESSION['u_type'] = $Quser['u_type'];
-				$_SESSION['u_auth'] = 1 << $Quser['u_type'];
-				$_SESSION['shop_id'] = $Quser['shop_id'];
-				$_SESSION['ui_phone'] = $Quser_info['ui_phone'];
-
-				if ($_SESSION['admin'] || $_SESSION['staff'])
-					return !$customer_login;
-				else
-					return $customer_login;
-			}
-			else{
-				return false;
-			}
-		}
-	}
-	else
-		return false;
+function getShopName($shop_id){
+    global $db;
+    $sql = "SELECT * FROM `shop` WHERE `shop_id` = " . $shop_id;
+    if($query_shop_result = $db->query_select_one($sql)){
+        return $query_shop_result['shop_name'];
+    }
+    else{
+        console(LEVEL_ERR, "取得分店名稱失敗", __FUNCTION__, __LINE__);
+        return false;
+    }
 }
 
 ?>

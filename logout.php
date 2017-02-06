@@ -8,21 +8,16 @@ $nav_type = NAV_TYPE_NONE;
 $footer_type = NAV_TYPE_NONE;
 require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
+require_once('includes/custom/php/login_functions.php');
 
 $template = $twig->loadTemplate('empty.html');
 
-//$message = "";
-
-if(isset($_SESSION['u_name'])){
-    session_destroy();
-    echo "DBG: 已登出";
-}
-else{
-    echo "DBG: 未登入";
-}
+userLogout(false);
+echo "已登出";
+header("refresh:2;url=staff_login.php");
 
 $_HTML .= $template->render(array(
-  //'LOGIN_MESSAGE' => $message,
+
 ));
 
 require_once('includes/custom/php/footer.php');

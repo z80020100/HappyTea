@@ -28,6 +28,7 @@ define("AUADMIN", (1 << IDADMIN));
 
 define("LEVEL_ERR", 0);
 define("LEVEL_DBG", 1);
+define("LEVEL_INFO", 2);
 
 $_Identity = array();
 $_Identity[IDGUEST] = array('id' => IDGUEST, 'desc' => '訪客/未啟用顧客', 'name' => 'guest');

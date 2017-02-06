@@ -23,10 +23,10 @@ else{
 }
 
 $_HTML .= $template->render(array(
-	'PAGE_TITLE' => $_PAGE_TITLE,
+	//'PAGE_TITLE' => $_PAGE_TITLE,
 ));
-
-
+$global_key = array_keys(get_defined_vars());
+printGlobalVariables($global_key);
 echo $_HTML;
 
 ?>
