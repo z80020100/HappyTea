@@ -1,0 +1,20 @@
+/* 儲存目前登入的使用者資訊 (table user & user_info) */
+// table user
+$_SESSION['u_id'];    // string
+$_SESSION['u_name'];  // string
+$_SESSION['u_type'];  // int
+$_SESSION['shop_id']; // int, 目前使用者所屬店家，消費者可跨店家，員工不行 (總店除外)
+
+/* 儲存目前登入的使用者所屬店家名稱 */
+$_SESSION['shop_name']
+
+/* 儲存目前登入的使用者認證資訊，做權限檢查用 */
+$_SESSION['u_auth']
+//$_SESSION['admin']
+//$_SESSION['staff']
+
+/* 訊息顯示 */
+$_SESSION['error_message']
+
+/* 之前由GET取得的shop_id */
+$_SESSION['GET_shop_id'] -> $_SESSION['GOT_shop_id']
