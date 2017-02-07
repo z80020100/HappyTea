@@ -1,6 +1,6 @@
 <?php
 
-require_once ("includes/custom/php/general_define.php");
+require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = '簡訊推播 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;

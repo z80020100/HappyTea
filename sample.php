@@ -2,7 +2,7 @@
 
 // 此檔案為新頁面用範本檔
 
-require_once ("includes/custom/php/general_define.php");
+require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = 'Sample'; // 請輸入頁面抬頭
 // remember check $uniform_theme in includes/custom/php/general.php

@@ -1,7 +1,6 @@
 <?php
-require_once('includes/custom/php/general.php');
 
-header("Content-Type:text/html; charset=utf-8");
+require_once('includes/custom/php/general.php');
 
 $panel_request = $_REQUEST["dash_request"];
 

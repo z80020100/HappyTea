@@ -1,6 +1,6 @@
 <?php
 
-require_once ("includes/custom/php/general_define.php");
+require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = '系統登出';
 $header_type = NAV_TYPE_NONE;

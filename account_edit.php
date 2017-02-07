@@ -1,6 +1,6 @@
 <?php
 
-require_once ("includes/custom/php/general_define.php");
+require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = '帳號編輯 - 樂台茶餐飲管理系統';
 // remember check $uniform_theme in includes/custom/php/general.php

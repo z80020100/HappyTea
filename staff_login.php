@@ -1,6 +1,6 @@
 <?php
 
-require_once ("includes/custom/php/general_define.php");
+require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = '員工登入 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;
