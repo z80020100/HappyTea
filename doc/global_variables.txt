@@ -26,3 +26,6 @@ $_DontSendSMS
 
 // Define
 $_Identity
+
+// System
+$db
