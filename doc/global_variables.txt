@@ -1,0 +1,28 @@
+// User info
+$_USER_IDENTITY
+$_USER_NAME
+$_SHOP_ID
+$_SHOP_NAME
+$_TOP_SHOP
+
+// Page info
+$_PAGE_TITLE // 在個別PHP中設定
+
+// Page Theme
+$header_type // 在個別PHP中設定
+$nav_type    // 在個別PHP中設定
+$footer_type // 在個別PHP中設定
+$uniform_theme
+$uniform_type
+
+// Menu data
+$all_series
+
+// Config
+$staff_login // Only set on staff_login.php
+$shift_start
+$shift_end
+$_DontSendSMS
+
+// Define
+$_Identity

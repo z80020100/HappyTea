@@ -4,51 +4,64 @@ require_once ("includes/custom/php/general_define.php");
 
 $_PAGE_TITLE = '員工登入 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;
-$nav_type = NAV_TYPE_NONE;
+//$nav_type = NAV_TYPE_NONE;
 $footer_type = FOOTER_TYPE_SBADMIN2;
+$staff_login = true;
 require_once('includes/custom/php/header.php');
-require_once('includes/custom/php/navigation.php');
+require_once('includes/custom/php/login_functions.php');
+//require_once('includes/custom/php/navigation.php');
 
 $template = $twig->loadTemplate('staff_login.html');
 
 $message = "";
 
-if(isset($_SESSION['u_name'])){
-	session_destroy();
-	$message = "已自動登出，請重新登入";
-	header("refresh:1;url=staff_login.php?shop_id=" . $_shopID);
+if(isset($_SESSION['u_type']) && ($_SESSION['u_type'] != IDGUEST)){
+    console(LEVEL_DBG, "TODO: 已登入，自動跳回", __FUNCTION__, __LINE__);
 }
 
 if(isset($_POST['submit'])){
-    echo "DBG: press login button<br>";
+    console(LEVEL_DBG, "press login button", __FUNCTION__, __LINE__);
     if(!isset($_POST['password']))
         $_POST['password'] = '';
 
-    if(!isset($_POST['phone']))
-        $_POST['phone'] = '';
-
-    if(user_login($_POST['username'] , $_POST['password'], $_POST['phone'], false)){
-        if($_SESSION['shop_id'] == -1 ){
-            echo "TODO: 轉跳不同頁面 for 總店老闆 & 總店員工<br>";
-            $message = "成功登入總店，總店控制台讀取中...";
-            header("refresh:2;url=dashboard.php?shop_id=" . $_SESSION['shop_id']);
-        }
-        else if($_SESSION['admin'] == 1){
-            $message = "登入成功，控制台讀取中...";
-            echo "TODO: 自動轉跳 for 分店老闆<br>";
-            header("refresh:2;url=dashboard.php?shop_id=" . $_SESSION['shop_id']);
-        }
-        else if ($_SESSION['staff'] == 1) {
-            $message = "登入成功，POS系統讀取中...";
-            header("refresh:2;url=index.php?shop_id=" . $_SESSION['shop_id']);
+    if(userLogin($_POST['username'], $_POST['password'], false)){
+        //console(LEVEL_DBG, "登入成功", __FUNCTION__, __LINE__);
+        switch($_SESSION['u_auth']){
+            case AUGUEST:
+                console(LEVEL_ERR, "登入異常：遊客", __FUNCTION__, __LINE__);
+                break;
+            case AUCUSTOMER:
+                console(LEVEL_ERR, "登入異常：遠端消費者", __FUNCTION__, __LINE__);
+                break;
+            case AUSTAFF:
+                if($_SESSION['shop_id'] == -1){
+                    console(LEVEL_ERR, "登入成功：總店員工", __FUNCTION__, __LINE__);
+                    header("refresh:2;url=dashboard.php");
+                }
+                else{
+                    console(LEVEL_ERR, "登入成功：分店員工", __FUNCTION__, __LINE__);
+                    header("refresh:2;url=index.php");
+                }
+                break;
+            case AUADMIN:
+                if($_SESSION['shop_id'] == -1){
+                    console(LEVEL_ERR, "登入成功：總店店長", __FUNCTION__, __LINE__);
+                    header("refresh:2;url=dashboard.php");
+                }
+                else{
+                    console(LEVEL_ERR, "登入成功：分店店長", __FUNCTION__, __LINE__);
+                    header("refresh:2;url=dashboard.php");
+                }
+                break;
         }
     }
     else{
         $message = "登入失敗";
+        console(LEVEL_ERR, "登入失敗！", __FUNCTION__, __LINE__);
     }
 }
 else{
-    echo "DBG: first time to this page<br>";
+    console(LEVEL_DBG, "first time to this page", __FUNCTION__, __LINE__);
 }
 
 $_HTML .= $template->render(array(
