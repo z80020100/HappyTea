@@ -1,12 +1,12 @@
 <?php
 
+$staff_login = true;
 require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = '員工登入 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;
 //$nav_type = NAV_TYPE_NONE;
 $footer_type = FOOTER_TYPE_SBADMIN2;
-$staff_login = true;
 require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/login_functions.php');
 //require_once('includes/custom/php/navigation.php');
