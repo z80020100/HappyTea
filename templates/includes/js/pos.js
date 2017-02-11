@@ -17,7 +17,6 @@ var cache_index_right = cache_index+1;
 
 var one_item_number = 1;
 var first_cal_button = true;
-var total_item_number= 0;
 var free_flag = true;
 
 $(document).ready(function(){
@@ -55,7 +54,6 @@ $(document).ready(function(){
             $("#check_out_button").attr('disabled', 'disabled');
             checkOut();
             resetAll();
-            total_item_number = 0;
         });
 
         $("#check_out_close_confirm").click(function(){
@@ -125,23 +123,48 @@ function showCalculator(){
 }
 
 function addOneItemAmount(add){
-    var number = parseInt($("#amount_of_item").text());
-    if( (number+add) > 0)
-        number += add;
-    $("#amount_of_item").text(number);
+    var haveSelected = false;
+    $("#order_list").find("tr").each(function(index, value){
+        if(index > 0 && $(this).hasClass("selected")){
+            haveSelected = true;
+        }
+    });
+
+    if(haveSelected == false) {
+        var number = parseInt($("#amount_of_item").text());
+        if( (number+add) > 0)
+            number += add;
+        $("#amount_of_item").text(number);
+    } else {
+        $("#order_list").find("tr").each(function(index, value){
+            if(index > 0 && $(this).hasClass("selected")){
+                var number = $(this).find("td").eq(1);
+                console.log(number);
+                console.log(add);
+                var new_number = parseInt(number.text()) + add ;
+                if( new_number  > 0)
+                    number.text(new_number);
+            }
+        });
+        getFree();
+    }
 }
 
 function getFree(){
-    var free_number = parseInt(total_item_number / 6);
+    var free_number;
     var name;
     var price;
     var amount;
     var comment;
+    var total_item_number = 0;
+    
     $("#total_price").val(0);
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0){
             amount = $(this).find("td").eq(1).text();
             price = $(this).find("td").eq(2).text();
+            if(amount > 0)
+                total_item_number += parseInt(amount);
             if(parseInt(price) < 0){
                 $(this).remove();
             }else {
@@ -149,6 +172,9 @@ function getFree(){
             }
         }
     });
+    $("#total_item_number").text("總共 "+ total_item_number  +" 杯 ");
+    free_number = parseInt(total_item_number / 6);
+    
     if(free_flag == false)
         return;
 
@@ -184,10 +210,6 @@ function addRow( name, amount, price){
 }
 
 function addRow( name, amount, price, custom_comment){
-    if(amount > 0) {
-        total_item_number += amount;
-    }
-
     var tr_temp = $('<tr>');
     if(amount < 0)
         tr_temp.addClass('free');
@@ -210,7 +232,6 @@ function addRow( name, amount, price, custom_comment){
             price = parseInt($(this).find("td").eq(2).text());
             amount = parseInt($(this).find("td").eq(1).text())
             $("#total_price").val( parseInt($("#total_price").val()) -$(this).find("td").eq(2).text());
-            total_item_number = total_item_number - amount ;
             $(this).remove();
             if(amount > 0 )
                 getFree();
@@ -304,18 +325,15 @@ function cacheList(isRight){
             cache_items[cache_index]
         );
     }
-    total_item_number = 0;
     $("#order_list").find("tr").each(function(index, value){
         var amount;
         if(index > 0) {
             $("#total_price").val( parseInt($("#total_price").val()) + parseInt($(this).find("td").eq(2).text()));
             amount = parseInt($(this).find("td").eq(1).text());
             if(amount > 0) {
-                total_item_number += amount;
                 $(this).on("swipeleft",function(){
                     $(this).remove();
                     $("#total_price").val( parseInt($("#total_price").val()) -$(this).find("td").eq(2).text());
-                    total_item_number = total_item_number - parseInt($(this).find("td").eq(1).text()) ;
                     getFree();
                 });
                 $(this).click(function(event) {
@@ -324,6 +342,7 @@ function cacheList(isRight){
             }
         }
     });
+    getFree();
     $("#now_list").text(cache_index);
 }
 
