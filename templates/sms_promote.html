@@ -24,18 +24,22 @@
                                 <li><a href="#profile-pills" data-toggle="tab">分店推播</a>
                                 </li>
                             </ul>
+			    <p></p>
                             <div class="form-group row .col-md-4">
                                 <input class="form-control" type="text" id="from_date" data-format="DD-MM-YYYY" data-template="DD / MM / YYYY" name="datetime" value="01-01-2017">
+				<span>
+				~
+				</span>
                                 <input class="form-control" type="text" id="to_date" data-format="DD-MM-YYYY" data-template="DD / MM / YYYY" name="datetime" value="01-01-2017">
-                                    <select class="form-control">
+                                    <select class=".col-xs-6 .col-md-4">
                                         <option>100</option>
                                         <option>300</option>
                                         <option>500</option>
                                     </select>
+				    <button type="button" class="btn btn-primary">搜尋</button>
+				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">簡訊推播</button>
 
                             </div>
-                            <button type="button" class="btn btn-primary">搜尋</button>
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">簡訊推播</button>
 
 			    
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -49,7 +53,6 @@
                                             <textarea class="form-control" rows="3"></textarea>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary">送出</button>
                                         </div>
                                     </div>
