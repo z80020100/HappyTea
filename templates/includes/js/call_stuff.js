@@ -31,7 +31,7 @@ $(document).ready(function(){
 
   	// ----- send calls to call_process.php -----
 	 	$.ajax( {
-			url: "call_process.php",
+			url: "call_stuff_process.php",
 			method: "POST",
 			dataType: "text",
 			data: {request: req}
