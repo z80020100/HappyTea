@@ -36,4 +36,26 @@ $_Identity[IDCUSTOMER] = array('id' => IDCUSTOMER,'desc' => '顧客', 'name' => 
 $_Identity[IDSTAFF] = array('id' => IDSTAFF,'desc' => '職員', 'name' => 'staff');
 $_Identity[IDADMIN] = array('id' => IDADMIN,'desc' => '老闆', 'name' => 'admin');
 
+/*
+CANCEL 		: 	已取消
+WAIT		:	等待製作中
+MAKING		:	製作中
+DONE		:	餐點完成
+PAID		:	已付錢
+ARCHIVE	:	已封存
+*/
+
+/*
+	functions to control order status
+*/
+
+$GLOBALS['STATUS'] = array(
+	'CANCEL',  // cannot be deleted
+	'WAIT',		// Default
+	'MAKING',
+	'DONE',
+//	'PAID',
+	'ARCHIVE'  // cannot be deleted
+);
+
 ?>

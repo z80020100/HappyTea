@@ -125,29 +125,31 @@ function showCalculator(){
 function addOneItemAmount(add){
     var haveSelected = false;
     $("#order_list").find("tr").each(function(index, value){
-        if(index > 0 && $(this).hasClass("selected")){
-            haveSelected = true;
+        if(index > 0 ){
+            if( $(this).hasClass("selected") )
+                haveSelected = true;
+            var the_price = $(this).find("td").eq(2).text();
+            if(parseInt(the_price) < 0)
+                $(this).remove();
         }
     });
 
     if(haveSelected == false) {
-        var number = parseInt($("#amount_of_item").text());
-        if( (number+add) > 0)
-            number += add;
-        $("#amount_of_item").text(number);
+        var number = $('#order_list tbody tr:last').find("td").eq(1);
+        var new_number = parseInt(number.text()) + add ;
+        if( new_number  > 0)
+            number.text(new_number);
     } else {
         $("#order_list").find("tr").each(function(index, value){
             if(index > 0 && $(this).hasClass("selected")){
                 var number = $(this).find("td").eq(1);
-                console.log(number);
-                console.log(add);
                 var new_number = parseInt(number.text()) + add ;
                 if( new_number  > 0)
                     number.text(new_number);
             }
         });
-        getFree();
     }
+    getFree();
 }
 
 function getFree(){
@@ -157,7 +159,7 @@ function getFree(){
     var amount;
     var comment;
     var total_item_number = 0;
-    
+
     $("#total_price").val(0);
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0){
@@ -174,7 +176,7 @@ function getFree(){
     });
     $("#total_item_number").text("總共 "+ total_item_number  +" 杯 ");
     free_number = parseInt(total_item_number / 6);
-    
+
     if(free_flag == false)
         return;
 
@@ -271,7 +273,9 @@ function checkOut(){
         data: {"order_info":order_info, "req":"confirm_sum"}
     } )
     .done(function(msg){
-        alertify.success("下單成功!");
+        //alertify.success("下單成功!");
+        //alert("下單成功!");
+        console.log(msg);
     })
     .fail(function(){
         alert("fail2");
