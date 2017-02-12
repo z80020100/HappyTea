@@ -1,0 +1,80 @@
+<!-- Page Content -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">叫料通知</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th width="20%">時間</td>
+                            <th width="20%">店家</td>
+                            <th width="20%">補料品項</td>
+                            <th width="20%">補料數量</td>
+                            <th width="20%">操作</td>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for item in data %}
+                        <tr>
+                            <td>{{ item.call_time }}</td>
+                            <td>{{ item.shop_id }}</td>
+                            <td>{{ item.ingredient }}</td>
+                            <td>{{ item.num }} {{ item.unit }}</td>
+                            <td><button class="btn btn-primary btn-sm">已處理</button></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+
+<!-- jQuery -->
+<script src="./includes/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="./includes/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="./includes/vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="./includes/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="./includes/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="./includes/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom JavaScript/CSS -->
+<script type="text/javascript" src="./templates/includes/js/top_called_stuff.js"></script>
+<link rel="stylesheet" type="text/css" href="./templates/includes/css/top_called_stuff.css">
+<link rel="stylesheet" type="text/css" href="./includes/vendor/datatables/css/dataTables.bootstrap.min.css">
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+$(document).ready(function() {
+    $('#dataTable').DataTable({
+        responsive: true,
+        bInfo: false,
+    });
+});
+</script>
