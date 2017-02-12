@@ -25,6 +25,8 @@ header("Content-Type:text/html; charset=utf-8");
 
 $db = new Db(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_DATABASE);
 
+$DBG_MSG = "";
+
 if(!isset($_SESSION['u_auth']))
 	$_SESSION['u_auth'] = AUGUEST;
 

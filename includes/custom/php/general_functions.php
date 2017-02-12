@@ -5,18 +5,19 @@
     Example, console(LEVEL_ERR, "TEST", __FUNCTION__, __LINE__);
  */
 function console($level, $msg, $function, $line){
+    global $DBG_MSG;
     if(strlen($function) == 0){
         $function = "root"; // root means not in function
     }
 
     if($level == LEVEL_ERR){
-        // echo "<script>console.log(\"ERR: $msg on function $function() line $line\")</script>";
+         $DBG_MSG .= "<script>console.log(\"ERR: $msg on function $function() line $line\")</script>\n";
     }
     else if($level == LEVEL_DBG){
-        // echo "<script>console.log(\"DBG: $msg on function $function() line $line\")</script>";
+         $DBG_MSG .= "<script>console.log(\"DBG: $msg on function $function() line $line\")</script>\n";
     }
     else if($level == LEVEL_INFO){
-        // echo "<script>console.log(\"INFO: $msg on function $function() line $line\")</script>";
+         $DBG_MSG .= "<script>console.log(\"INFO: $msg on function $function() line $line\")</script>\n";
     }
 }
 
