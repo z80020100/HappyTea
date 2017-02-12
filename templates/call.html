@@ -9,13 +9,11 @@
         </div>
         <div class="row">
         <div class="col-lg-12">
-          <div class="table-responsive">
-          <table class="table">
+          <table class="table" id="dataTable">
             <thead>
                 <tr>
-                    <th width="40%">補料品項</th>
-                    <th width="40%">補料數量</th>
-                    <th></th>
+                    <th width="20%">補料品項</th>
+                    <th width="20%">補料數量</th>
                 </tr>
             </thead>
 
@@ -31,19 +29,12 @@
                     </div>
                     </form>
                     </td>
-                    <td></td>
                 </tr>
             {% endfor%}
 
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><button id="submit" class="btn btn-primary">總店叫料</button></td>
-                </tr>
-
             </tbody>
           </table>
-          </div>
+          <button id="submit" class="btn btn-primary" style="margin-top: -70px">總店叫料</button>
         </div>
         <!-- /.col-lg-12 -->
         </div>
@@ -64,4 +55,22 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="./includes/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="./includes/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="./includes/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom JavaScript/CSS -->
 <script type="text/javascript" src="./templates/includes/js/call.js"></script>
+<link rel="stylesheet" type="text/css" href="./includes/vendor/datatables/css/dataTables.bootstrap.min.css">
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+$(document).ready(function() {
+    $('#dataTable').DataTable({
+        responsive: true,
+        bInfo: false,
+    });
+});
+</script>
