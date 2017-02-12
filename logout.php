@@ -12,7 +12,7 @@ require_once('includes/custom/php/login_functions.php');
 
 $template = $twig->loadTemplate('empty.html');
 
-userLogout(false);
+userLogout(true);
 // echo "已登出";
 header("refresh:0;url=staff_login.php");
 
