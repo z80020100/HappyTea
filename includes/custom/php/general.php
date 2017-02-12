@@ -35,27 +35,15 @@ if(!isset($staff_login)){
 // 設定$_SESSION['GOT_shop_id']
 if($staff_login == false){
     console(LEVEL_DBG, "嘗試透過method GET取得shop_id", __FUNCTION__, __LINE__);
-    if(!isset($_SESSION['GOT_shop_id'])){
-        if(setSessionGotShopID()){
-            console(LEVEL_DBG, "GOT_shop_id = ".$_SESSION['GOT_shop_id'], __FUNCTION__, __LINE__);
-        }
-        else{
-            console(LEVEL_DBG, "shop_id未輸入或不合法！", __FUNCTION__, __LINE__);
-            echo "TODO: 未取得shop_ip時跳轉至選擇頁面<br>";
-        }
+    if(setSessionGotShopID()){
+        console(LEVEL_DBG, "更新GOT_shop_id = ".$_SESSION['GOT_shop_id'], __FUNCTION__, __LINE__);
     }
-    else{ // 若$_SESSION['GOT_shop_id']已存在比對是否與$_GET['shop_id']的不同
-        if(cmpShopId()){
-            console(LEVEL_DBG, "讀取已儲存的GOT_shop_id = ".$_SESSION['GOT_shop_id']." (comapre pass)", __FUNCTION__, __LINE__);
-        }
-        else{
-            if(setSessionGotShopID()){
-                console(LEVEL_DBG, "更新GOT_shop_id = ".$_SESSION['GOT_shop_id'], __FUNCTION__, __LINE__);
-            }
-            else{
-                console(LEVEL_DBG, "讀取已儲存的GOT_shop_id = ".$_SESSION['GOT_shop_id']." (comapre fail)", __FUNCTION__, __LINE__);
-            }
-        }
+    else if(isset($_SESSION['GOT_shop_id'])){
+        console(LEVEL_DBG, "讀取已儲存的GOT_shop_id = ".$_SESSION['GOT_shop_id'], __FUNCTION__, __LINE__);
+    }
+    else{
+        console(LEVEL_DBG, "shop_id未輸入或不合法！", __FUNCTION__, __LINE__);
+        echo "TODO: 未取得shop_ip時跳轉至選擇頁面<br>";
     }
 }
 else{
@@ -77,13 +65,13 @@ else{
 
 // User info
 if(!isset($_SESSION['u_type'])){
-	$_USER_IDENTITY = $_Identity[IDGUEST]['name'];
-	$_USER_NAME = 'шикхов';
-    $_SHOP_NAME = 'шикхов';
+    $_USER_IDENTITY = $_Identity[IDGUEST]['name'];
+    $_USER_NAME = 'Not login';
+    $_SHOP_NAME = 'Not login';
 }
 else{
-	$_USER_IDENTITY = $_Identity[$_SESSION['u_type']]['name'];
-	$_USER_NAME = $_SESSION['u_name'];
+    $_USER_IDENTITY = $_Identity[$_SESSION['u_type']]['name'];
+    $_USER_NAME = $_SESSION['u_name'];
     $_SHOP_NAME = $_SESSION['shop_name'];
 }
 

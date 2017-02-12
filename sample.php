@@ -11,7 +11,9 @@ $nav_type = NAV_TYPE_SBADMIN2;       // 請參考includes/custom/php/general_def
 $footer_type = FOOTER_TYPE_SBADMIN2; // 請參考includes/custom/php/general_define.php
 require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
-
+/*
+    Put your code here.
+ */
 $template = $twig->loadTemplate('empty.html');
 
 $_HTML .= $template->render(array(

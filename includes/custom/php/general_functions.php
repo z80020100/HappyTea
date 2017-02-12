@@ -76,21 +76,6 @@ function setSessionGotShopID(){
     }
 }
 
-// If $_SESSION['GOT_shop_id'] equal to $_GET['shop_id']return true
-function cmpShopId(){
-    if(verifyGetShopId()){
-        if($_SESSION['GOT_shop_id'] == $_GET['shop_id']){
-            return true;
-        }
-        else{
-            false;
-        }
-    }
-    else{
-        false;
-    }
-}
-
 function getShopName($shop_id){
     global $db;
     $sql = "SELECT * FROM `shop` WHERE `shop_id` = " . $shop_id;

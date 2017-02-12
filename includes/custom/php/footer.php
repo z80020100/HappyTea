@@ -1,18 +1,17 @@
 <?php
 
-if(!isset($footer_type)){
-    $footer_type = FOOTER_TYPE_NONE;
-}
-
 if(!isset($uniform_theme)){
     $uniform_theme = false;
 }
-
-if($uniform_theme == true){
+else if($uniform_theme == true){
     $footer_type = $uniform_type;
 }
 
-if($footer_type == FOOTER_TYPE_CUSTOM){
+if(!isset($footer_type)){
+    $footer_type = FOOTER_TYPE_NONE;
+    $template = $twig->loadTemplate('no_footer.html');
+}
+else if($footer_type == FOOTER_TYPE_CUSTOM){
     $template = $twig->loadTemplate('custom_footer.html');
 }
 else if($footer_type == FOOTER_TYPE_SBADMIN2){
