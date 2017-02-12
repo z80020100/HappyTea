@@ -10,13 +10,13 @@ function console($level, $msg, $function, $line){
     }
 
     if($level == LEVEL_ERR){
-        echo "<script>console.log(\"ERR: $msg on function $function() line $line\")</script>";
+        // echo "<script>console.log(\"ERR: $msg on function $function() line $line\")</script>";
     }
     else if($level == LEVEL_DBG){
-        echo "<script>console.log(\"DBG: $msg on function $function() line $line\")</script>";
+        // echo "<script>console.log(\"DBG: $msg on function $function() line $line\")</script>";
     }
     else if($level == LEVEL_INFO){
-        echo "<script>console.log(\"INFO: $msg on function $function() line $line\")</script>";
+        // echo "<script>console.log(\"INFO: $msg on function $function() line $line\")</script>";
     }
 }
 

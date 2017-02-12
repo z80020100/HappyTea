@@ -36,21 +36,21 @@ if(isset($_POST['submit'])){
             case AUSTAFF:
                 if($_SESSION['shop_id'] == -1){
                     console(LEVEL_ERR, "登入成功：總店員工", __FUNCTION__, __LINE__);
-                    header("refresh:2;url=dashboard.php");
+                    header("refresh:0;url=dashboard.php");
                 }
                 else{
                     console(LEVEL_ERR, "登入成功：分店員工", __FUNCTION__, __LINE__);
-                    header("refresh:2;url=index.php");
+                    header("refresh:0;url=index.php");
                 }
                 break;
             case AUADMIN:
                 if($_SESSION['shop_id'] == -1){
                     console(LEVEL_ERR, "登入成功：總店店長", __FUNCTION__, __LINE__);
-                    header("refresh:2;url=dashboard.php");
+                    header("refresh:0;url=dashboard.php");
                 }
                 else{
                     console(LEVEL_ERR, "登入成功：分店店長", __FUNCTION__, __LINE__);
-                    header("refresh:2;url=dashboard.php");
+                    header("refresh:0;url=dashboard.php");
                 }
                 break;
         }
