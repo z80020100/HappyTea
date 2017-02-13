@@ -2,7 +2,7 @@
 
 function userLogout($clear_GOT_shop_id){
     unset($_SESSION['u_id']);
-    unset($_SESSION['u_name']);
+    unset($_SESSION['u_account']);
     unset($_SESSION['u_type']);
     unset($_SESSION['shop_id']);
     $_SESSION['u_auth'] = AUGUEST;
@@ -16,16 +16,16 @@ function userLogout($clear_GOT_shop_id){
     }
 }
 
-function userLogin($username, $password, $customer_login){
+function userLogin($useraccount, $password, $customer_login){
 	global $db;
-    $sql = "SELECT * FROM `user` WHERE `u_name` = '".$username."'";
+    $sql = "SELECT * FROM `user` WHERE `u_account` = '".$useraccount."'";
     $query_user_result = $db->query_select_one($sql);
 	if($query_user_result){
         console(LEVEL_DBG, "帳號存在", __FUNCTION__, __LINE__);
         if($query_user_result['u_pass'] == hash("sha256", $password)){
             console(LEVEL_DBG, "密碼正確", __FUNCTION__, __LINE__);
             $_SESSION['u_id'] = $query_user_result['u_id'];
-            $_SESSION['u_name'] = $query_user_result['u_name'];
+            $_SESSION['u_account'] = $query_user_result['u_account'];
             $_SESSION['u_type'] = $query_user_result['u_type'];
             $_SESSION['shop_id'] = $query_user_result['shop_id'];
             $_SESSION['u_auth'] = 1 << $query_user_result['u_type'];

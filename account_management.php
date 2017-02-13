@@ -9,7 +9,6 @@ $footer_type = FOOTER_TYPE_SBADMIN2; // 請參考includes/custom/php/general_def
 require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
 
-
 $template = $twig->loadTemplate('account_management.html');
 
 if (isset($_POST['user_name'])) {
@@ -27,10 +26,9 @@ if (isset($_POST['user_name'])) {
         $user_reginfo['user_type'] = 2;
     }
     $user_reginfo['user_name'] = $_POST['user_name'];
-    $user_reginfo['user_gender'] = $_POST['user_gender'];
+    $user_reginfo['user_gendor'] = $_POST['user_gendor'];
     $user_reginfo['user_id'] = $_POST['user_id'];
     $user_reginfo['user_tel'] = $_POST['user_tel'];
-    $user_reginfo['user_type'] = 2;
 
     createUser($_POST['user_account'], $_POST['user_password'], $user_reginfo, $shop_id );
 
@@ -63,12 +61,12 @@ function createShop($shop_name, $shop_address, $shop_tel, $owner_name) {
 function createUser($user_account, $user_passwd, $user_reginfo, $shop_id){
     global $db;
 
-    $sql = "SELECT * FROM `user` WHERE `u_name` = '".$user_account."' ";
+    $sql = "SELECT * FROM `user` WHERE `u_account` = '".$user_account."' ";
     if($db->query_select_one($sql)){
         return -1;
     }
 
-    $sql = "INSERT INTO `user` (`u_id`, `u_name`, `u_pass`, `u_type`, `shop_id`) VALUES (NULL, '".$user_account."', '".hash("sha256",$user_passwd)."', '".$user_reginfo['user_type']."', '".$shop_id."');";
+    $sql = "INSERT INTO `user` (`u_id`, `u_account`, `u_pass`, `u_type`, `shop_id`, `is_remove`) VALUES (NULL, '".$user_account."', '".hash("sha256",$user_passwd)."', '".$user_reginfo['user_type']."', '".$shop_id."', 0);";
 
     if( !$result = $db->query($sql) ){
         echo "<p>Error: " . $db->err . "</p>";
@@ -78,7 +76,7 @@ function createUser($user_account, $user_passwd, $user_reginfo, $shop_id){
 
     $new_user_id = $db->mysqli->insert_id;
 
-    $sql = "INSERT INTO `user_info` (`ui_id`, `u_id`, `ui_advsecurity`, `ui_occupation`, `ui_phone`) VALUES (NULL, '".$db->mysqli->insert_id."', '', '', '".$user_reginfo['user_tel']."')";
+    $sql = "INSERT INTO `user_info` (`ui_id`, `u_id`, `ui_phone`, `ui_name`, `ui_gendor`, `ui_country_id`) VALUES (NULL, '".$db->mysqli->insert_id."','".$user_reginfo['user_tel']."','".$user_reginfo['user_name']."','".$user_reginfo['user_gendor']."','".$user_reginfo['user_id']."');" ;
     if( !$result = $db->query($sql) ){
         echo "<p>Error: " . $db->err . "</p>";
         echo "<p>Error text: " . $db->errtext . "</p>";

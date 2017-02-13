@@ -29,6 +29,7 @@ foreach ($db->query($sql) as $row) {
     $row['u_role'] = changeType2Word($row['u_type'], $row['shop_id']);
 
     $user_info = array(
+        'u_id' => $row['u_id'],
         'u_name' => $row['u_name'],
         'u_role' => $row['u_role'],
         'shop_id' => $row['shop_id'],

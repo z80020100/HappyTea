@@ -24,11 +24,11 @@ else{
 $_HTML .= $template->render(array(
     'USER_IDENTITY' => $_USER_IDENTITY,
     'TOP_SHOP' => $_TOP_SHOP,
-    //'USER_NAME' => $_USER_NAME,
+    //'USER_ACCOUNT' => $_USER_ACCOUNT,
     //'SHOP_NAME' => $_SHOP_NAME,
 ));
 
-console(LEVEL_DBG, "\$_USER_NAME = $_USER_NAME", __FUNCTION__, __LINE__);
+console(LEVEL_DBG, "\$_USER_ACCOUNT = $_USER_ACCOUNT", __FUNCTION__, __LINE__);
 console(LEVEL_DBG, "\$_SHOP_NAME = $_SHOP_NAME", __FUNCTION__, __LINE__);
 
 ?>

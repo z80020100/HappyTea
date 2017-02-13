@@ -68,12 +68,12 @@ else{
 // User info
 if(!isset($_SESSION['u_type'])){
     $_USER_IDENTITY = $_Identity[IDGUEST]['name'];
-    $_USER_NAME = 'Not login';
+    $_USER_ACCOUNT = 'Not login';
     $_SHOP_NAME = 'Not login';
 }
 else{
     $_USER_IDENTITY = $_Identity[$_SESSION['u_type']]['name'];
-    $_USER_NAME = $_SESSION['u_name'];
+    $_USER_ACCOUNT = $_SESSION['u_account'];
     $_SHOP_NAME = $_SESSION['shop_name'];
 }
 

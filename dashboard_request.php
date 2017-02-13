@@ -21,7 +21,7 @@ $num_call_material = $db->query_select_one($sql);
 $sql = "SELECT COUNT(shop_id) FROM `shop`" ;
 $num_activity_store = $db->query_select_one($sql);
 
-$sql = "SELECT COUNT(u_id) FROM `user`" ;
+$sql = "SELECT COUNT(u_id) FROM `user` WHERE `is_remove` = 0" ;
 $num_user = $db->query_select_one($sql);
 
 $res_array['num_store'] = $num_store[0]; 
