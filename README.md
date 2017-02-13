@@ -101,7 +101,7 @@ shop_type：
 ## user ##
 
 u_id：id
-u_name：名字
+u_account：帳號
 u_pass：密碼
 u_type： 0: not active, 1: active, 2: staff, 3: admin
 shop_id： 隸屬於哪間店的

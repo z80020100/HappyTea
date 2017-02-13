@@ -1,7 +1,7 @@
 /* 儲存目前登入的使用者資訊 (table user & user_info) */
 // table user
 $_SESSION['u_id'];    // string
-$_SESSION['u_name'];  // string
+$_SESSION['u_account'];  // string
 $_SESSION['u_type'];  // int
 $_SESSION['shop_id']; // int, 目前使用者所屬店家，消費者可跨店家，員工不行 (總店除外)
 

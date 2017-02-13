@@ -9,18 +9,36 @@ $footer_type = FOOTER_TYPE_SBADMIN2;
 require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
 
-$sql = "SELECT * FROM `shop`";
 $all_shops = array();
+
+$sql = "SELECT * FROM `user` WHERE `is_remove` = 0 AND `u_type` = 3 AND `shop_id` <> -1"; 
 foreach ($db->query($sql) as $row) {
-  $shop = array(
-        'shop_id' => $row['shop_id'],
-        'shop_name' => $row['shop_name'],
-        'shop_address' => $row['shop_address'],
-        'shop_tel' => $row['shop_tel'],
-        'shop_owner' => $row['shop_owner']
-  );
-    $all_shops[] = $shop;
+//    echo $row['u_account'];
+    $sql = "SELECT * FROM `shop` WHERE `shop_id` = '".$row['shop_id']."'";
+//
+    foreach ($db->query($sql) as $inner_row) {
+        $shop = array(
+            'shop_id' => $inner_row['shop_id'],
+            'shop_name' => $inner_row['shop_name'],
+            'shop_address' => $inner_row['shop_address'],
+            'shop_tel' => $inner_row['shop_tel'],
+            'shop_owner' => $inner_row['shop_owner']
+        );
+        $all_shops[] = $shop;
+    }
 }
+//$sql = "SELECT * FROM `shop`";
+//$all_shops = array();
+//foreach ($db->query($sql) as $row) {
+//    $shop = array(
+//        'shop_id' => $row['shop_id'],
+//        'shop_name' => $row['shop_name'],
+//        'shop_address' => $row['shop_address'],
+//        'shop_tel' => $row['shop_tel'],
+//        'shop_owner' => $row['shop_owner']
+//    );
+//    $all_shops[] = $shop;
+//}
 
 $template = $twig->loadTemplate('dashboard.html');
 $_HTML .= $template->render(array(

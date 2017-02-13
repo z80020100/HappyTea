@@ -27,7 +27,7 @@ $num_user = $db->query_select_one($sql);
 $res_array['num_store'] = $num_store[0]; 
 $res_array['num_call_material'] = $num_call_material[0]; 
 $res_array['num_activity_store'] = $num_activity_store[0]; 
-$res_array['num_user'] = $num_user[0]; 
+$res_array['num_user'] = $num_user[0]-1; 
 
 echo json_encode($res_array,JSON_UNESCAPED_UNICODE);
 
