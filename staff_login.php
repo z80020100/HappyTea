@@ -2,7 +2,7 @@
 
 $staff_login = true;
 require_once ("includes/custom/php/general.php");
-
+checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '員工登入 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;
 //$nav_type = NAV_TYPE_NONE;
@@ -16,7 +16,7 @@ $template = $twig->loadTemplate('staff_login.html');
 $message = "";
 
 if(isset($_SESSION['u_type']) && ($_SESSION['u_type'] != IDGUEST)){
-    console(LEVEL_DBG, "TODO: 已登入，自動跳回", __FUNCTION__, __LINE__);
+    console(LEVEL_TODO, "已登入，自動轉跳", __FUNCTION__, __LINE__);
 }
 
 if(isset($_POST['submit'])){
@@ -39,24 +39,24 @@ if(isset($_POST['submit'])){
                     header("refresh:0;url=dashboard.php");
                 }
                 else{
-                    console(LEVEL_ERR, "登入成功：分店員工", __FUNCTION__, __LINE__);
+                    console(LEVEL_DBG, "登入成功：分店員工", __FUNCTION__, __LINE__);
                     header("refresh:0;url=index.php");
                 }
                 break;
             case AUADMIN:
                 if($_SESSION['shop_id'] == -1){
-                    console(LEVEL_ERR, "登入成功：總店店長", __FUNCTION__, __LINE__);
+                    console(LEVEL_DBG, "登入成功：總店店長", __FUNCTION__, __LINE__);
                     header("refresh:0;url=dashboard.php");
                 }
                 else{
-                    console(LEVEL_ERR, "登入成功：分店店長", __FUNCTION__, __LINE__);
+                    console(LEVEL_DBG, "登入成功：分店店長", __FUNCTION__, __LINE__);
                     header("refresh:0;url=dashboard.php");
                 }
                 break;
         }
     }
     else{
-        $message = "登入失敗";
+        $message = "登入失敗！";
         console(LEVEL_ERR, "登入失敗！", __FUNCTION__, __LINE__);
     }
 }

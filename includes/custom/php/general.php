@@ -6,6 +6,7 @@ require_once ("dbclass.php");
 require_once ("db_config.php");
 require_once ("general_define.php");
 require_once ("general_functions.php");
+require_once ("permission_function.php");
 
 // Mustache template system
 //require 'includes/Mustache/Autoloader.php';
@@ -23,12 +24,15 @@ $twig = new Twig_Environment($loader, array(
 session_start();
 header("Content-Type:text/html; charset=utf-8");
 
+
 $db = new Db(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_DATABASE);
 
 $DBG_MSG = "";
 
-if(!isset($_SESSION['u_auth']))
-	$_SESSION['u_auth'] = AUGUEST;
+if(!isset($_SESSION['u_auth'])){
+    $_SESSION['u_auth'] = AUGUEST;
+}
+
 
 if(!isset($staff_login)){
     $staff_login = false;
@@ -45,7 +49,7 @@ if($staff_login == false){
     }
     else{
         console(LEVEL_DBG, "shop_id未輸入或不合法！", __FUNCTION__, __LINE__);
-        echo "TODO: 未取得shop_ip時跳轉至選擇頁面<br>";
+        console(LEVEL_TODO, "未取得shop_ip時跳轉至選擇頁面", __FUNCTION__, __LINE__);
     }
 }
 else{
