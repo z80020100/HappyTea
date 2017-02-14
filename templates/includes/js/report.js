@@ -15,8 +15,7 @@ $(document).ready(function() {
     .done(function(msg) {
         console.log('query log success!');
         // console.log(JSON.stringify(msg));
-        drawPieChart();
-        drawLineChart();
+        handleLog(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         // need to change ajax return type into 'text' to see error msg
@@ -37,6 +36,7 @@ var threshold = 0.05    // for drawing pie chart hovering threshold
 
 // Get all the Log data for a shop query
 function queryLog(start, end, shop) {
+
     var req = {
         op: "query",
         start: start,
@@ -44,6 +44,33 @@ function queryLog(start, end, shop) {
         shop: shop
     }
     return req;
+}
+
+function handleLog(log) {
+
+    // console.log(JSON.stringify(log));
+    var pie_chart_data = getPieChartData(log);
+    drawPieChart(pie_chart_data);
+}
+
+function getPieChartData(log) {
+
+    data = [];
+    for (var i = 0; i < log.length; i++) {
+        var series = log[i].s_text;
+        var total_price = log[i].price * log[i].quantity;
+
+        var result = $.grep(data, function(e){ return e['label'] == series; });
+        if (result.length == 0) {
+            var obj = {label: series, data: total_price}
+            data.push(obj);
+        }
+        else {
+            // For the result.length is always 1, we can did result[0]
+            result[0]['data'] = parseInt(result[0]['data']) + total_price;
+        }
+    }
+    return data;
 }
 
 function labelFormatter(label, series) {
@@ -58,23 +85,9 @@ function makeTooltipContent(label, xval, yval, flotItem) {
 }
 
 // Flot Pie Chart
-function drawPieChart() {
+function drawPieChart(data) {
 
-    var data = [{
-        label: "Series 0",
-        data: 1
-    }, {
-        label: "Series 1",
-        data: 3
-    }, {
-        label: "Series 2",
-        data: 9
-    }, {
-        label: "Series 3",
-        data: 20
-    }];
-
-    var plotObj = $.plot($("#flot-pie-chart"), data, {
+    var options = {
         series: {
             pie: {
                 show: true,
@@ -104,7 +117,9 @@ function drawPieChart() {
             defaultTheme: false,
             // onHover: func(flotItem, $tooltipEl) -> action
         }
-    });
+    };
+
+    var plotObj = $.plot($("#flot-pie-chart"), data, options);
 }
 
 // Flot Line Chart
