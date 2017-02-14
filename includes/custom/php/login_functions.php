@@ -9,6 +9,7 @@ function userLogout($clear_GOT_shop_id){
     unset($_SESSION['shop_name']);
     if($clear_GOT_shop_id == true){
         unset($_SESSION['GOT_shop_id']);
+        session_destroy();
         console(LEVEL_DBG, "登出：完全登出", __FUNCTION__, __LINE__);
     }
     else{
