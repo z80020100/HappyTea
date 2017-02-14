@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Blank</h1>
+                        <h1 class="page-header">帳號新增</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -12,9 +12,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            資料填寫
-                        </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <!-- Nav tabs -->
@@ -37,7 +34,7 @@
                                                 <form role="form" action="account_management.php" method="post">
                                                     <div class="form-group">
                                                         <label>姓名:</label>
-                                                        <input class="form-control" name="user_name" placeholder="王小明">
+                                                        <input class="form-control" name="user_name" placeholder="王小明" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>性別:</label>
@@ -51,31 +48,31 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>身分證字號:</label>
-                                                        <input class="form-control" name="user_id" placeholder="F123456789">
+                                                        <input class="form-control" name="user_id" placeholder="F123456789" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>電話:</label>
-                                                        <input class="form-control" name="user_tel" placeholder="02-12345678">
+                                                        <input class="form-control" name="user_tel" placeholder="02-12345678" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>帳號:</label>
-                                                        <input class="form-control" name="user_account" placeholder="happytea account">
+                                                        <input class="form-control" name="user_account" placeholder="happytea account" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>密碼:</label>
-                                                        <input class="form-control" name="user_password" placeholder="happytea password">
+                                                        <input class="form-control" name="user_password" placeholder="happytea password" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>加盟店店名:</label>
-                                                        <input class="form-control" name="store_name" placeholder="store text">
+                                                        <input class="form-control" name="store_name" placeholder="store text" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>加盟店電話:</label>
-                                                        <input class="form-control" name="store_tel" placeholder="Enter text">
+                                                        <input class="form-control" name="store_tel" placeholder="Enter text" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>加盟店地址:</label>
-                                                        <input class="form-control" name="store_address" placeholder="Enter text">
+                                                        <input class="form-control" name="store_address" placeholder="Enter text" required>
                                                     </div>
                                                     <button type="submit" class="btn btn-default">Submit Button</button>
                                                     <button type="reset" class="btn btn-default">Reset Button</button>
@@ -101,7 +98,7 @@
                                                 <form role="form" action="account_management.php" method="post">
                                                     <div class="form-group">
                                                         <label>姓名:</label>
-                                                        <input name="user_name" class="form-control" placeholder="王小明">
+                                                        <input name="user_name" class="form-control" placeholder="王小明" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>性別:</label>
@@ -115,20 +112,21 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>身分證字號:</label>
-                                                        <input name="user_id" class="form-control" placeholder="F123456789">
+                                                        <input name="user_id" class="form-control" placeholder="F123456789" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>電話:</label>
-                                                        <input name="user_tel" class="form-control" placeholder="Enter text">
+                                                        <input name="user_tel" class="form-control" placeholder="Enter text" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>帳號:</label>
-                                                        <input name="user_account" class="form-control" placeholder="Enter text">
+                                                        <input name="user_account" class="form-control" placeholder="Enter text" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>密碼:</label>
-                                                        <input name="user_password" class="form-control" placeholder="Enter text">
+                                                        <input name="user_password" class="form-control" placeholder="Enter text" required>
                                                     </div>
+                                                    <!--
                                                     <div class="form-group">
                                                         <label>權限:</label>
                                                         <br>
@@ -139,6 +137,7 @@
                                                             <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option_b">群組二
                                                         </label>
                                                     </div>
+                                                    -->
                                                     <button type="submit" class="btn btn-default">Submit Button</button>
                                                     <button type="reset" class="btn btn-default">Reset Button</button>
                                                 </form>

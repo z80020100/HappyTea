@@ -12,18 +12,18 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading">
-                                DataTables Advanced Tables
-                            </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
                                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
                                             <th>姓名</th>
+                                            <th>性別</th>
                                             <th>權限</th>
                                             <th>帳號</th>
-                                            <th>店名</th>
+                                            <th>電話</th>
+                                            <th>身份號碼</th>
+                                            <th>所屬店家</th>
                                             <th>狀態</th>
                                         </tr>
                                     </thead>
@@ -33,8 +33,11 @@
 
                                         <tr id="u_id_{{user_info.u_id}}" class="even gradeC">
                                             <td>{{user_info.ui_name}}</td>
+                                            <td>{{user_info.ui_gendor}}</td>
                                             <td>{{user_info.u_role}}</td>
                                             <td>{{user_info.u_account}}</td>
+                                            <td>{{user_info.ui_tel}}</td>
+                                            <td>{{user_info.ui_country_id}}</td>
                                             <td>{{user_info.shop_name}}</td>
                                             <td>
                                                 <button class="btn btn-primary mod_button" data-toggle="modal" data-target="#myModal1">修改</button>
@@ -79,45 +82,33 @@
                                     <form role="form" action="" method="post"> 
                                         <div class="form-group"> 
                                             <label>姓名:</label> 
-                                            <input class="form-control" name="user_name" placeholder="王小明"> 
+                                            <input id="m_name" class="form-control" name="user_name" placeholder="王小明" required> 
                                         </div> 
                                         <div class="form-group"> 
                                             <label>性別:</label> 
                                             <br> 
                                             <label class="radio-inline"> 
-                                                <input type="radio" name="user_gendor" id="boss_male" value="男" checked>男 
+                                                <input type="radio" name="user_gendor" id="user_male" value="男">男 
                                             </label> 
                                             <label class="radio-inline"> 
-                                                <input type="radio" name="user_gendor" id="boss_female" value="女">女 
+                                                <input type="radio" name="user_gendor" id="user_female" value="女">女 
                                             </label> 
                                         </div> 
                                         <div class="form-group"> 
                                             <label>身分證字號:</label> 
-                                            <input class="form-control" name="user_id" placeholder="F123456789"> 
+                                            <input id="m_id" class="form-control" name="user_id" placeholder="F123456789" required> 
                                         </div> 
                                         <div class="form-group"> 
                                             <label>電話:</label> 
-                                            <input class="form-control" name="user_tel" placeholder="02-12345678"> 
+                                            <input  id="m_tel" class="form-control" name="user_tel" placeholder="02-12345678" required> 
                                         </div> 
                                         <div class="form-group"> 
                                             <label>帳號:</label> 
-                                            <input class="form-control" name="user_account" placeholder="happytea account"> 
+                                            <input id="m_account" class="form-control" name="user_account" placeholder="happytea account" required> 
                                         </div> 
                                         <div class="form-group"> 
                                             <label>密碼:</label> 
-                                            <input class="form-control" name="user_password" placeholder="happytea password"> 
-                                        </div> 
-                                        <div class="form-group"> 
-                                            <label>加盟店店名:</label> 
-                                            <input class="form-control" name="store_name" placeholder="store text"> 
-                                        </div> 
-                                        <div class="form-group"> 
-                                            <label>加盟店電話:</label> 
-                                            <input class="form-control" name="store_tel" placeholder="Enter text"> 
-                                        </div> 
-                                        <div class="form-group"> 
-                                            <label>加盟店地址:</label> 
-                                            <input class="form-control" name="store_address" placeholder="Enter text"> 
+                                            <input id="m_passwd" class="form-control" name="user_password" placeholder="happytea password" required> 
                                         </div> 
                                     </form> 
                                 </div> 
@@ -128,7 +119,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary change_account">確定</button>
+                        <button type="button" class="btn btn-primary mod_change_account">確定</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -147,7 +138,7 @@
                     你確定要刪除此帳號嗎？（刪除以後無法回復）
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary change_account">確定</button>
+                        <button type="button" class="btn btn-primary rm_change_account">確定</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -199,17 +190,40 @@
         user_info['is_rm'] = '1';
         user_info['user_account'] = $(this).parent().prev().prev().text();
         user_info['u_id'] = $(this).parent().parent().attr('id').split("_")[2] ;
-
     });
 
     $(".mod_button").click(function() {
+        $("#m_name").val($(this).parent().prev().prev().prev().prev().prev().prev().prev().text()) ;
+        $("#m_account").val($(this).parent().prev().prev().prev().prev().text()) ;
+        $("#m_tel").val($(this).parent().prev().prev().prev().text()) ;
+        $("#m_id").val($(this).parent().prev().prev().text()) ;
+
+        var gendor = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+        if(gendor == '男'){
+            $("#user_male").attr('checked', 'checked');
+        }else{
+            $("#user_female").attr('checked', 'checked');
+        }
         user_info['is_rm'] = '0';
-   //     user_info['user_account'] = $(this).parent().prev().prev().text();
+        user_info['u_id'] = $(this).parent().parent().attr('id').split("_")[2] ;
         
     });
 
-    $(".change_account").click(function() {
-        //alert(user_info['user_account']);
+    $(".rm_change_account").click(function() {
+        sendChangeAccount(user_info);
+
+    });
+    $(".mod_change_account").click(function() {
+        user_info['user_account'] = $("#m_account").val();
+        user_info['user_name'] = $("#m_name").val();
+        user_info['user_tel'] = $("#m_tel").val();
+        user_info['user_country_id'] = $("#m_id").val();
+        user_info['user_passwd'] = $("#m_passwd").val();
+        user_info['user_gendor'] = $('input[name=user_gendor]:checked').val();
+        alert(user_info['user_name']);
+        alert(user_info['user_tel']);
+        alert(user_info['user_country_id']);
+        alert(user_info['user_gendor']);
         sendChangeAccount(user_info);
 
     });

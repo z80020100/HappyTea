@@ -27,18 +27,6 @@ foreach ($db->query($sql) as $row) {
         $all_shops[] = $shop;
     }
 }
-//$sql = "SELECT * FROM `shop`";
-//$all_shops = array();
-//foreach ($db->query($sql) as $row) {
-//    $shop = array(
-//        'shop_id' => $row['shop_id'],
-//        'shop_name' => $row['shop_name'],
-//        'shop_address' => $row['shop_address'],
-//        'shop_tel' => $row['shop_tel'],
-//        'shop_owner' => $row['shop_owner']
-//    );
-//    $all_shops[] = $shop;
-//}
 
 $template = $twig->loadTemplate('dashboard.html');
 $_HTML .= $template->render(array(

@@ -34,8 +34,10 @@ foreach ($db->query($sql) as $row) {
         'u_id' => $row['u_id'],
         'u_account' => $row['u_account'],
         'u_role' => $row['u_role'],
+        'ui_gendor' => $row['ui_gendor'],
         'shop_name' => $row['shop_info']['shop_name'],
-        'u_tel' => $row['ui_phone'],
+        'ui_tel' => $row['ui_phone'],
+        'ui_country_id' => $row['ui_country_id'],
         'ui_name' => $row['ui_name'],
     );
     $user_info_array[] = $user_info;
