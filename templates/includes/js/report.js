@@ -51,6 +51,7 @@ function handleLog(log) {
     // console.log(JSON.stringify(log));
     var pie_chart_data = getPieChartData(log);
     drawPieChart(pie_chart_data);
+    drawLineChart();
 }
 
 function getPieChartData(log) {
@@ -71,6 +72,31 @@ function getPieChartData(log) {
         }
     }
     return data;
+}
+
+function getLineChartData(log) {
+
+    data = [];
+    for (var i = 0; i < log.length; i++) {
+        var series = log[i].s_text;
+        var total_price = log[i].price * log[i].quantity;
+
+        var result = $.grep(data, function(e){ return e['label'] == series; });
+        if (result.length == 0) {
+            var obj = {label: series, data: total_price}
+            data.push(obj);
+        }
+        else {
+            // For the result.length is always 1, we can did result[0]
+            result[0]['data'] = parseInt(result[0]['data']) + total_price;
+        }
+    }
+
+    function gd(year, month, day) {
+       return new Date(year, month, day).getTime();
+    }
+
+
 }
 
 function labelFormatter(label, series) {
@@ -125,50 +151,60 @@ function drawPieChart(data) {
 // Flot Line Chart
 function drawLineChart() {
 
-    var offset = 0;
-    plot();
-
-    function plot() {
-        var sin = [],
-            cos = [];
-        for (var i = 0; i < 12; i += 0.2) {
-            sin.push([i, Math.sin(i + offset)]);
-            cos.push([i, Math.cos(i + offset)]);
-        }
-
-        var options = {
-            series: {
-                lines: {
-                    show: true
-                },
-                points: {
-                    show: true
-                }
-            },
-            grid: {
-                hoverable: true //IMPORTANT! this is needed for tooltip to work
-            },
-            yaxis: {
-                min: -1.2,
-                max: 1.2
-            },
-            tooltip: true,
-            tooltipOpts: {
-                content: "'%s' of %x.1 is %y.4",
-                shifts: {
-                    x: -60,
-                    y: 25
-                }
-            }
-        };
-
-        var plotObj = $.plot($("#flot-line-chart"), [{
-                data: sin,
-                label: "sin(x)"
-            }, {
-                data: cos,
-                label: "cos(x)"
-            }],
-            options);
+function gd(year, month, day) {
+       return new Date(year, month, day).getTime();
     }
+function sd(digit) {
+   return new Date(digit);
+}
+var data1 = [[1262304000000, 7], [1264982400000, 7], [1267401600000, 10], [1270080000000, 13], [1272672000000, 16], [1275350400000, 20], [1277942400000, 22], [1280620800000, 21], [1283299200000, 19], [1285891200000, 15], [1288569600000, 10], [1291161600000, 8]];
+var dataset = [
+    { label: "Gold Price", data: data1}
+];
+    alert(sd(data1[0][0]));
+    alert(gd(2016, 00, 01));
+    alert(sd(1451577600000));
+    var options = {
+        series: {
+            lines: {
+                show: true
+            },
+            points: {
+                show: true
+            }
+        },
+        legend: {
+            show: false
+        },
+        grid: {
+            hoverable: true //IMPORTANT! this is needed for tooltip to work
+        },
+        xaxis: {
+            mode: "time",
+            tickSize: [1, "month"],
+            tickLength: 0,
+            axisLabel: "Month",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Verdana, Arial',
+            axisLabelPadding: 10
+        },
+        yaxis: {
+            axisLabel: "Gold Price(USD)",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Verdana, Arial',
+            axisLabelPadding: 3,
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "'%s' of %x.1 is %y.4",
+            shifts: {
+                x: -60,
+                y: 25
+            }
+        }
+    };
+
+    var plotObj = $.plot($("#flot-line-chart"), dataset, options);
 }
