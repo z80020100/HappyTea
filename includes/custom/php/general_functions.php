@@ -19,6 +19,9 @@ function console($level, $msg, $function, $line){
     else if($level == LEVEL_INFO){
          $DBG_MSG .= "<script>console.log(\"INFO: $msg on function $function() line $line\")</script>\n";
     }
+    else if($level == LEVEL_TODO){
+         $DBG_MSG .= "<script>console.log(\"TODO: $msg on function $function() line $line\")</script>\n";
+    }
 }
 
 // Print all global variables name, $global_key = array_keys(get_defined_vars())
