@@ -89,12 +89,21 @@ function drawLineChart() {
 
 // Get all the Log data for a shop query
 function queryLog(start, end, shop) {
-    req = {
+    var req = {
         op: "query",
         start: start,
         end: end,
         shop: shop
     }
+    return req;
+}
+
+$(document).ready(function() {
+    var start = '2016-01-01 00:00:00';
+    var end = '2018-01-01 23:59:59';
+    var shop = 1;
+
+    var req = queryLog(start, end, shop);
     console.log(JSON.stringify(req));
 
     $.ajax({
@@ -105,6 +114,7 @@ function queryLog(start, end, shop) {
     })
     .done(function(msg) {
         console.log('query log success!');
+        console.log(JSON.stringify(msg));
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         // need to change ajax return type into 'text' to see error msg
@@ -114,9 +124,6 @@ function queryLog(start, end, shop) {
     .always(function() {
 
     });
-}
 
-$(document).ready(function() {
-    drawPieChart();
-    drawLineChart();
+
 });
