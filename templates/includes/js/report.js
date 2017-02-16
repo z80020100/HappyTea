@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     var start = '2016-01-01 00:00:00';
     var end = '2018-01-01 23:59:59';
     var shop = 1;
@@ -6,11 +7,45 @@ $(document).ready(function() {
     var req = queryLog(start, end, shop);
     // console.log(JSON.stringify(req));
 
+    ajax(req);
+
+    $('#dataTable').DataTable({
+        responsive: true,
+        bInfo: false,
+    });
+
+});
+
+
+/* === Global variable === */
+var threshold = 0.05    // for drawing pie chart hovering threshold
+/* ===      End        === */
+
+// Get all the Log data for a shop query
+function queryLog(start, end, shop) {
+    var req = {
+        op: "query",
+        start: start,
+        end: end,
+        shop: shop
+    }
+    return req;
+}
+
+function handleLog(log) {
+    // console.log(JSON.stringify(log));
+    var pie_chart_data = getPieChartData(log);
+    drawPieChart(pie_chart_data);
+    var line_chart_data = getLineChartData(log);
+    drawLineChart(line_chart_data);
+}
+
+function ajax(request) {
     $.ajax({
         url: "report_process.php",
         method: "POST",
         dataType: "json",
-        data: {request: req}
+        data: {request: request}
     })
     .done(function(msg) {
         console.log('query log success!');
@@ -25,34 +60,6 @@ $(document).ready(function() {
     .always(function() {
 
     });
-
-
-});
-
-
-/* === Global variable === */
-var threshold = 0.05    // for drawing pie chart hovering threshold
-/* ===      End        === */
-
-// Get all the Log data for a shop query
-function queryLog(start, end, shop) {
-
-    var req = {
-        op: "query",
-        start: start,
-        end: end,
-        shop: shop
-    }
-    return req;
-}
-
-function handleLog(log) {
-
-    // console.log(JSON.stringify(log));
-    var pie_chart_data = getPieChartData(log);
-    drawPieChart(pie_chart_data);
-    var line_chart_data = getLineChartData(log);
-    drawLineChart(line_chart_data);
 }
 
 function getPieChartData(log) {

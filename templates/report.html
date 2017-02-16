@@ -42,6 +42,36 @@
                 </div>
             </div>
             <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <table  class="table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th width="20%">時間</td>
+                                <th width="20%">系列</td>
+                                <th width="20%">餐點</td>
+                                <th width="10%">數量</td>
+                                <th width="10%">價格</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in data %}
+                            <tr>
+                                <td>{{ item.time }}</td>
+                                <td>{{ item.s_text }}</td>
+                                <td>{{ item.m_text }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
 
@@ -63,6 +93,13 @@
     <script src="./includes/vendor/flot/jquery.flot.axislabels.js"></script>
     <script src="./includes/vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
     <!-- <script src="./templates/includes/sb-admin-2/js/flot-data.js"></script> -->
+
+    <!-- DataTables JavaScript -->
+    <script src="./includes/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="./includes/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="./includes/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <link rel="stylesheet" type="text/css" href="./includes/vendor/datatables/css/dataTables.bootstrap.min.css">
+
 
     <!-- Custom Theme JavaScript -->
     <script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
