@@ -118,19 +118,6 @@ function TimeSetDate(digit) {
     return new Date(digit);
 }
 
-function labelFormatter(label, series) {
-    return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + label + "<br/>" + Math.round(series.percent * 10)/10 + "%</div>";
-}
-
-function makeTooltipContent(label, xval, yval, flotItem) {
-    if (flotItem.series.percent < threshold*100) {
-        return "%p.1%, %s"; // show percentages, rounding to 1 decimal places
-    }
-    return false;
-}
-
-
-
 // Flot Pie Chart
 function drawPieChart(data) {
 
@@ -165,6 +152,17 @@ function drawPieChart(data) {
             // onHover: func(flotItem, $tooltipEl) -> action
         }
     };
+
+    function labelFormatter(label, series) {
+        return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + label + "<br/>" + Math.round(series.percent * 10)/10 + "%</div>";
+    }
+
+    function makeTooltipContent(label, xval, yval, flotItem) {
+        if (flotItem.series.percent < threshold*100) {
+            return "%p.1%, %s"; // show percentages, rounding to 1 decimal places
+        }
+        return false;
+    }
 
     var plotObj = $.plot($("#flot-pie-chart"), data, options);
 }
