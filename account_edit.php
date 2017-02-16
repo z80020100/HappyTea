@@ -21,7 +21,7 @@ elseif($_SESSION['shop_id'] == -1 && $_SESSION['u_type'] == 2){
     $sql = "SELECT * FROM `user` INNER JOIN `user_info` on user.u_id = user_info.u_id WHERE (shop_id = -1 AND u_type = 2) AND is_remove = 0";
 }elseif($_SESSION['shop_id'] != -1 && $_SESSION['u_type'] == 3){
     // this is bottom boss
-    $sql = "SELECT * FROM `user` INNER JOIN `user_info` on user.u_id = user_info.u_id WHERE (shop_id <> -1 AND u_type = 3) AND is_remove = 0";
+    $sql = "SELECT * FROM `user` INNER JOIN `user_info` on user.u_id = user_info.u_id WHERE (shop_id <> -1 AND u_type = 2) AND is_remove = 0";
 }
 
 foreach ($db->query($sql) as $row) {
