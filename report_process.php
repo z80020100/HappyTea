@@ -10,7 +10,8 @@ $req = $_REQUEST['request'];
 $op = $req['op'];
 $start = $req['start'];
 $end = $req['end'];
-$shop = $req['shop'];
+if ($_SHOP_ID == -1) $shop = $req['shop'];
+else $shop =  $_SHOP_ID;
 
 /* need to check if this authority has the permission to query the shop log */
 
