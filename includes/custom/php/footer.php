@@ -23,7 +23,7 @@ else{
 
 //$global_key = array_keys(get_defined_vars());
 //printGlobalVariables($global_key);
-//$_HTML .= $DBG_MSG."\n"; // for print debug message to JS console
+//$_HTML .= $DBG_MSG; // for print debug message to JS console
 
 $_HTML .= $template->render(array(
 	//'PAGE_TITLE' => $_PAGE_TITLE,

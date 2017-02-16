@@ -59,4 +59,6 @@ $GLOBALS['STATUS'] = array(
 	'ARCHIVE'  // cannot be deleted
 );
 
+$DBG_MSG = "";
+
 ?>

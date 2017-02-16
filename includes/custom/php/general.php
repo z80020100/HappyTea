@@ -2,7 +2,6 @@
 
 /* include libraries **********************************************/
 
-require_once ("dbclass.php");
 require_once ("db_config.php");
 require_once ("general_define.php");
 require_once ("general_functions.php");
@@ -23,11 +22,6 @@ $twig = new Twig_Environment($loader, array(
 
 session_start();
 header("Content-Type:text/html; charset=utf-8");
-
-
-$db = new Db(DB_ADDRESS, DB_USER, DB_PASSWORD, DB_DATABASE);
-
-$DBG_MSG = "";
 
 if(!isset($_SESSION['u_auth'])){
     $_SESSION['u_auth'] = AUGUEST;
