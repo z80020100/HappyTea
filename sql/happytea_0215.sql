@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.3.7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 15, 2017 at 08:21 AM
--- Server version: 5.7.17-0ubuntu0.16.04.1
--- PHP Version: 7.0.13-0ubuntu0.16.04.1
+-- Generation Time: Feb 16, 2017 at 02:50 PM
+-- Server version: 5.6.22
+-- PHP Version: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Database: `happytea`
+-- Database: `tea`
 --
 
 -- --------------------------------------------------------
@@ -26,12 +26,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `additional_item`
 --
 
-CREATE TABLE `additional_item` (
+CREATE TABLE IF NOT EXISTS `additional_item` (
   `ai_id` int(11) NOT NULL,
   `at_id` int(11) NOT NULL,
   `name` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `additional_item`
@@ -56,11 +56,11 @@ INSERT INTO `additional_item` (`ai_id`, `at_id`, `name`, `price`) VALUES
 -- Table structure for table `additional_type`
 --
 
-CREATE TABLE `additional_type` (
+CREATE TABLE IF NOT EXISTS `additional_type` (
   `at_id` int(11) NOT NULL,
   `option_name` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `multiple_choice` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `additional_type`
@@ -80,7 +80,7 @@ INSERT INTO `additional_type` (`at_id`, `option_name`, `multiple_choice`) VALUES
 -- Table structure for table `config`
 --
 
-CREATE TABLE `config` (
+CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -99,7 +99,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 -- Table structure for table `ingredient`
 --
 
-CREATE TABLE `ingredient` (
+CREATE TABLE IF NOT EXISTS `ingredient` (
   `call_id` int(11) NOT NULL,
   `shop_id` int(11) NOT NULL,
   `ingredient` varchar(256) CHARACTER SET utf8 NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE `ingredient` (
   `unit` varchar(256) CHARACTER SET utf8 NOT NULL,
   `call_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `handled` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ingredient`
@@ -125,7 +125,7 @@ INSERT INTO `ingredient` (`call_id`, `shop_id`, `ingredient`, `num`, `unit`, `ca
 -- Table structure for table `log`
 --
 
-CREATE TABLE `log` (
+CREATE TABLE IF NOT EXISTS `log` (
   `log_id` int(11) NOT NULL,
   `u_id` int(11) NOT NULL,
   `o_id` int(11) NOT NULL,
@@ -135,13 +135,78 @@ CREATE TABLE `log` (
   `quantity` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `shop_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `log`
 --
 
 INSERT INTO `log` (`log_id`, `u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES
+(10, 1, 76, '2016-06-23 10:46:34', '漢堡', '火腿蛋餅', 5, 40, 1),
+(11, 1, 76, '2016-06-23 10:46:34', '漢堡', '章魚漢堡', 1, 55, 1),
+(12, 1, 75, '2016-06-20 17:34:02', '漢堡', '章魚漢堡', 1, 65, 1),
+(13, 1, 79, '2016-07-20 22:23:51', '漢堡', '火腿蛋餅', 1, 40, 1),
+(14, 1, 79, '2016-07-20 22:23:51', '漢堡', '章魚漢堡', 1, 50, 1),
+(15, 1, 78, '2016-07-20 22:21:34', '漢堡', '火腿蛋餅', 1, 40, 1),
+(16, 1, 78, '2016-07-20 22:21:34', '漢堡', '章魚漢堡', 1, 50, 1),
+(17, 1, 77, '2016-07-20 22:18:28', '漢堡', '火腿蛋餅', 1, 40, 1),
+(18, 1, 80, '2016-07-20 22:29:09', '三明治', '火腿三明治', 10, 50, 1),
+(25, 1, 81, '2016-07-20 22:32:18', '漢堡', '火腿蛋餅', 2, 40, 1),
+(26, 1, 81, '2016-07-20 22:32:18', '三明治', '火腿三明治', 9, 50, 1),
+(27, 1, 81, '2016-07-20 22:32:18', '漢堡', '章魚漢堡', 1, 50, 1),
+(28, 1, 86, '2016-07-21 07:58:55', '漢堡', '章魚漢堡', 1, 50, 1),
+(29, 1, 88, '2016-07-21 20:57:33', '漢堡', '章魚漢堡', 1, 50, 1),
+(30, 1, 93, '2016-07-22 23:30:17', '漢堡', '章魚漢堡', 9, 50, 1),
+(31, 1, 93, '2016-07-22 23:30:17', '漢堡', '火腿蛋餅', 4, 40, 1),
+(32, 1, 93, '2016-07-22 23:30:17', '三明治', '火腿三明治', 4, 50, 1),
+(33, 1, 95, '2016-07-23 12:01:07', '漢堡', '章魚漢堡', 1, 65, 1),
+(34, 1, 94, '2016-07-23 07:57:58', '漢堡', '章魚漢堡', 1, 50, 1),
+(35, 1, 94, '2016-07-23 07:57:58', '三明治', '火腿三明治', 1, 50, 1),
+(36, 1, 98, '2016-07-23 16:14:26', '三明治', '火腿三明治', 1, 50, 1),
+(37, 1, 99, '2016-07-23 16:15:08', '三明治', '火腿三明治', 1, 50, 1),
+(38, 1, 101, '2016-07-24 19:14:54', '漢堡', '火腿蛋餅', 7, 40, 1),
+(39, 1, 101, '2016-07-24 19:14:54', '三明治', '豬排蛋三明治', 1, 55, 1),
+(40, 1, 102, '2016-07-25 22:08:16', '漢堡', '章魚漢堡', 5, 50, 2),
+(41, 1, 103, '2016-07-25 22:13:27', '三明治', '豬排蛋三明治', 1, 40, 1),
+(42, 1, 103, '2016-07-25 22:13:27', '三明治', '火腿三明治', 1, 50, 1),
+(43, 1, 104, '2016-07-25 22:26:15', '三明治', '豬排蛋三明治', 1, 40, 1),
+(44, 1, 105, '2016-07-25 22:26:20', '三明治', '火腿三明治', 9, 50, 1),
+(45, 1, 106, '2016-07-25 22:26:38', '三明治', '豬排蛋三明治', 8, 55, 1),
+(46, 1, 106, '2016-07-25 22:26:38', '三明治', '火腿三明治', 5, 50, 1),
+(47, 1, 107, '2016-07-25 22:27:05', '三明治', '豬排蛋三明治', 6, 40, 1),
+(48, 1, 108, '2016-07-25 22:33:53', '三明治', '豬排蛋三明治', 1, 40, 1),
+(49, 1, 108, '2016-07-25 22:33:53', '三明治', '火腿三明治', 1, 50, 1),
+(50, 1, 109, '2016-07-25 22:38:57', '三明治', '火腿三明治', 1, 50, 1),
+(51, 1, 109, '2016-07-25 22:38:57', '三明治', '豬排蛋三明治', 2, 45, 1),
+(52, 1, 109, '2016-07-25 22:38:57', '三明治', '豬排蛋三明治', 1, 40, 1),
+(53, 1, 119, '2016-07-26 14:23:41', '三明治', '火腿三明治', 1, 50, 1),
+(54, 1, 119, '2016-07-26 14:23:41', '三明治', '火腿三明治', 1, 50, 1),
+(55, 1, 112, '2016-07-25 22:47:39', '三明治', '美式', 1, 0, 1),
+(56, 1, 112, '2016-07-25 22:47:39', '三明治', '豬排蛋三明治', 5, 40, 1),
+(57, 1, 114, '2016-07-26 10:33:03', '蛋餅', '原味', 1, 35, 1),
+(58, 1, 116, '2016-07-26 14:07:23', '蛋餅', '原味', 1, 35, 1),
+(59, 1, 129, '2016-07-27 22:50:20', '蛋餅', '原味', 2, 35, 1),
+(60, 1, 131, '2016-07-29 18:15:14', '蛋餅', '起司', 1, 40, 1),
+(61, 1, 132, '2016-07-31 14:37:45', '蛋餅', '培根', 1, 40, 1),
+(62, 1, 133, '2016-07-31 16:45:21', '蛋餅', '蔬菜', 1, 50, 1),
+(63, 1, 117, '2016-07-26 14:10:56', '三明治', '豬排蛋三明治', 1, 55, 1),
+(64, 1, 121, '2016-07-27 16:13:58', '三明治', '美式三明治', 10, 0, 1),
+(65, 1, 123, '2016-07-27 22:44:28', '三明治', '豬排蛋三明治', 5, 45, 1),
+(66, 1, 123, '2016-07-27 22:44:28', '三明治', '火腿蛋三明治', 4, 50, 1),
+(67, 1, 128, '2016-07-27 22:49:37', '蛋餅', '原味蛋餅', 2, 55, 1),
+(68, 1, 134, '2016-07-31 23:08:36', '三明治', '美式三明治', 1, 0, 1),
+(69, 1, 134, '2016-07-31 23:08:36', '飲料', '可樂', 1, 25, 1),
+(70, 1, 136, '2016-08-02 12:35:39', '三明治', '美式三明治', 3, 0, 1),
+(71, 1, 135, '2016-07-31 23:37:37', '蛋餅', '玉米蛋餅', 3, 35, 1),
+(72, 1, 135, '2016-07-31 23:37:37', '三明治', '蔬果三明治', 7, 40, 1),
+(73, 1, 135, '2016-07-31 23:37:37', '三明治', '卡拉雞三明治', 4, 45, 1),
+(74, 1, 135, '2016-07-31 23:37:37', '蛋餅', '原味蛋餅', 9, 35, 1),
+(75, 1, 135, '2016-07-31 23:37:37', '飲料', '奶茶', 16, 20, 1),
+(76, 1, 135, '2016-07-31 23:37:37', '飲料', '米漿', 1, 20, 1),
+(77, 1, 135, '2016-07-31 23:37:37', '飲料', '豆漿', 7, 20, 1),
+(78, 11, 137, '2016-08-02 12:39:33', '蛋餅', '玉米蛋餅', 1, 50, 1),
+(79, 1, 138, '2016-12-03 08:23:38', '蛋餅', '原味蛋餅', 6, 35, 1),
+(80, 10, 143, '2016-11-04 13:44:57', '原味茶', '日月潭紅茶', 2, 20, 1),
 (81, 44, 148, '2016-12-11 06:02:49', '經典台灣茶', '翡翠綠茶', 50, 25, 1),
 (82, 44, 148, '2016-12-11 06:02:49', '經典台灣茶', '日月潭阿薩姆紅茶', 8, 25, 1);
 
@@ -151,15 +216,15 @@ INSERT INTO `log` (`log_id`, `u_id`, `o_id`, `time`, `s_text`, `m_text`, `quanti
 -- Table structure for table `main`
 --
 
-CREATE TABLE `main` (
-  `m_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `main` (
+  `m_id` int(10) unsigned NOT NULL,
   `name` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `price` int(11) NOT NULL,
   `s_id` int(11) NOT NULL,
   `at_id` int(11) NOT NULL,
   `required_option` tinyint(1) NOT NULL,
   `order_num` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `main`
@@ -237,7 +302,7 @@ INSERT INTO `main` (`m_id`, `name`, `price`, `s_id`, `at_id`, `required_option`,
 -- Table structure for table `orders`
 --
 
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `o_id` int(11) NOT NULL,
   `u_id` int(11) NOT NULL DEFAULT '1',
   `o_time` datetime NOT NULL,
@@ -247,7 +312,7 @@ CREATE TABLE `orders` (
   `people_num` int(11) NOT NULL COMMENT '本欄位無功能上之用途，但可作為統計與產生報表之用',
   `status` enum('CANCEL','WAIT','MAKING','DONE','ARCHIVE') COLLATE utf8_bin NOT NULL,
   `shop_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `orders`
@@ -293,11 +358,11 @@ INSERT INTO `orders` (`o_id`, `u_id`, `o_time`, `o_utime`, `o_estimate_time`, `t
 -- Table structure for table `raw_material`
 --
 
-CREATE TABLE `raw_material` (
+CREATE TABLE IF NOT EXISTS `raw_material` (
   `raw_id` int(11) NOT NULL,
   `raw_name` varchar(256) CHARACTER SET utf8 NOT NULL,
   `unit` varchar(256) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `raw_material`
@@ -315,12 +380,12 @@ INSERT INTO `raw_material` (`raw_id`, `raw_name`, `unit`) VALUES
 -- Table structure for table `required_option`
 --
 
-CREATE TABLE `required_option` (
+CREATE TABLE IF NOT EXISTS `required_option` (
   `ro_id` int(11) NOT NULL,
   `name` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `m_id` int(11) NOT NULL,
   `at_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `required_option`
@@ -398,12 +463,12 @@ INSERT INTO `required_option` (`ro_id`, `name`, `m_id`, `at_id`) VALUES
 -- Table structure for table `series`
 --
 
-CREATE TABLE `series` (
+CREATE TABLE IF NOT EXISTS `series` (
   `s_id` int(11) NOT NULL,
   `order_num` int(30) NOT NULL,
   `name` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `shop_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `series`
@@ -423,12 +488,12 @@ INSERT INTO `series` (`s_id`, `order_num`, `name`, `shop_id`) VALUES
 -- Table structure for table `sh-i_ai`
 --
 
-CREATE TABLE `sh-i_ai` (
+CREATE TABLE IF NOT EXISTS `sh-i_ai` (
   `sh-i_ai_id` int(11) NOT NULL,
   `sh-i_id` int(11) NOT NULL,
   `ai_id` int(11) NOT NULL,
   `is_ro` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `sh-i_ai`
@@ -735,11 +800,11 @@ INSERT INTO `sh-i_ai` (`sh-i_ai_id`, `sh-i_id`, `ai_id`, `is_ro`) VALUES
 -- Table structure for table `share`
 --
 
-CREATE TABLE `share` (
+CREATE TABLE IF NOT EXISTS `share` (
   `sh_id` int(11) NOT NULL,
   `o_id` int(11) NOT NULL,
   `total` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `share`
@@ -909,13 +974,13 @@ INSERT INTO `share` (`sh_id`, `o_id`, `total`) VALUES
 -- Table structure for table `share_item`
 --
 
-CREATE TABLE `share_item` (
+CREATE TABLE IF NOT EXISTS `share_item` (
   `sh-i_id` int(11) NOT NULL,
   `sh_id` int(11) NOT NULL,
   `m_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `comment` varchar(100) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `share_item`
@@ -1301,7 +1366,7 @@ INSERT INTO `share_item` (`sh-i_id`, `sh_id`, `m_id`, `quantity`, `comment`) VAL
 -- Table structure for table `shop`
 --
 
-CREATE TABLE `shop` (
+CREATE TABLE IF NOT EXISTS `shop` (
   `shop_id` int(11) NOT NULL,
   `shop_name` varchar(100) NOT NULL,
   `shop_address` text NOT NULL,
@@ -1309,7 +1374,7 @@ CREATE TABLE `shop` (
   `shop_owner` varchar(50) NOT NULL,
   `shop_account` int(11) DEFAULT NULL,
   `shop_type` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `shop`
@@ -1326,14 +1391,14 @@ INSERT INTO `shop` (`shop_id`, `shop_name`, `shop_address`, `shop_tel`, `shop_ow
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `u_id` int(11) NOT NULL,
   `u_account` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `u_pass` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `u_type` tinyint(3) NOT NULL COMMENT '0: not active, 1: active, 2: staff, 3: admin',
   `shop_id` int(11) NOT NULL,
   `is_remove` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `user`
@@ -1355,14 +1420,14 @@ INSERT INTO `user` (`u_id`, `u_account`, `u_pass`, `u_type`, `shop_id`, `is_remo
 -- Table structure for table `user_info`
 --
 
-CREATE TABLE `user_info` (
+CREATE TABLE IF NOT EXISTS `user_info` (
   `ui_id` int(11) NOT NULL,
   `u_id` int(11) NOT NULL,
   `ui_phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `ui_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `ui_gendor` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `ui_country_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `user_info`
@@ -1384,7 +1449,7 @@ INSERT INTO `user_info` (`ui_id`, `u_id`, `ui_phone`, `ui_name`, `ui_gendor`, `u
 -- Table structure for table `user_register`
 --
 
-CREATE TABLE `user_register` (
+CREATE TABLE IF NOT EXISTS `user_register` (
   `u_id` int(50) NOT NULL,
   `code` varchar(5) NOT NULL,
   `expiration` int(11) NOT NULL
@@ -1517,77 +1582,77 @@ ALTER TABLE `user_register`
 -- AUTO_INCREMENT for table `additional_item`
 --
 ALTER TABLE `additional_item`
-  MODIFY `ai_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `ai_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=91;
 --
 -- AUTO_INCREMENT for table `additional_type`
 --
 ALTER TABLE `additional_type`
-  MODIFY `at_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `at_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `ingredient`
 --
 ALTER TABLE `ingredient`
-  MODIFY `call_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `call_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `main`
 --
 ALTER TABLE `main`
-  MODIFY `m_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `m_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=124;
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `o_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
+  MODIFY `o_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=179;
 --
 -- AUTO_INCREMENT for table `raw_material`
 --
 ALTER TABLE `raw_material`
-  MODIFY `raw_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `raw_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `required_option`
 --
 ALTER TABLE `required_option`
-  MODIFY `ro_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `ro_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=119;
 --
 -- AUTO_INCREMENT for table `series`
 --
 ALTER TABLE `series`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `sh-i_ai`
 --
 ALTER TABLE `sh-i_ai`
-  MODIFY `sh-i_ai_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
+  MODIFY `sh-i_ai_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=304;
 --
 -- AUTO_INCREMENT for table `share`
 --
 ALTER TABLE `share`
-  MODIFY `sh_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `sh_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=167;
 --
 -- AUTO_INCREMENT for table `share_item`
 --
 ALTER TABLE `share_item`
-  MODIFY `sh-i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=380;
+  MODIFY `sh-i_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=380;
 --
 -- AUTO_INCREMENT for table `shop`
 --
 ALTER TABLE `shop`
-  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
 --
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `ui_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `ui_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=77;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
