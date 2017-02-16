@@ -15,6 +15,9 @@ if (isset($_POST['user_name'])) {
 
     $user_reginfo = array();
 
+
+    
+
     if (isset($_POST['store_name'])) {
         // create user as drink store boss
         $shop_id = createShop($_POST['store_name'], $_POST['store_address'], $_POST['store_tel'], $_POST['user_name']);
@@ -22,8 +25,16 @@ if (isset($_POST['user_name'])) {
     }
     else{
         //create user as corporate staff    
-        $shop_id = -1;
-        $user_reginfo['user_type'] = 2;
+        if($_SHOP_ID != -1){
+
+            $shop_id = $_SHOP_ID;
+            $user_reginfo['user_type'] = 2;
+
+        }else{
+            $shop_id = -1;
+            $user_reginfo['user_type'] = 2;
+
+        }
     }
     $user_reginfo['user_name'] = $_POST['user_name'];
     $user_reginfo['user_gendor'] = $_POST['user_gendor'];

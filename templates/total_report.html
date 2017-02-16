@@ -50,6 +50,12 @@
                             </div>
 
                             <div class="tab-pane fade" id="profile-pills">
+                                <input class="form-control" type="text" id="from_date" data-format="DD-MM-YYYY" data-template="DD / MM / YYYY" name="datetime" value="01-01-2017">
+                                    <span>~</span>
+                                <input class="form-control" type="text" id="to_date" data-format="DD-MM-YYYY" data-template="DD / MM / YYYY" name="datetime" value="01-01-2017">
+                                <button type="button" class="btn btn-primary pull-right">搜尋</button>
+
+
 
                             </div>
 
@@ -87,5 +93,30 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
+
+
+    <script src="./includes/vendor/combodate/combodate.js"></script>
+    <script src="./includes/vendor/moment/moment.min.js"></script>
+
+
+
+
+    <script>
+
+    $(function(){
+            $('#from_date').combodate({
+                minYear: 2000,
+                maxYear: 2017,
+                minuteStep: 10
+
+            });
+            $('#to_date').combodate({
+                minYear: 2000,
+                maxYear: 2017,
+                minuteStep: 10
+
+            });
+    });
+    </script>
 
 

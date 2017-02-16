@@ -1046,9 +1046,9 @@ $(function() {
     }
 
 
-    $("button").click(function() {
-        doPlot($(this).text());
-    });
+//    $("button").click(function() {
+//        doPlot($(this).text());
+//    });
 });
 
 
