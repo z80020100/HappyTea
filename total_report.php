@@ -9,9 +9,30 @@ $footer_type = FOOTER_TYPE_SBADMIN2; // 請參考includes/custom/php/general_def
 require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
 
-$template = $twig->loadTemplate('total_report.html');
 
+
+
+// get today's report
+//if($_SHOP_ID == -1){
+//    $sql = "SELECT * FROM log where Date(time) = CURDATE()";
+//
+//}else{
+//    $sql = "SELECT * FROM log where Date(time) = CURDATE() WHERE `shop_id` = '".$_SHOP_ID."'";
+//
+//}
+//
+//
+//foreach ($db->query($sql) as $row) {
+//
+//
+//echo json_encode($row, JSON_UNESCAPED_UNICODE);
+//}
+//
+//
+
+$template = $twig->loadTemplate('total_report.html');
 $_HTML .= $template->render(array(
+
 ));
 
 require_once('includes/custom/php/footer.php');

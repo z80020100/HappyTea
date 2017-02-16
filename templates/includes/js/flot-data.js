@@ -3,10 +3,17 @@ $(document).ready(function() {
 
     var start = '2016-01-01 00:00:00';
     var end = '2018-01-01 23:59:59';
-    var shop = 1;
+    //var shop = 1;
+    //var start = curr_year+'-'+curr_month+'-'+curr_date+' '+'00:00:00';
+    //var end = curr_year+'-'+curr_month+'-'+(curr_date+1)+' '+'00:00:00';
 
-    var req = queryLog(start, end, shop);
+    var req = queryLog(start, end);
     // console.log(JSON.stringify(req));
+
+    var d = new Date();
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth();
+    var curr_year = d.getFullYear();
 
     getData(req);
 
@@ -32,12 +39,12 @@ var threshold = 0.05    // for drawing pie chart hovering threshold
 /* ===      End        === */
 
 // Get all the Log data for a shop query
-function queryLog(start, end, shop) {
+function queryLog(start, end) {
     var req = {
         op: "query",
         start: start,
         end: end,
-        shop: shop
+      //  shop: shop
     }
     return req;
 }
@@ -48,6 +55,7 @@ function queryLog(start, end, shop) {
 
 // Flot Pie Chart
 function drawPieChart(data) {
+    alert(data[0]);
 
     var options = {
         series: {
@@ -108,14 +116,15 @@ function handleLog(log) {
 
 function getData(request) {
     $.ajax({
-        url: "top_report_request.php",
+        url: "total_report_request.php",
         method: "POST",
-        dataType: "json",
+        dataType: "text",
         data: {request: request}
     })
     .done(function(msg) {
         console.log('query log success!');
-        // console.log(JSON.stringify(msg));
+        //alert(msg[0]['log_id']);
+        console.log(JSON.stringify(msg));
         handleLog(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -127,6 +136,29 @@ function getData(request) {
 
     });
 }
+
+
+function getPieChartData(log) {
+
+    data = [];
+    for (var i = 0; i < log.length; i++) {
+        var series = log[i].s_text;
+        var total_price = log[i].price * log[i].quantity;
+        alert(series);
+
+        var result = $.grep(data, function(e){ return e['label'] == series; });
+        if (result.length == 0) {
+            var obj = {label: series, data: total_price}
+            data.push(obj);
+        }
+        else {
+            // For the result.length is always 1, we can did result[0]
+            result[0]['data'] = parseInt(result[0]['data']) + total_price;
+        }
+    }
+    return data;
+}
+
 
 
 //Flot Pie Chart
@@ -169,7 +201,7 @@ function getData(request) {
 //});
 //
 //
-//
+
 ////Flot Bar Chart
 //
 //$(function() {
