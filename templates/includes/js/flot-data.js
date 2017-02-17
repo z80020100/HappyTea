@@ -54,7 +54,7 @@ function queryLog(start, end) {
 
 
 // Flot Pie Chart
-function drawPieChart(data) {
+function drawPieChart(data, index) {
 
     var options = {
         series: {
@@ -99,18 +99,28 @@ function drawPieChart(data) {
         return false;
     }
 
-    var plotObj = $.plot($("#flot-pie-chart"), data, options);
+    if(index == 0){
+        var plotObj = $.plot($("#flot-pie-chart"), data, options);
+    }else if(index == 1){
+        var plotObj = $.plot($("#flot-pie-chart2"), data, options);
+
+    }
 }
 
 
 function handleLog(log) {
     // console.log(JSON.stringify(log));
-    var pie_chart_data = getPieChartData(log);
-    drawPieChart(pie_chart_data);
+    var pie_chart_data1 = getPieChartData(log, 0);
+    var pie_chart_data2 = getPieChartData(log, 1);
+    drawPieChart(pie_chart_data1, 0);
+    drawPieChart(pie_chart_data2, 1);
 //    var line_chart_data = getLineChartData(log);
 //    drawLineChart(line_chart_data);
-    var bar_chart_data = getBarChartData(log);
-    drawBarChart(bar_chart_data);
+
+    var bar_chart_data1 = getBarChartData(log, 0);
+    var bar_chart_data2 = getBarChartData(log, 1);
+    drawBarChart(bar_chart_data1, 0);
+    drawBarChart(bar_chart_data2, 1);
 }
 
 
@@ -139,53 +149,85 @@ function getData(request) {
 }
 
 
-function getPieChartData(log) {
+function getPieChartData(log, mode) {
 
     data = [];
-    for (var i = 0; i < log.length; i++) {
-        var series = log[i].s_text;
-        var total_price = log[i].price * log[i].quantity;
+    if(mode == 0){
+        for (var i = 0; i < log.length; i++) {
+            var series = log[i].s_text;
+            var total_price = log[i].price * log[i].quantity;
 
-        var result = $.grep(data, function(e){ return e['label'] == series; });
-        if (result.length == 0) {
-            var obj = {label: series, data: total_price}
-            data.push(obj);
+            var result = $.grep(data, function(e){ return e['label'] == series; });
+            if (result.length == 0) {
+                var obj = {label: series, data: total_price}
+                data.push(obj);
+            }
+            else {
+                // For the result.length is always 1, we can did result[0]
+                result[0]['data'] = parseInt(result[0]['data']) + total_price;
+            }
         }
-        else {
-            // For the result.length is always 1, we can did result[0]
-            result[0]['data'] = parseInt(result[0]['data']) + total_price;
+    }else if(mode ==1){
+        for (var i = 0; i < log.length; i++) {
+            var series = log[i].s_text;
+            var total_quantity = log[i].quantity;
+
+            var result = $.grep(data, function(e){ return e['label'] == series; });
+            if (result.length == 0) {
+                var obj = {label: series, data: total_quantity}
+                data.push(obj);
+            }
+            else {
+                // For the result.length is always 1, we can did result[0]
+                result[0]['data'] = parseInt(result[0]['data']) + total_quantity;
+            }
         }
+
+
     }
+
+
     return data;
 }
 
 
-function getBarChartData(log){
-
+function getBarChartData(log, mode){
+    // if mode == 0 get total price report, else get total amount
 
     var data = [];
     var time_slot_data = [];
     time_slot_data[0] = -1 ;
-    for (var i =0 ; i< 23 ; ++i){
-	data[i] = [];
-	time_slot_data[i] = 0 ;
-    }
-    for (var i = 0; i < log.length; i++) {
-	
-	var hour_slot = log[i].time.split(' ')[1].split(':')[0];
-	time_slot_data[hour_slot -1] = time_slot_data[hour_slot -1] + log[i].price * log[i].quantity;
 
-    }
     for (var i =0 ; i< 23 ; ++i){
-	data[i][0] = i+1;
-	data[i][1] = time_slot_data[i];
+        data[i] = [];
+        time_slot_data[i] = 0 ;
     }
 
+    if(mode == 0){
+        for (var i = 0; i < log.length; i++) {
+        
+            var hour_slot = log[i].time.split(' ')[1].split(':')[0];
+            time_slot_data[hour_slot -1] = time_slot_data[hour_slot -1] + log[i].price * log[i].quantity;
+        }
+
+    }else{
+        for (var i = 0; i < log.length; i++) {
+        
+            var hour_slot = log[i].time.split(' ')[1].split(':')[0];
+            time_slot_data[hour_slot -1] = time_slot_data[hour_slot -1] + log[i].quantity;
+        }
+
+    }
+
+    for (var i =0 ; i< 23 ; ++i){
+        data[i][0] = i+1;
+        data[i][1] = time_slot_data[i];
+    }
 
     return data;
 }
 
-function drawBarChart(data) {
+function drawBarChart(data, index) {
 
     var barOptions = {
         series: {
@@ -201,11 +243,11 @@ function drawBarChart(data) {
 //	    tickFormatter: function (val, axis) {
 //                return 1;
 //            },
-	    axisLabel: 'Month',
+	        axisLabel: '時間(每小時)',
             axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
+            axisLabelFontSizePixels: 18,
             axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-            axisLabelPadding: 5,
+            axisLabelPadding: 12,
             ticks:[[1,'01'],[2,'02'],[3,'03'],[4,'04'],[5,'05'],[6,'06'],[7,'07'],[8,'08'],[9,'09'],[10,'10'],[11,'11'],[12,'12'],[13,'13'],[14,'14'],[15,'15'],[16,'16'],[17,'17'],[18,'18'],[19,'19'],[20,'20'],[21,'21'],[22,'22'],[23,'23'],[24,'24']],
 
             minTickSize: [1, "hour"]
@@ -216,56 +258,40 @@ function drawBarChart(data) {
         legend: {
             show: false
         },
+        yaxis:{
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 18,
+            axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+            axisLabelPadding: 12,
+
+        },
         tooltip: true,
         tooltipOpts: {
             content: "y: %y"
         }
     };
+
+    
+    if(index == 0){
+        barOptions['yaxis']['axisLabel'] = '營收(元)';
+
+    }else if(index == 1){
+        barOptions['yaxis']['axisLabel'] = '杯數(杯)';
+
+    }
+
     var barData = {
         label: "bar",
         data: data
     };
-    $.plot($("#flot-bar-chart"), [barData], barOptions);
+    if(index == 0){
+        $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+
+    }
+    else if(index==1){
+        $.plot($("#flot-bar-chart2"), [barData], barOptions);
+
+    }
 }
 
-////Flot Bar Chart
-//
-//$(function() {
-//
-//    var barOptions = {
-//        series: {
-//            bars: {
-//                show: true,
-//                barWidth: 43200000
-//            }
-//        },
-//        xaxis: {
-//            mode: "time",
-//            timeformat: "%m/%d",
-//            minTickSize: [1, "day"]
-//        },
-//        grid: {
-//            hoverable: true
-//        },
-//        legend: {
-//            show: false
-//        },
-//        tooltip: true,
-//        tooltipOpts: {
-//            content: "x: %x, y: %y"
-//        }
-//    };
-//    var barData = {
-//        label: "bar",
-//        data: [
-//            [1354521600000, 1000],
-//            [1355040000000, 2000],
-//            [1355223600000, 3000],
-//            [1355306400000, 4000],
-//            [1355487300000, 5000],
-//            [1355571900000, 6000]
-//        ]
-//    };
-//    $.plot($("#flot-bar-chart"), [barData], barOptions);
-//
-//});
