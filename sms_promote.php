@@ -12,6 +12,9 @@ require_once('includes/custom/php/navigation.php');
 $template = $twig->loadTemplate('sms_promote.html');
 
 $_HTML .= $template->render(array(
+'USER_IDENTITY' => $_USER_IDENTITY,
+'TOP_SHOP' => $_TOP_SHOP,
+
 ));
 
 require_once('includes/custom/php/footer.php');
