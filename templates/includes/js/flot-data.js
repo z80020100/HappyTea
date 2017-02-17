@@ -1,19 +1,19 @@
 $(document).ready(function() {
 
 
-    var start = '2016-01-01 00:00:00';
-    var end = '2018-01-01 23:59:59';
+//    var start = '2016-01-01 00:00:00';
+//    var end = '2018-01-01 23:59:59';
     //var shop = 1;
-    //var start = curr_year+'-'+curr_month+'-'+curr_date+' '+'00:00:00';
-    //var end = curr_year+'-'+curr_month+'-'+(curr_date+1)+' '+'00:00:00';
-
-    var req = queryLog(start, end);
-    // console.log(JSON.stringify(req));
-
     var d = new Date();
     var curr_date = d.getDate();
     var curr_month = d.getMonth();
     var curr_year = d.getFullYear();
+    var start = curr_year+'-'+(curr_month+1)+'-'+curr_date+' '+'00:00:00';
+    var end = curr_year+'-'+(curr_month+1)+'-'+(curr_date+1)+' '+'23:59:59';
+
+    var req = queryLog(start, end);
+    // console.log(JSON.stringify(req));
+
 
     getData(req);
 
@@ -55,7 +55,6 @@ function queryLog(start, end) {
 
 // Flot Pie Chart
 function drawPieChart(data) {
-    alert(data[0]);
 
     var options = {
         series: {
@@ -110,6 +109,8 @@ function handleLog(log) {
     drawPieChart(pie_chart_data);
 //    var line_chart_data = getLineChartData(log);
 //    drawLineChart(line_chart_data);
+    var bar_chart_data = getBarChartData(log);
+    drawBarChart(bar_chart_data);
 }
 
 
@@ -118,13 +119,13 @@ function getData(request) {
     $.ajax({
         url: "total_report_request.php",
         method: "POST",
-        dataType: "text",
+        dataType: "json",
         data: {request: request}
     })
     .done(function(msg) {
-        console.log('query log success!');
-        //alert(msg[0]['log_id']);
-        console.log(JSON.stringify(msg));
+        console.log('query log success!11');
+        //console.log(JSON.stringify(msg));
+        //console.log(msg[0]);
         handleLog(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -144,7 +145,6 @@ function getPieChartData(log) {
     for (var i = 0; i < log.length; i++) {
         var series = log[i].s_text;
         var total_price = log[i].price * log[i].quantity;
-        alert(series);
 
         var result = $.grep(data, function(e){ return e['label'] == series; });
         if (result.length == 0) {
@@ -160,47 +160,73 @@ function getPieChartData(log) {
 }
 
 
+function getBarChartData(log){
 
-//Flot Pie Chart
-//$(function() {
-//
-//    var data = [{
-//        label: "Series 0",
-//        data: 1
-//    }, {
-//        label: "Series 1",
-//        data: 3
-//    }, {
-//        label: "Series 2",
-//        data: 9
-//    }, {
-//        label: "Series 3",
-//        data: 20
-//    }];
-//
-//    var plotObj = $.plot($("#flot-pie-chart"), data, {
-//        series: {
-//            pie: {
-//                show: true
-//            }
-//        },
-//        grid: {
-//            hoverable: true
-//        },
-//        tooltip: true,
-//        tooltipOpts: {
-//            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-//            shifts: {
-//                x: 20,
-//                y: 0
+
+    var data = [];
+    var time_slot_data = [];
+    time_slot_data[0] = -1 ;
+    for (var i =0 ; i< 23 ; ++i){
+	data[i] = [];
+	time_slot_data[i] = 0 ;
+    }
+    for (var i = 0; i < log.length; i++) {
+	
+	var hour_slot = log[i].time.split(' ')[1].split(':')[0];
+	time_slot_data[hour_slot -1] = time_slot_data[hour_slot -1] + log[i].price * log[i].quantity;
+
+    }
+    for (var i =0 ; i< 23 ; ++i){
+	data[i][0] = i+1;
+	data[i][1] = time_slot_data[i];
+    }
+
+
+    return data;
+}
+
+function drawBarChart(data) {
+
+    var barOptions = {
+        series: {
+            bars: {
+                show: true,
+                barWidth: 1
+            }
+        },
+        xaxis: {
+            mode: "time",
+            timeformat: "%h",
+
+//	    tickFormatter: function (val, axis) {
+//                return 1;
 //            },
-//            defaultTheme: false
-//        }
-//    });
-//
-//});
-//
-//
+	    axisLabel: 'Month',
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+            axisLabelPadding: 5,
+            ticks:[[1,'01'],[2,'02'],[3,'03'],[4,'04'],[5,'05'],[6,'06'],[7,'07'],[8,'08'],[9,'09'],[10,'10'],[11,'11'],[12,'12'],[13,'13'],[14,'14'],[15,'15'],[16,'16'],[17,'17'],[18,'18'],[19,'19'],[20,'20'],[21,'21'],[22,'22'],[23,'23'],[24,'24']],
+
+            minTickSize: [1, "hour"]
+        },
+        grid: {
+            hoverable: true
+        },
+        legend: {
+            show: false
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "y: %y"
+        }
+    };
+    var barData = {
+        label: "bar",
+        data: data
+    };
+    $.plot($("#flot-bar-chart"), [barData], barOptions);
+}
 
 ////Flot Bar Chart
 //
