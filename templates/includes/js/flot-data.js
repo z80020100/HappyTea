@@ -170,7 +170,7 @@ function getPieChartData(log, mode) {
     }else if(mode ==1){
         for (var i = 0; i < log.length; i++) {
             var series = log[i].s_text;
-            var total_quantity = log[i].quantity;
+            var total_quantity = parseInt(log[i].quantity);
 
             var result = $.grep(data, function(e){ return e['label'] == series; });
             if (result.length == 0) {
