@@ -10,29 +10,29 @@ require_once('includes/custom/php/header.php');
 require_once('includes/custom/php/navigation.php');
 
 
+$report_today =  date("Y-m-d");   
+$report_tomorrow = date("Y-m-d", strtotime('tomorrow'));;   
+
+$sql = "SELECT * FROM log where `time` >= '".$report_today."' AND `time` < '".$report_tomorrow."'";
+$all_logs = array();
+foreach ($db->query($sql) as $row) {
+
+    $log = array(
+        'time' => $row['time'],
+        's_text' => $row['s_text'],
+        'm_text' => $row['m_text'],
+        'quantity' => $row['quantity'],
+        'price' => $row['price']
+    );
+    $all_logs[] = $log;
 
 
-// get today's report
-//if($_SHOP_ID == -1){
-//    $sql = "SELECT * FROM log where Date(time) = CURDATE()";
-//
-//}else{
-//    $sql = "SELECT * FROM log where Date(time) = CURDATE() WHERE `shop_id` = '".$_SHOP_ID."'";
-//
-//}
-//
-//
-//foreach ($db->query($sql) as $row) {
-//
-//
-//echo json_encode($row, JSON_UNESCAPED_UNICODE);
-//}
-//
-//
+}
+
 
 $template = $twig->loadTemplate('total_report.html');
 $_HTML .= $template->render(array(
-
+    'all_logs' => $all_logs
 ));
 
 require_once('includes/custom/php/footer.php');
