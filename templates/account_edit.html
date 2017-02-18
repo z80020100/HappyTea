@@ -71,7 +71,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close m_close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h4 class="modal-title" id="myModalLabel">修改帳號</h4>
                     </div>
                     <div class="modal-body">
@@ -232,8 +232,9 @@
             data: {"req":info}
         } )
         .done(function(msg){
-            alert("1122remove"+msg);
+            alert("修改成功");
             console.log('done');
+            $(".m_close").click();
         })
         .fail(function(jqXHR, textStatus, errorThrown){
             console.log(textStatus, errorThrown);
