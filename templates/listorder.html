@@ -1,0 +1,41 @@
+<script src="./includes/vendor/jquery/jquery.min.js"></script>
+<script src="./templates/includes/js/pos.js"></script>
+<script src="./templates/includes/js/jquery-1.11.3.min.js"></script>
+<script src="./templates/includes/js/jquery.mobile.custom.min.js"></script>
+<link rel="stylesheet" href="./templates/listorder.css">
+<link rel="stylesheet" href="./templates/includes/css/w3.css">
+
+<ul class="w3-navbar w3-red ">
+    <li><a href="index.php" rel="external" class="w3-center">點餐</a>
+    <!--<li><a href="listorder.php" rel="external" class="w3-center">即時訂單</a></li>-->
+    <li><a href="logout.php" rel="external" class="w3-center">登出&nbsp;{{username}}</a></li>
+</ul>
+
+    <div id="a0" class="w3-container">
+        <br>
+
+		<div id="unDo">
+			<span id="unDoText"></span><span id="unDoCntDwn"></span>
+		</div>
+		<table class="w3-table w3-bordered w3-striped w3-border w3-hoverable" id="order_list" >
+		<thead id="order_list_header">
+			<tr >
+			    <th>號碼</th> 
+				<th>狀態</th>
+				<th>品項</th>
+				<th>金額</th>
+			</tr>
+		</thead>
+
+
+		</table>
+
+	<!-- Debug
+	<button id="debug_get_table">Get table html</button>
+	<textarea id="debug_text"> </textarea>
+	-->
+	</div>
+
+    <div>&nbsp;</div>
+
+ <script src="templates/listorder_orderhandle.js"></script>

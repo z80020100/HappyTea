@@ -18,6 +18,7 @@ var cache_index_right = cache_index+1;
 var one_item_number = 1;
 var first_cal_button = true;
 var free_flag = true;
+var send_order_flag = false;
 
 $(document).ready(function(){
         free_flag = true;
@@ -30,9 +31,11 @@ $(document).ready(function(){
         $("button[id^='m']").click(function(){
             var name = $(this)[0].innerHTML;
             var price = parseInt($(this)[0].value);
+            var m_id = ($(this)[0].id).slice(1); // slice : m64 ->64
+
             one_item_number = parseInt($(amount_of_item).text());
             if(one_item_number != 0)
-                addRow(name,one_item_number, price);
+                addRow(name,one_item_number, price, "", m_id);
             hideCalculator();
         });
 
@@ -42,8 +45,24 @@ $(document).ready(function(){
                 return;
             }
             $("#order_list").find("tr").each(function(index, value){
-                    order_info["share_array"][0]["items_array"].push($(this).data("item_array"));
+                    if (index>=1)  {
+                        var item_array= new Object();
+                        amount = $(this).find("td").eq(1).text();
+                        
+                        item_array["quantity"] = $(this).find("td").eq(1).text();
+                        item_array["price"] = $(this).find("td").eq(2).text();
+                        item_array["comment"] = $(this).find("td").eq(3).text();
+                        item_array["m_id"] = $(this).find("td").eq(4).text();
+                        item_array["RO_array"] = [];
+                        item_array["AI_array"] = [];
+                        
+                        order_info["share_array"][0]["items_array"].push(item_array);
+                    }
+                    console.log($(this));
+                    console.log($(this).data("item_array"));
+                    //alert(order_info["share_array"]["items_array"][0]);
             });
+            send_order_flag = true;
             $("#check_out_price").val($("#total_price").val());
             $("#check_out_amount_result").text("0"); // type price
             $("#check_out_change_price").val(0);
@@ -78,9 +97,12 @@ $(document).ready(function(){
                 else
                   one_item_number = one_item_number*10 + parseInt(this.value);
           }
-          $("#amount_of_item").text(one_item_number);
-          $("#check_out_amount_result").text(one_item_number);
-          $("#check_out_change_price").val(one_item_number-$("#check_out_price").val());
+          if (send_order_flag == false)
+            $("#amount_of_item").text(one_item_number);
+          else {
+              $("#check_out_amount_result").text(one_item_number);
+              $("#check_out_change_price").val(one_item_number-$("#check_out_price").val());
+          }
         })
 
         //hidden menu expect first menu
@@ -95,6 +117,7 @@ function resetAll() {
     one_item_number = 1;
     $("#amount_of_item").text("1");
     $("#check_out_page").css({"display":"none"});
+    send_order_flag = false;
 }
 
 function openMenu(menuName) {
@@ -158,6 +181,7 @@ function getFree(){
     var price;
     var amount;
     var comment;
+    var m_id;
     var total_item_number = 0;
 
     $("#total_price").val(0);
@@ -177,7 +201,7 @@ function getFree(){
     $("#total_item_number").text("總共 "+ total_item_number  +" 杯 ");
     free_number = parseInt(total_item_number / 6);
 
-    if(free_flag == false)
+    if(free_flag == false || free_number == 0)
         return;
 
     var arr = [];
@@ -187,6 +211,7 @@ function getFree(){
         $('td', $(this)).each(function(index, item) {
             arrayItem[index] = $(item).html();
         });
+        
         for(i=0; i<arrayItem[1]; i++)
             arr.push(arrayItem);
     });
@@ -194,37 +219,35 @@ function getFree(){
     arr.sort(function(a,b){
         return parseInt($(b)[0][2]) - parseInt($(a)[0][2]);
     });
-    $("#order_list").find("tr").each(function(index, value){
+    /*$("#order_list").find("tr").each(function(index, value){
         $(this).removeClass('free');
-    });
+    });*/
 
     for (var i=0; i<free_number ; ++i){
         name = arr[arr.length-1-i][0];
         price = arr[arr.length-1-i][2];
         comment = arr[arr.length-1-i][3];
-        addRow(name, -1, -price, comment);
+        m_id = arr[arr.length-1-i][4];
+        addRow(name, -1, -price, comment, m_id);
         $("#total_price").val( parseInt($("#total_price").val()) - parseInt(price) );
     }
 }
 
-function addRow( name, amount, price){
-    addRow( name, amount, price, "");
-}
-
-function addRow( name, amount, price, custom_comment){
+function addRow( name, amount, price, custom_comment, m_id){
     var tr_temp = $('<tr>');
     if(amount < 0)
         tr_temp.addClass('free');
-
+    
     $('table tbody').append(
          tr_temp.append(
                 $('<td>').text(name),
                 $('<td>').text(amount),
                 $('<td>').text(price),
-                $('<td>').text(custom_comment)
+                $('<td>').text(custom_comment),
+                $('<td>').text(m_id).hide()
          )
     );
-
+    
     if(parseInt(price) > 0){
         tr_temp.click(function(event) {
             $(this).toggleClass('selected');
@@ -238,16 +261,16 @@ function addRow( name, amount, price, custom_comment){
             if(amount > 0 )
                 getFree();
         });
+        // Swipe Right
+        tr_temp.on("swiperight",function(){
+                $("#total_price").val( parseInt($("#total_price").val()) -$(this).find("td").eq(2).text());
+                $(this).find("td").eq(2).text("0");
+                $(this).addClass('free');
+                free_flag = false;
+                getFree();
+        });
     }
-    // Swipe Right
-    tr_temp.on("swiperight",function(){
-            $("#total_price").val( parseInt($("#total_price").val()) -$(this).find("td").eq(2).text());
-            $(this).find("td").eq(2).text("0");
-            $(this).addClass('free');
-            free_flag = false;
-            getFree();
-    });
-
+    
     if(amount > 0)
         getFree();
 }
@@ -271,6 +294,7 @@ function checkOut(){
         method: "POST",
         dataType:"text",
         data: {"order_info":order_info, "req":"confirm_sum"}
+        //console.log(order_info.text());
     } )
     .done(function(msg){
         //alertify.success("下單成功!");
@@ -286,8 +310,14 @@ function checkOut(){
         });
         $("#total_price").val(0);
         free_flag = true;
+        $("#total_item_number").text('總共 0 杯');
         $("#send_order_button").removeAttr('disabled');
         $("#check_out_button").removeAttr('disabled');
+        order_info["share_array"][0]["items_array"]=[];
+        resetAll;
+            /*$("#cart_list").css({"display":"none"});
+            $("button[id^='m']").removeAttr('disabled');
+            $("#send_order").removeAttr('disabled');*/
     });
 }
 

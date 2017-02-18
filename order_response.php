@@ -7,8 +7,6 @@
 ************************************************************/
 
 /*
-
-
 var test_order_info = {
 	table_num : 15,
 	people_num : 3,
@@ -22,7 +20,6 @@ var test_order_info = {
 	],
 };
 */
-echo "test";
 require_once ("includes/custom/php/general.php");
 
 $_PAGE_TITLE = '樂台茶POS系統';
@@ -43,36 +40,35 @@ $request = $_REQUEST['req'];
 	confirm_sum
 *********************/
 
-// people_num doesn't exist in BUSINESS mode
-if ($_AWMode == 'BUSINESS')
-    $order_info['people_num'] = 1;
+// people_num doesn't exist in this mode
+$_AWMode = 'BUSINESS';
+/*if ($_AWMode == 'BUSINESS')
+    $order_info['people_num'] = 1;*/
 
 if( $request == "confirm_sum" ){
-
-
 	if($_AWMode == "ACCOUNTING")
-		$sql = "INSERT INTO `orders` (`o_id`, `u_id` , `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`) VALUES (NULL, '".$_SESSION['u_id']."' ,  NOW(), NULL, '".$order_info['table_num']."', '".$order_info['people_num']."', '".$GLOBALS['STATUS'][sizeof($GLOBALS['STATUS'])-1]."', '".$_shopID."');";
+		$sql = "INSERT INTO `orders` (`o_id`, `u_id` , `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`) VALUES (NULL, '".$_SESSION['u_id']."' ,  NOW(), NULL, '".$order_info['table_num']."', '".$order_info['people_num']."', '".$GLOBALS['STATUS'][sizeof($GLOBALS['STATUS'])-1]."', '".$_SHOP_ID."');";
 	else if($_AWMode == "BUSINESS")
-		$sql = "INSERT INTO `orders` (`o_id`, `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`) VALUES (NULL, '".$_SESSION['u_id']."', NOW(), NULL, '".$order_info['table_num']."', '".$order_info['people_num']."', '".$GLOBALS['STATUS'][1]."', '".$_shopID."');";
+		$sql = "INSERT INTO `orders` (`o_id`, `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`) VALUES (NULL, '".$_SESSION['u_id']."', NOW(), NULL, '".$order_info['table_num']."', '".$order_info['people_num']."', '".$GLOBALS['STATUS'][1]."', '".$_SHOP_ID."');";
 
 	$db->query($sql);
 	$o_id = $db->insert_id();
-console(LEVEL_DBG, $sql, __FUNCTION__, __LINE__);
-	echo $sql . "123". '\n';
-print("123");
+    
+    echo $sql;
+    print_r( $order_info);
 	foreach($order_info['share_array'] as $share){
 		print_r($share);
 
 		$sql = "INSERT INTO `share` (`sh_id`, `o_id`, `total`) VALUES (NULL, '".$o_id."', '0')";
 		$db->query($sql);
 		$sh_id = $db->insert_id();
-		//echo $sql . '\n';
+		echo $sql . '\n';
 
 		foreach($share['items_array'] as $item){
 			$sql = "INSERT INTO `share_item` (`sh-i_id`, `sh_id`, `m_id`, `quantity`, `comment`) VALUES (NULL, '".$sh_id."', '".$item['m_id']."', '".$item['quantity']."', '".mysqli_real_escape_string($db->mysqli,$item['comment'])."');";
 			$db->query($sql);
 			$sh_i_id = $db->insert_id();
-			//echo $sql . '\n';
+			echo $sql . '\n';
 
 			if( isset($item['AI_array'])){
 				foreach($item['AI_array'] as $ai){
