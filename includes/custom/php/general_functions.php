@@ -24,6 +24,26 @@ function console($level, $msg, $function, $line){
     }
 }
 
+function alert($level, $msg, $function, $line){
+    global $DBG_MSG;
+    if(strlen($function) == 0){
+        $function = "root"; // root means not in function
+    }
+
+    if($level == LEVEL_ERR){
+         $DBG_MSG .= "<script>alert(\"ERR: $msg on function $function() line $line\")</script>\n";
+    }
+    else if($level == LEVEL_DBG){
+         $DBG_MSG .= "<script>alert(\"DBG: $msg on function $function() line $line\")</script>\n";
+    }
+    else if($level == LEVEL_INFO){
+         $DBG_MSG .= "<script>alert(\"INFO: $msg on function $function() line $line\")</script>\n";
+    }
+    else if($level == LEVEL_TODO){
+         $DBG_MSG .= "<script>alert(\"TODO: $msg on function $function() line $line\")</script>\n";
+    }
+}
+
 // Print all global variables name, $global_key = array_keys(get_defined_vars())
 function printGlobalVariables($global_key){
     $golbal_key_num = count($global_key);
