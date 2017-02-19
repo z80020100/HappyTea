@@ -10,7 +10,8 @@ $panel_request = $_REQUEST["dash_request"];
 
 $res_array = array();
 
-$sql = "SELECT COUNT(shop_id) FROM `shop`" ;
+
+$sql = "SELECT COUNT(shop_id) FROM `user` WHERE `is_remove` = 0 AND `u_type` = 3 AND shop_id <> -1" ;
 $num_store = $db->query_select_one($sql);
 
 
