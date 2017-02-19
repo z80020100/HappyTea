@@ -1,0 +1,43 @@
+//  不須權限頁面
+denied.php
+logout.php
+staff_login.php
+
+/*
+    受權限管理頁面
+    checkPermission(basename(__FILE__));
+*/
+/**********/
+0: account_edit.php
+1: edit_account_request.php // request
+/**********/
+2: account_management.php
+/**********/
+3: call_stuff.php
+4: call_stuff_process.php //request
+/**********/
+5: called_stuff.php
+6: called_stuff_process.php // request
+/**********/
+7: dashboard.php
+8: dashboard_request.php // request
+/**********/
+9: edit_menu.php
+/**********/
+index.php
+order_response.php // request
+/**********/
+manage_stuff.php
+manage_stuff_process.php // request
+/**********/
+permission_mange.php
+/**********/
+report.php
+report_process.php // request
+/**********/
+single_report.php
+/**********/
+sms_promote.php
+/**********/
+total_report.php
+/**********/
