@@ -2,7 +2,7 @@
 
 $staff_login = true;
 require_once ("includes/custom/php/general.php");
-checkPermission(basename(__FILE__));
+//checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '員工登入 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;
 //$nav_type = NAV_TYPE_NONE;

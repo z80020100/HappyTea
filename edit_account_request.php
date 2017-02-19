@@ -1,7 +1,7 @@
 <?php
 
 require_once('includes/custom/php/general.php');
-
+checkPermission(basename(__FILE__));
 $change_account = $_POST['req'];
 $target_id = $change_account['u_id'];
 $sql = "SELECT * FROM `user` WHERE `u_id` = '" . $target_id . "' ";
