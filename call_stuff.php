@@ -1,7 +1,7 @@
 <?php
 
 require_once('includes/custom/php/general.php');
-
+checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '上游叫料 - 樂台茶餐飲管理系統';
 $header_type = HEADER_TYPE_SBADMIN2;
 $nav_type = NAV_TYPE_SBADMIN2;

@@ -1,7 +1,7 @@
 <?php
 
 require_once('includes/custom/php/general.php');
-
+checkPermission(basename(__FILE__));
 global $db;
 
 // receive a json array
