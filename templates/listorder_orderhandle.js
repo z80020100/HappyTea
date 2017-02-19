@@ -168,7 +168,7 @@ $('#order_list').on("click", ".button_addtime", function(e){
 // ------- END order adding time ---------------------------------------------------------
 
 
-function orderSummary_block( items_array ){
+function orderSummary_block( items_array ,which_one){
 
 	var orderSum_start = '\n\
 					<table>                                                                                                                                                                                                             \n\
@@ -199,15 +199,39 @@ function orderSummary_block( items_array ){
 		}
 		itemcost = Number(item.main_price) + Number(allROcost) + Number(allAIcost);
 
-		if(item.comment != ''){
+		/*if(item.comment != ''){
 			item.comment = '['+item.comment+']';
 
-		}
-
-		Items_html =  Items_html +
-			' 					<tr>                                                                                                                                                                                                       \n\
-									<td>'+ item.name +''+ RO_html + AI_html+item.comment+' x'+item.quantity+'</td>                                  \n\
-								</tr>';
+		} 	*/
+        if(item.comment == '') {
+            item.comment = "&nbsp"
+        }
+        switch (which_one){
+        case 0:
+        Items_html =  Items_html + '<tr>                                                                                                                \n\
+                                <td>'+ item.name  +'</td>                                  \n\
+                            </tr>';
+        break;
+        case 1:
+        Items_html =  Items_html + '<tr>                                                                                                                \n\
+                                <td>'+ item.quantity  +'</td>                                  \n\
+                            </tr>';
+        break;
+        case 2:
+        Items_html =  Items_html + '<tr>                                                                                                                \n\
+                                <td>'+ item.comment  +'</td>                                  \n\
+                            </tr>';
+        break;
+        }
+		// Items_html =  Items_html +
+		// 	' 					<tr>                                                                                                                \n\
+		// 							<td>'+ item.name  +'</td>                                  \n\
+		// 							<td>'+ item.quantity +'</td>                                  \n\
+        //             			    <td>'+ item.comment +'</td>                                   \n\
+        //             			</tr>';
+			// ' 					<tr>                                                                                                                \n\
+			// 						<td>'+ item.name +''+ RO_html + AI_html+item.comment+' x'+item.quantity+'</td>                                  \n\
+			// 					</tr>   
 	}
 
 
@@ -316,12 +340,15 @@ function order_block( order_info ){
 			<tr class="order_title" id="order_detail_'+order_info.o_id+'">                                 			\n\
 				<th>#'+order_info.o_id+'</th>        \n\
 				<th class="order_status"></th>                                                                      \n\
-				<th>'+orderSummary_block(order_info.summary_array)+'</th>                                           \n\
+				<th>'+orderSummary_block(order_info.summary_array,0)+'</th>                                           \n\
+                <th>' +orderSummary_block(order_info.summary_array,1)+'</th>  \n\
+                <th>' +orderSummary_block(order_info.summary_array,2)+'</th>  \n\
 				<th>$'+order_info.total+'</th>                                                                      \n\
 			</tr>                                                                                                   \n\
 																													\n\
 			<tr  class="order_detail" >                                                                        		\n\
 	';
+    console.log(order_info.summary_array);
     /*var orderblock_start = '<tbody class="order_view" order_id="'+order_info.o_id+'">                               \n\
 			<tr class="order_title" id="order_detail_'+order_info.o_id+'">                                 			\n\
 				<th class="order_status"></th>                                                                      \n\
