@@ -127,7 +127,7 @@ function handleLog(log) {
 
 function getData(request) {
     $.ajax({
-        url: "total_report_request.php",
+        url: "single_report_request.php",
         method: "POST",
         dataType: "json",
         data: {request: request}
