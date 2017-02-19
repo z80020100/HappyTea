@@ -1,7 +1,7 @@
 <?php
 
 require_once ("includes/custom/php/general.php");
-
+checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '帳號新增 - 樂台茶餐飲管理系統'; // 請輸入頁面抬頭
 $header_type = HEADER_TYPE_SBADMIN2; // 請參考includes/custom/php/general_define.php
 $nav_type = NAV_TYPE_SBADMIN2;       // 請參考includes/custom/php/general_define.php
