@@ -11,7 +11,8 @@ $(document).ready(function() {
     var start = curr_year+'-'+(curr_month+1)+'-'+curr_date+' '+'00:00:00';
     var end = curr_year+'-'+(curr_month+1)+'-'+(curr_date+1)+' '+'23:59:59';
 
-    var req = queryLog(start, end);
+    //var req = queryLog(start, end);
+    var req;
     // console.log(JSON.stringify(req));
 
 
@@ -23,10 +24,56 @@ $(document).ready(function() {
 //    });
 
 
+    $("#search_report").click(function(){
+
+        var start = $("#from_date").val();
+        var end = $("#to_date").val();
+        var shop = -1;
+        var req = {
+            op: "query",
+            start: start,
+            end: end,
+            shop: shop
+        }
 
 
 
 
+        $.ajax({
+            url: "total_report_request.php",
+            method: "POST",
+            dataType: "json",
+            data: {request: req}
+        })
+        .done(function(msg) {
+            console.log('query log success!11');
+            //console.log(JSON.stringify(msg));
+            console.log(msg);
+            
+            var pie_chart_data3 = getPieChartData(msg, 0);
+            var pie_chart_data4 = getPieChartData(msg, 1);
+            drawPieChart(pie_chart_data3, 2);
+            drawPieChart(pie_chart_data4, 3);
+
+            var bar_chart_data3 = getBarChartData(msg, 0);
+            var bar_chart_data4 = getBarChartData(msg, 1);
+            drawBarChart(bar_chart_data3, 2);
+            drawBarChart(bar_chart_data4, 3);
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // need to change ajax return type into 'text' to see error msg
+            console.log(textStatus, errorThrown);
+            alert('cannot query report!!!');
+        })
+        .always(function() {
+
+        });
+
+
+
+
+    });
 
 
 
@@ -104,6 +151,12 @@ function drawPieChart(data, index) {
     }else if(index == 1){
         var plotObj = $.plot($("#flot-pie-chart2"), data, options);
 
+    }else if(index == 2){
+        var plotObj = $.plot($("#flot-pie-chart3"), data, options);
+
+    }else if(index == 3){
+        var plotObj = $.plot($("#flot-pie-chart4"), data, options);
+
     }
 }
 
@@ -135,7 +188,7 @@ function getData(request) {
     .done(function(msg) {
         console.log('query log success!11');
         //console.log(JSON.stringify(msg));
-        //console.log(msg[0]);
+        console.log(msg);
         handleLog(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -150,7 +203,7 @@ function getData(request) {
 
 
 function getPieChartData(log, mode) {
-
+// mode = 0 is price , mode = 1 is quantity
     data = [];
     if(mode == 0){
         for (var i = 0; i < log.length; i++) {
@@ -263,6 +316,7 @@ function drawBarChart(data, index) {
             axisLabelFontSizePixels: 18,
             axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
             axisLabelPadding: 12,
+            min:0,
 
         },
         tooltip: true,
@@ -291,6 +345,14 @@ function drawBarChart(data, index) {
     }
     else if(index==1){
         $.plot($("#flot-bar-chart2"), [barData], barOptions);
+
+    }
+    else if(index==2){
+        $.plot($("#flot-bar-chart3"), [barData], barOptions);
+
+    }
+    else if(index==3){
+        $.plot($("#flot-bar-chart4"), [barData], barOptions);
 
     }
 }

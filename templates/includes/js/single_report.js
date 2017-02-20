@@ -263,6 +263,7 @@ function drawBarChart(data, index) {
             axisLabelFontSizePixels: 18,
             axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
             axisLabelPadding: 12,
+            min:0,
 
         },
         tooltip: true,
