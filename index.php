@@ -1,7 +1,7 @@
 <?php
 
 require_once ("includes/custom/php/general.php");
-
+checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '樂台茶POS系統';
 $header_type = HEADER_TYPE_NONE;
 $nav_type = NAV_TYPE_NONE;

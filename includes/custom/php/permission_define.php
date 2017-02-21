@@ -2,6 +2,7 @@
 
 define("ALL_PEOPLE", AUADMIN|AUSTAFF|AUCUSTOMER|AUGUEST);
 define("ALL_STAFF",  AUADMIN|AUSTAFF);
+define("NOBODY",  0);
 
 $PERMISSION_TABLE = array();
 /*******************************************************************************/
@@ -80,4 +81,20 @@ $PERMISSION_TABLE['edit_menu.php'] = array(
     'link' => '', // if this page is for request, enter the related php which has the same permission
     'permission' => AUADMIN // if "links" is not null string, this value will be ignored
 );
+/*******************************************************************************/
+$PERMISSION_TABLE['index.php'] = array(
+    'bits' => count($PERMISSION_TABLE),
+    'file_name' => '', // it will be set on while loop in permission_function.php
+    'desc' => 'POS System',
+    'link' => '', // if this page is for request, enter the related php which has the same permission
+    'permission' => NOBODY // if "links" is not null string, this value will be ignored
+);
+$PERMISSION_TABLE['order_response.php'] = array(
+    'bits' => count($PERMISSION_TABLE),
+    'file_name' => '', // it will be set on while loop in permission_function.php
+    'desc' => 'Request page for POS System',
+    'link' => 'index.php', // if this page is for request, enter the related php which has the same permission
+    'permission' => '' // if "links" is not null string, this value will be ignored
+);
+/*******************************************************************************/
 ?>
