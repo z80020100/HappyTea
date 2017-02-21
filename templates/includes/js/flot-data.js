@@ -1,9 +1,6 @@
 $(document).ready(function() {
 
 
-//    var start = '2016-01-01 00:00:00';
-//    var end = '2018-01-01 23:59:59';
-    //var shop = 1;
     var d = new Date();
     var curr_date = d.getDate();
     var curr_month = d.getMonth();
@@ -13,15 +10,9 @@ $(document).ready(function() {
 
     //var req = queryLog(start, end);
     var req;
-    // console.log(JSON.stringify(req));
-
 
     getData(req);
 
-//    $('#dataTable').DataTable({
-//        responsive: true,
-//        bInfo: false,
-//    });
 
 
     $("#search_report").click(function(){
@@ -38,7 +29,6 @@ $(document).ready(function() {
 
 
 
-
         $.ajax({
             url: "total_report_request.php",
             method: "POST",
@@ -46,9 +36,13 @@ $(document).ready(function() {
             data: {request: req}
         })
         .done(function(msg) {
-            console.log('query log success!11');
+            console.log('query log success!');
             //console.log(JSON.stringify(msg));
-            console.log(msg);
+            //console.log(msg);
+            if(msg.length == 0){
+                alert('查無資料');
+                return;
+            }
             
             var pie_chart_data3 = getPieChartData(msg, 0);
             var pie_chart_data4 = getPieChartData(msg, 1);
@@ -59,6 +53,25 @@ $(document).ready(function() {
             var bar_chart_data4 = getBarChartData(msg, 1);
             drawBarChart(bar_chart_data3, 2);
             drawBarChart(bar_chart_data4, 3);
+
+
+            $('#dataTables-example2').DataTable().clear();
+
+            for(var i =0; i< msg.length; ++i){
+                $('#dataTables-example2').DataTable().row.add([
+                msg[i]['time']
+                ,msg[i]['s_text']
+                ,msg[i]['m_text']
+                ,msg[i]['quantity']
+                ,msg[i]['price']
+                    
+                ]).draw(false);
+            }
+            $("#range_report").show();
+
+
+
+            
 
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
@@ -186,9 +199,9 @@ function getData(request) {
         data: {request: request}
     })
     .done(function(msg) {
-        console.log('query log success!11');
+        console.log('query log success!');
         //console.log(JSON.stringify(msg));
-        console.log(msg);
+        //console.log(msg);
         handleLog(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
