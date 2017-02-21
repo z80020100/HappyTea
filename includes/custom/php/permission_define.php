@@ -97,4 +97,19 @@ $PERMISSION_TABLE['order_response.php'] = array(
     'permission' => '' // if "links" is not null string, this value will be ignored
 );
 /*******************************************************************************/
+$PERMISSION_TABLE['manage_stuff.php'] = array(
+    'bits' => count($PERMISSION_TABLE),
+    'file_name' => '', // it will be set on while loop in permission_function.php
+    'desc' => '編輯補料',
+    'link' => '', // if this page is for request, enter the related php which has the same permission
+    'permission' => AUADMIN // if "links" is not null string, this value will be ignored
+);
+$PERMISSION_TABLE['manage_stuff_process.php'] = array(
+    'bits' => count($PERMISSION_TABLE),
+    'file_name' => '', // it will be set on while loop in permission_function.php
+    'desc' => 'Request page for 編輯補料',
+    'link' => 'manage_stuff.php', // if this page is for request, enter the related php which has the same permission
+    'permission' => '' // if "links" is not null string, this value will be ignored
+);
+/*******************************************************************************/
 ?>

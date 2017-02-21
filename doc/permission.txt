@@ -25,10 +25,10 @@ staff_login.php
  9: edit_menu.php
 /**********/
 10: index.php
-11: order_response.php // request
+11: order_response.php // request, TODO: modify dataType to json
 /**********/
-manage_stuff.php
-manage_stuff_process.php // request
+12: manage_stuff.php
+13: manage_stuff_process.php // request, TODO: modify dataType to json
 /**********/
 permission_mange.php
 /**********/
