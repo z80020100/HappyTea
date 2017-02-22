@@ -1,6 +1,7 @@
 <?php
 
 require_once ("includes/custom/php/general.php");
+checkPermission(basename(__FILE__));
 //  SELECT * FROM `orders` WHERE `o_time` >= FROM_UNIXTIME(0) AND `status` != 'PAID'
 
 

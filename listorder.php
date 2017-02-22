@@ -1,7 +1,7 @@
 <?php
 
 require_once ("includes/custom/php/general.php");
-
+checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '即時訂單';
 $header_type = HEADER_TYPE_NONE;
 $nav_type = NAV_TYPE_NONE;

@@ -112,4 +112,19 @@ $PERMISSION_TABLE['manage_stuff_process.php'] = array(
     'permission' => '' // if "links" is not null string, this value will be ignored
 );
 /*******************************************************************************/
+$PERMISSION_TABLE['listorder.php'] = array(
+    'bits' => count($PERMISSION_TABLE),
+    'file_name' => '', // it will be set on while loop in permission_function.php
+    'desc' => '即時訂單',
+    'link' => '', // if this page is for request, enter the related php which has the same permission
+    'permission' => NOBODY // if "links" is not null string, this value will be ignored
+);
+$PERMISSION_TABLE['listorder_process.php'] = array(
+    'bits' => count($PERMISSION_TABLE),
+    'file_name' => '', // it will be set on while loop in permission_function.php
+    'desc' => 'Request page for 即時訂單',
+    'link' => 'listorder.php', // if this page is for request, enter the related php which has the same permission
+    'permission' => '' // if "links" is not null string, this value will be ignored
+);
+/*******************************************************************************/
 ?>

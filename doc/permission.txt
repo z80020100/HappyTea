@@ -30,6 +30,9 @@ staff_login.php
 12: manage_stuff.php
 13: manage_stuff_process.php // request, TODO: modify dataType to json
 /**********/
+14: listorder.php
+15: listorder_process.php
+/**********/
 permission_mange.php
 /**********/
 report.php
