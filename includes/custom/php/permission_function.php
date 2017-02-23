@@ -61,6 +61,7 @@ function checkPermission($file_name){
             console(LEVEL_DBG, "禁止存取", __FUNCTION__, __LINE__);
             //echo '禁止存取';
             header("refresh:0;url=denied.php");
+            exit;
         }
         else{
             console(LEVEL_DBG, "禁止存取request page", __FUNCTION__, __LINE__);

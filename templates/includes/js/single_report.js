@@ -1,36 +1,45 @@
 $(document).ready(function() {
 
 
+//    var start = '2016-01-01 00:00:00';
+//    var end = '2018-01-01 23:59:59';
+    //var shop = 1;
     var d = new Date();
     var curr_date = d.getDate();
     var curr_month = d.getMonth();
     var curr_year = d.getFullYear();
     var start = curr_year+'-'+(curr_month+1)+'-'+curr_date+' '+'00:00:00';
     var end = curr_year+'-'+(curr_month+1)+'-'+(curr_date+1)+' '+'23:59:59';
+    var select_value = $( "#select_shop option:selected" ).text();
+    var req = queryLog(start, end, select_value);
 
-    //var req = queryLog(start, end);
-    var req;
 
-    getData(req);
+    $('#dataTables-example1').DataTable({
+        responsive: true
+    });
+    $('#dataTables-example2').DataTable({
+        responsive: true
+    });
+
 
 
 
     $("#search_report").click(function(){
 
+        select_value = $( "#select_shop option:selected" ).text();
         var start = $("#from_date").val();
         var end = $("#to_date").val();
-        var shop = -1;
+        var shop = select_value;
         var req = {
             op: "query",
             start: start,
             end: end,
-            shop: shop
+            shop: select_value,
+            is_search:"1"
         }
 
-
-
         $.ajax({
-            url: "total_report_request.php",
+            url: "single_report_request.php",
             method: "POST",
             dataType: "json",
             data: {request: req}
@@ -43,7 +52,7 @@ $(document).ready(function() {
                 alert('查無資料');
                 return;
             }
-            
+
             var pie_chart_data3 = getPieChartData(msg, 0);
             var pie_chart_data4 = getPieChartData(msg, 1);
             drawPieChart(pie_chart_data3, 2);
@@ -64,14 +73,11 @@ $(document).ready(function() {
                 ,msg[i]['m_text']
                 ,msg[i]['quantity']
                 ,msg[i]['price']
-                    
+
                 ]).draw(false);
             }
             $("#range_report").show();
 
-
-
-            
 
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
@@ -86,7 +92,32 @@ $(document).ready(function() {
 
 
 
+
+
+
+
     });
+
+
+    $("#select_shop").on('change', function() {
+        select_value = $( "#select_shop option:selected" ).text();
+
+        if($("#home-pills").hasClass("active")){
+            req = queryLog(start, end, select_value);
+            getData(req);
+        }
+    });
+
+
+
+    getData(req);
+
+
+
+
+
+
+
 
 
 
@@ -99,12 +130,12 @@ var threshold = 0.05    // for drawing pie chart hovering threshold
 /* ===      End        === */
 
 // Get all the Log data for a shop query
-function queryLog(start, end) {
+function queryLog(start, end, shop) {
     var req = {
         op: "query",
         start: start,
         end: end,
-      //  shop: shop
+        shop: shop
     }
     return req;
 }
@@ -193,16 +224,17 @@ function handleLog(log) {
 
 function getData(request) {
     $.ajax({
-        url: "total_report_request.php",
+        url: "single_report_request.php",
         method: "POST",
         dataType: "json",
         data: {request: request}
     })
     .done(function(msg) {
-        console.log('query log success!');
+        console.log('query log success!11');
         //console.log(JSON.stringify(msg));
         //console.log(msg);
         handleLog(msg);
+        showList(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         // need to change ajax return type into 'text' to see error msg
@@ -216,7 +248,7 @@ function getData(request) {
 
 
 function getPieChartData(log, mode) {
-// mode = 0 is price , mode = 1 is quantity
+
     data = [];
     if(mode == 0){
         for (var i = 0; i < log.length; i++) {
@@ -359,14 +391,29 @@ function drawBarChart(data, index) {
     else if(index==1){
         $.plot($("#flot-bar-chart2"), [barData], barOptions);
 
-    }
-    else if(index==2){
+    }else if(index==2){
         $.plot($("#flot-bar-chart3"), [barData], barOptions);
 
-    }
-    else if(index==3){
+    }else if(index==3){
         $.plot($("#flot-bar-chart4"), [barData], barOptions);
 
     }
 }
 
+function showList(msg){
+
+    $('#dataTables-example1').DataTable().clear();
+
+    for(var i =0; i< msg.length; ++i){
+        $('#dataTables-example1').DataTable().row.add([
+        msg[i]['time']
+        ,msg[i]['s_text']
+        ,msg[i]['m_text']
+        ,msg[i]['quantity']
+        ,msg[i]['price']
+
+        ]).draw(false);
+    }
+
+    return;
+}

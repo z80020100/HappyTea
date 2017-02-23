@@ -1,7 +1,7 @@
 <?php
 
 require_once('includes/custom/php/general.php');
-
+checkPermission(basename(__FILE__));
 $_PAGE_TITLE = '編輯補料 - 樂台茶餐飲管理系統';
 // remember check $uniform_theme in includes/custom/php/general.php
 $header_type = HEADER_TYPE_SBADMIN2;
