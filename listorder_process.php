@@ -96,6 +96,7 @@ switch($reqType){
 		{
 			unlog_order($_REQUEST['request']['oid']);
 		}
+        //echo $_REQUEST['request']['current_status'];
 		echo  json_encode($nextStatus, JSON_UNESCAPED_UNICODE);
 	break;
 
@@ -729,8 +730,9 @@ function log_order($o_id){
 
 			// Writing into log without merging with makeSummary
 
-			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES (".$order['u_id'].", ".$o_id.", '".$order['o_time']."', '".$outItem['s_text']."', '".$outItem['m_text']."', ".$outItem['quantity'].", ".$outItem['item_price'].", ".$_SESSION['GET_shop_id'].");";
+			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES (".$order['u_id'].", ".$o_id.", '".$order['o_time']."', '".$outItem['s_text']."', '".$outItem['m_text']."', ".$outItem['quantity'].", ".$outItem['item_price'].", 1);";
 			$db->query($sql);
+            //echo $sql;
 			//array_push($item_info, $outItem);
 		}
 		//$outShare = array();

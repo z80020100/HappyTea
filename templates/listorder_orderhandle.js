@@ -36,7 +36,7 @@ function order_status_change(oid, direction){
 	req["swipe"] = direction;
 	req["current_status"] = $('#order_detail_'+oid).data("status");
 	req["oid"] = oid;
-
+    
 	$.ajax( {
 		url:"listorder_process.php",
 		method: "POST",
@@ -48,7 +48,8 @@ function order_status_change(oid, direction){
 		refresh_orderstatus(oid);
 	})
 	.fail(function(jqXHR, textStatus, errorThrown){
-		console.log(textStatus, errorThrown);
+		console.error(textStatus, errorThrown);
+        console.log(jqXHR);
 	})
 	.always(function(msg){
         console.log(msg);
