@@ -12,6 +12,7 @@ require_once('includes/custom/php/navigation.php');
 $shop_info_array = array();
 $sql = $sql = "SELECT * FROM `shop` WHERE `shop_id` <> -1";
 
+
 // shold add if it is remove
 foreach ($db->query($sql) as $row) {
 

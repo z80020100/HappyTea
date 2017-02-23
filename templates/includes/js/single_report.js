@@ -10,17 +10,35 @@ $(document).ready(function() {
     var curr_year = d.getFullYear();
     var start = curr_year+'-'+(curr_month+1)+'-'+curr_date+' '+'00:00:00';
     var end = curr_year+'-'+(curr_month+1)+'-'+(curr_date+1)+' '+'23:59:59';
+    var select_value = $( "#select_shop option:selected" ).text();
+    var req = queryLog(start, end, select_value);
 
-    var req = queryLog(start, end);
+
+    $('#dataTables-example1').DataTable({
+        responsive: true
+    });
+    $('#dataTables-example2').DataTable({
+        responsive: true
+    });
+
+
+
+
+
+
     // console.log(JSON.stringify(req));
+
+    $("#select_shop").on('change', function() {
+        select_value = $( "#select_shop option:selected" ).text();
+        req = queryLog(start, end, select_value);
+        //alert(select_value);
+        getData(req);
+    });
+
 
 
     getData(req);
 
-//    $('#dataTable').DataTable({
-//        responsive: true,
-//        bInfo: false,
-//    });
 
 
 
@@ -39,12 +57,12 @@ var threshold = 0.05    // for drawing pie chart hovering threshold
 /* ===      End        === */
 
 // Get all the Log data for a shop query
-function queryLog(start, end) {
+function queryLog(start, end, shop) {
     var req = {
         op: "query",
         start: start,
         end: end,
-      //  shop: shop
+        shop: shop
     }
     return req;
 }
@@ -135,8 +153,9 @@ function getData(request) {
     .done(function(msg) {
         console.log('query log success!11');
         //console.log(JSON.stringify(msg));
-        //console.log(msg[0]);
+        //console.log(msg);
         handleLog(msg);
+        showList(msg);
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         // need to change ajax return type into 'text' to see error msg
@@ -296,3 +315,20 @@ function drawBarChart(data, index) {
     }
 }
 
+function showList(msg){
+
+    $('#dataTables-example1').DataTable().clear();
+
+    for(var i =0; i< msg.length; ++i){
+        $('#dataTables-example1').DataTable().row.add([
+        msg[i]['time']
+        ,msg[i]['s_text']
+        ,msg[i]['m_text']
+        ,msg[i]['quantity']
+        ,msg[i]['price']
+
+        ]).draw(false);
+    }
+
+    return;
+}
