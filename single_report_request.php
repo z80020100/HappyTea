@@ -10,10 +10,21 @@ $report_tomorrow = date("Y-m-d", strtotime('tomorrow'));
 
 if($_SHOP_ID == -1){
 
-    $sql = "SELECT * FROM shop WHERE shop_name = '".$req['shop']."'";
-    $select_shop_id = $db->query_select_one($sql);
+    if(isset($req['is_search'])){
 
-    $sql = "SELECT * FROM log where `time` >= '".$report_today."' AND `time` < '".$report_tomorrow."' AND `shop_id` = '".$select_shop_id['shop_id']."'";
+        $sql = "SELECT * FROM shop WHERE shop_name = '".$req['shop']."'";
+        $select_shop_id = $db->query_select_one($sql);
+        $sql = "SELECT * FROM log where `time` >= '".$req['start']."' AND `time` < '".$req['end']."' AND `shop_id` = '".$select_shop_id['shop_id']."'";
+        
+    }else{
+
+        $sql = "SELECT * FROM shop WHERE shop_name = '".$req['shop']."'";
+        $select_shop_id = $db->query_select_one($sql);
+        $sql = "SELECT * FROM log where `time` >= '".$report_today."' AND `time` < '".$report_tomorrow."' AND `shop_id` = '".$select_shop_id['shop_id']."'";
+
+    }
+
+
 }else{
 
 

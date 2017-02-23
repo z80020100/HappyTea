@@ -24,15 +24,88 @@ $(document).ready(function() {
 
 
 
+    $("#search_report").click(function(){
+
+        select_value = $( "#select_shop option:selected" ).text();
+        var start = $("#from_date").val();
+        var end = $("#to_date").val();
+        var shop = select_value;
+        var req = {
+            op: "query",
+            start: start,
+            end: end,
+            shop: select_value,
+            is_search:"1"
+        }
+
+        $.ajax({
+            url: "single_report_request.php",
+            method: "POST",
+            dataType: "json",
+            data: {request: req}
+        })
+        .done(function(msg) {
+            console.log('query log success!');
+            //console.log(JSON.stringify(msg));
+            //console.log(msg);
+            if(msg.length == 0){
+                alert('查無資料');
+                return;
+            }
+
+            var pie_chart_data3 = getPieChartData(msg, 0);
+            var pie_chart_data4 = getPieChartData(msg, 1);
+            drawPieChart(pie_chart_data3, 2);
+            drawPieChart(pie_chart_data4, 3);
+
+            var bar_chart_data3 = getBarChartData(msg, 0);
+            var bar_chart_data4 = getBarChartData(msg, 1);
+            drawBarChart(bar_chart_data3, 2);
+            drawBarChart(bar_chart_data4, 3);
 
 
-    // console.log(JSON.stringify(req));
+            $('#dataTables-example2').DataTable().clear();
+
+            for(var i =0; i< msg.length; ++i){
+                $('#dataTables-example2').DataTable().row.add([
+                msg[i]['time']
+                ,msg[i]['s_text']
+                ,msg[i]['m_text']
+                ,msg[i]['quantity']
+                ,msg[i]['price']
+
+                ]).draw(false);
+            }
+            $("#range_report").show();
+
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // need to change ajax return type into 'text' to see error msg
+            console.log(textStatus, errorThrown);
+            alert('cannot query report!!!');
+        })
+        .always(function() {
+
+        });
+
+
+
+
+
+
+
+
+    });
+
 
     $("#select_shop").on('change', function() {
         select_value = $( "#select_shop option:selected" ).text();
-        req = queryLog(start, end, select_value);
-        //alert(select_value);
-        getData(req);
+
+        if($("#home-pills").hasClass("active")){
+            req = queryLog(start, end, select_value);
+            getData(req);
+        }
     });
 
 
@@ -121,6 +194,12 @@ function drawPieChart(data, index) {
         var plotObj = $.plot($("#flot-pie-chart"), data, options);
     }else if(index == 1){
         var plotObj = $.plot($("#flot-pie-chart2"), data, options);
+
+    }else if(index == 2){
+        var plotObj = $.plot($("#flot-pie-chart3"), data, options);
+
+    }else if(index == 3){
+        var plotObj = $.plot($("#flot-pie-chart4"), data, options);
 
     }
 }
@@ -311,6 +390,12 @@ function drawBarChart(data, index) {
     }
     else if(index==1){
         $.plot($("#flot-bar-chart2"), [barData], barOptions);
+
+    }else if(index==2){
+        $.plot($("#flot-bar-chart3"), [barData], barOptions);
+
+    }else if(index==3){
+        $.plot($("#flot-bar-chart4"), [barData], barOptions);
 
     }
 }
