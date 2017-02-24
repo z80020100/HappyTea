@@ -32,10 +32,11 @@ $(document).ready(function(){
             var name = $(this)[0].innerHTML;
             var price = parseInt($(this)[0].value);
             var m_id = ($(this)[0].id).slice(1); // slice : m64 ->64
+            var comment = ($(this).attr("series_s_id")).substr(-2,1);
 
             one_item_number = parseInt($(amount_of_item).text());
             if(one_item_number != 0)
-                addRow(name,one_item_number, price, "", m_id);
+                addRow(name,one_item_number, price, comment, m_id);
             hideCalculator();
         });
 
@@ -48,14 +49,14 @@ $(document).ready(function(){
                     if (index>=1)  {
                         var item_array= new Object();
                         amount = $(this).find("td").eq(1).text();
-                        
+
                         item_array["quantity"] = $(this).find("td").eq(1).text();
                         item_array["price"] = $(this).find("td").eq(2).text();
                         item_array["comment"] = $(this).find("td").eq(3).text();
                         item_array["m_id"] = $(this).find("td").eq(4).text();
                         item_array["RO_array"] = [];
                         item_array["AI_array"] = [];
-                        
+
                         order_info["share_array"][0]["items_array"].push(item_array);
                     }
                     console.log($(this));
@@ -211,7 +212,7 @@ function getFree(){
         $('td', $(this)).each(function(index, item) {
             arrayItem[index] = $(item).html();
         });
-        
+
         for(i=0; i<arrayItem[1]; i++)
             arr.push(arrayItem);
     });
@@ -237,7 +238,7 @@ function addRow( name, amount, price, custom_comment, m_id){
     var tr_temp = $('<tr>');
     if(amount < 0)
         tr_temp.addClass('free');
-    
+
     $('table tbody').append(
          tr_temp.append(
                 $('<td>').text(name),
@@ -247,7 +248,7 @@ function addRow( name, amount, price, custom_comment, m_id){
                 $('<td>').text(m_id).hide()
          )
     );
-    
+
     if(parseInt(price) > 0){
         tr_temp.click(function(event) {
             $(this).toggleClass('selected');
@@ -270,7 +271,7 @@ function addRow( name, amount, price, custom_comment, m_id){
                 getFree();
         });
     }
-    
+
     if(amount > 0)
         getFree();
 }

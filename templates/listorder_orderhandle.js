@@ -36,7 +36,7 @@ function order_status_change(oid, direction){
 	req["swipe"] = direction;
 	req["current_status"] = $('#order_detail_'+oid).data("status");
 	req["oid"] = oid;
-    
+
 	$.ajax( {
 		url:"listorder_process.php",
 		method: "POST",
@@ -112,7 +112,7 @@ $("#debug_get_table").on("click", function(e){
 // ------- START order adding time -------------------------------------------------------
 
 $('#order_list').on("click", ".button_addtime", function(e){
-	
+
 	// getting target id
 	oid = $(this).attr('order_id');
 	order_detail = "#order_detail_" + oid;
@@ -210,7 +210,7 @@ function orderSummary_block( items_array ,which_one){
         switch (which_one){
         case 0:
         Items_html =  Items_html + '<tr>                                                                                                                \n\
-                                <td>'+ item.name  +'</td>                                  \n\
+                                <td>'+ item.name +'</td>                                  \n\
                             </tr>';
         break;
         case 1:
@@ -232,7 +232,7 @@ function orderSummary_block( items_array ,which_one){
         //             			</tr>';
 			// ' 					<tr>                                                                                                                \n\
 			// 						<td>'+ item.name +''+ RO_html + AI_html+item.comment+' x'+item.quantity+'</td>                                  \n\
-			// 					</tr>   
+			// 					</tr>
 	}
 
 
@@ -362,7 +362,7 @@ function order_block( order_info ){
     var colindex = $(this).parent().children().index($(this));
     console.log(colindex);
     $('td:nth-child('+(colindex+1)+')').hide();
-$('td:nth-child(0)').hide(); 
+$('td:nth-child(0)').hide();
 	console.log('WTF:'+order_info.o_estimate_time);
 	if( order_info.o_estimate_time == 'NULL' ){
 		var order_est_disptime = '---';

@@ -29,7 +29,7 @@ switch($reqType){
 	//1900-01-01 00:00:00
 	//
 	//echo $sql . "\nyoooo\n";
-	
+
 	if($_REQUEST['request']['fresh'] == 'true'){
 		$sql = "SELECT * FROM `orders` WHERE `o_utime` > '".$refresh_time."' AND `status` != '".$GLOBALS['STATUS'][0]."' AND `status` != '".$GLOBALS['STATUS'][(sizeof($GLOBALS['STATUS'])-1)]."' AND `shop_id` = '".$_SHOP_ID."'";
 	}
@@ -51,15 +51,15 @@ switch($reqType){
 		}
 
 		$outOrder_temp = order_detail($order['o_id']);
-		
-		
+
+
 		$sql = "SELECT * FROM `user` LEFT JOIN (`user_info`) ON `user_info`.`u_id` = `user`.`u_id` WHERE `user`.`u_id` = '".$order['u_id']."'";
 		$uresult = $db->query($sql);
 		$order_user = $db->fetch_array($uresult);
-		
+
 		$order['user'] = $order_user;
-		
-		
+
+
 		$outOrder = array_merge($order, $outOrder_temp);
 		array_push( $order_info, $outOrder );
 	}
@@ -78,7 +78,7 @@ switch($reqType){
 		}
 		$sql = "UPDATE `orders` SET `status` = '".$nextStatus."' WHERE `orders`.`o_id` = ".$_REQUEST['request']['oid'].";";
 		$update_result = $db->query($sql);
-		
+
 		// Log
 		if($_REQUEST['request']['current_status'] != 'ARCHIVE' && $nextStatus == 'ARCHIVE')
 		{
@@ -86,9 +86,9 @@ switch($reqType){
 			/*
 			INSERT INTO `log` (`log_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`) VALUES (NULL, '1', '2016-07-14 10:00:00', 'dd', 'aa', '1', '2');
 			*/
-			
+
 			//$sql = "INSERT INTO `log` (`log_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`) VALUES (NULL, '".$_REQUEST['request']['oid']."', '2016-07-14 10:00:00', 'dd', 'aa', '1', '2');";
-			
+
 			//$sql = "SELECT * FROM `orders` WHERE `o_id` = '".$_REQUEST['request']['oid']."' ";
 			//$result = $db->query($sql);
 			//$order = $db->fetch_array($result)
@@ -619,14 +619,14 @@ function order_detail($o_id){
 					$item_total += $ai['price'];
 					array_push($ai_info, $outAi);
 				}
-				$item_total += $main['price'];
+				$item_total += $item['price'];//$main['price'];
 				$item_total = $item_total * $item['quantity'];
 
 				$counting_total += $item_total;
 
 				$outItem = array();
 				$outItem['name'] 		= 	$main['name'];
-				$outItem['main_price'] 	= 	$main['price'];
+				$outItem['main_price'] 	= 	$item['price'];//$main['price'];
 				$outItem['m_id'] 		= 	$main['m_id'];
 				$outItem['s_id'] 		= 	$main['s_id'];
 				$outItem['quantity'] 		= 	$item['quantity'];
@@ -651,6 +651,7 @@ function order_detail($o_id){
 
 function log_order($o_id){
     global $db;
+	global $_SHOP_ID;
 	$sql = "SELECT * from `orders` WHERE `o_id` = ".$o_id;
 	if(! $o_result = $db->query($sql))
 		die('order sql failure');
@@ -671,7 +672,7 @@ function log_order($o_id){
 			$sql = "SELECT * FROM `main` WHERE `m_id` = ".$item['m_id'];
 			$m_result = $db->query($sql);
 			$main = $db->fetch_array($m_result);
-			$item_price = $main['price'];
+			$item_price = $item['price'];//$main['price'];
 
 			$sql = "SELECT * FROM `series` WHERE `s_id` = ".$main['s_id'];
 			$se_result = $db->query($sql);
@@ -731,7 +732,7 @@ function log_order($o_id){
 
 			// Writing into log without merging with makeSummary
 
-			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES (".$order['u_id'].", ".$o_id.", '".$order['o_time']."', '".$outItem['s_text']."', '".$outItem['m_text']."', ".$outItem['quantity'].", ".$outItem['item_price'].", 1);";
+			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES (".$order['u_id'].", ".$o_id.", '".$order['o_time']."', '".$outItem['s_text']."', '".$outItem['m_text']."', ".$outItem['quantity'].", ".$outItem['item_price'].", '".$_SHOP_ID."')";
 			$db->query($sql);
             //echo $sql;
 			//array_push($item_info, $outItem);

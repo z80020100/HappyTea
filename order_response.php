@@ -53,7 +53,7 @@ if( $request == "confirm_sum" ){
 
 	$db->query($sql);
 	$o_id = $db->insert_id();
-    
+
     echo $sql;
     print_r( $order_info);
 	foreach($order_info['share_array'] as $share){
@@ -65,7 +65,7 @@ if( $request == "confirm_sum" ){
 		echo $sql . '\n';
 
 		foreach($share['items_array'] as $item){
-			$sql = "INSERT INTO `share_item` (`sh-i_id`, `sh_id`, `m_id`, `quantity`, `comment`) VALUES (NULL, '".$sh_id."', '".$item['m_id']."', '".$item['quantity']."', '".mysqli_real_escape_string($db->mysqli,$item['comment'])."');";
+			$sql = "INSERT INTO `share_item` (`sh-i_id`, `sh_id`, `m_id`, `quantity`, `comment`, `price` ) VALUES (NULL, '".$sh_id."', '".$item['m_id']."', '".$item['quantity']."', '".mysqli_real_escape_string($db->mysqli,$item['comment'])."','".$item['price']."');";
 			$db->query($sql);
 			$sh_i_id = $db->insert_id();
 			echo $sql . '\n';
