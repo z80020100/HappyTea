@@ -620,7 +620,10 @@ function order_detail($o_id){
 					array_push($ai_info, $outAi);
 				}
 				$item_total += $item['price'];//$main['price'];
-				$item_total = $item_total * $item['quantity'];
+				if($item['quantity'] < 0)
+					$item_total = $item_total * (-$item['quantity']);
+				else
+					$item_total = $item_total * $item['quantity'];
 
 				$counting_total += $item_total;
 
