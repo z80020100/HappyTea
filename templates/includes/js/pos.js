@@ -472,7 +472,20 @@ function passList(name,price){
             var comment = $(this).find("td").eq(3);
             var new_price = $(this).find("td").eq(2);
 
-            comment.text( comment.text() + ' ' + name);
+            //comment.text( comment.text() + ' ' + name);
+
+            add_btn = $('<button>');
+            add_btn.addClass("w3-btn w3-orange");
+            add_btn.text(name); 
+            comment.append(add_btn);
+
+
+            add_btn.click(function(){
+                $(this).remove();
+            });
+
+
+            
             if($(this).hasClass("free"))
                 new_price.text("0");
             else
