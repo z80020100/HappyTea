@@ -210,7 +210,7 @@ function orderSummary_block( items_array ,which_one){
         switch (which_one){
         case 0:
         Items_html =  Items_html + '<tr>                                                                                                                \n\
-                                <td>'+ item.name +'</td>                                  \n\
+                                <td>'+ item.name + itemcost +'</td>                                  \n\
                             </tr>';
         break;
         case 1:

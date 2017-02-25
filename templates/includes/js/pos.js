@@ -51,7 +51,11 @@ $(document).ready(function(){
                         amount = $(this).find("td").eq(1).text();
 
                         item_array["quantity"] = $(this).find("td").eq(1).text();
-                        item_array["price"] = $(this).find("td").eq(2).text();
+                        if ($(this).find("td").eq(2).text() < 0 )
+                            item_array["price"] = "0";
+                        else {
+                            item_array["price"] = $(this).find("td").eq(2).text();
+                        }
                         item_array["comment"] = $(this).find("td").eq(3).text();
                         item_array["m_id"] = $(this).find("td").eq(4).text();
                         item_array["RO_array"] = [];
@@ -152,9 +156,6 @@ function addOneItemAmount(add){
         if(index > 0 ){
             if( $(this).hasClass("selected") )
                 haveSelected = true;
-            var the_price = $(this).find("td").eq(2).text();
-            if(parseInt(the_price) < 0)
-                $(this).remove();
         }
     });
 
@@ -190,13 +191,19 @@ function getFree(){
         if(index > 0){
             amount = $(this).find("td").eq(1).text();
             price = $(this).find("td").eq(2).text();
+            if(price > 0)
+                $("#total_price").val( parseInt($("#total_price").val()) + parseInt(price) * amount );
+            else
+                $("#total_price").val( parseInt($("#total_price").val()) - parseInt(price) * amount );
+
             if(amount > 0)
                 total_item_number += parseInt(amount);
             if(parseInt(price) < 0){
-                $(this).remove();
-            }else {
-                $("#total_price").val( parseInt($("#total_price").val()) + parseInt(price) * amount );
+                $(this).find("td").eq(2).text(-price);
+                console.log($(this).find("td").eq(0).text() + $(this).find("td").eq(2).text());
             }
+            if(parseInt(price) < 0)
+                $(this).removeClass("free");
         }
     });
     $("#total_item_number").text("總共 "+ total_item_number  +" 杯 ");
@@ -229,14 +236,43 @@ function getFree(){
         price = arr[arr.length-1-i][2];
         comment = arr[arr.length-1-i][3];
         m_id = arr[arr.length-1-i][4];
-        addRow(name, -1, -price, comment, m_id);
+        var one_free = true;
+
+       $('#order_list tr').has('td').each(function() {
+           var arrayItem = {};
+           var i=0;
+           $('td', $(this)).each(function(index, item) {
+               arrayItem[index] = $(item).html();
+           });
+
+           if (name == arrayItem[0] &&
+               price == arrayItem[2] &&
+               comment == arrayItem[3] &&
+               m_id == arrayItem[4] &&
+               one_free == true){
+                   var amount = parseInt($(this).find("td").eq(1).text());
+                   one_free = false;
+
+                   if(amount == 1){
+                       $(this).find("td").eq(2).text( -price );
+                       $(this).remove();
+                       //getFree();
+                       console.log(free_number);
+                   } else {
+                       $(this).find("td").eq(1).text( amount -1);
+                   }
+                   addRow(name, 1, -price, comment, m_id);
+
+           }
+       });
+
         $("#total_price").val( parseInt($("#total_price").val()) - parseInt(price) );
     }
 }
 
 function addRow( name, amount, price, custom_comment, m_id){
     var tr_temp = $('<tr>');
-    if(amount < 0)
+    if(price <= 0)
         tr_temp.addClass('free');
 
     $('table tbody').append(
@@ -249,7 +285,7 @@ function addRow( name, amount, price, custom_comment, m_id){
          )
     );
 
-    if(parseInt(price) > 0){
+    // if(parseInt(price) > 0){
         tr_temp.click(function(event) {
             $(this).toggleClass('selected');
         });
@@ -270,9 +306,9 @@ function addRow( name, amount, price, custom_comment, m_id){
                 free_flag = false;
                 getFree();
         });
-    }
+    // }
 
-    if(amount > 0)
+    if(price > 0)
         getFree();
 }
 
