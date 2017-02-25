@@ -10,9 +10,8 @@ h1,h3{
     width: 800px;
 }
 button[id^='m']{
-    background-color:#ffc952;
-    color:#ff7473;
-    height:50px;
+    background-color:#66CD00;
+    height:80px;
     width:125px;
     margin-top:5px;
     margin-bottom:5px;
@@ -29,16 +28,23 @@ button[id^='m']{
     text-decoration: none;
     outline: none;
     color: #555;
-    background-color: #ffc952;
+    background-color: #9CBA7F;
     border: none;
-    border-radius: 15px;
     margin: 1px 1px 1px 1px;
 }
-.addition_button:hover {background-color: #3e8e41}
 
 .addition_button:active {
   background-color: #3e8e41;
   transform: translateY(4px);
+}
+
+.menu{
+    height: 55vh;
+
+}
+.material_position{
+    height: 10vh;
+
 }
 
 #table_cart{
@@ -63,12 +69,11 @@ button[id^='m']{
     position: relative;
     padding-top: 5px;
 }
-
-#material{
-    position: absolute;
-    bottom:0vh;
+#right_panel{
+    position: relative;
     padding-top: 5px;
 }
+
 
 #nav_right{
   padding-top: 5px;

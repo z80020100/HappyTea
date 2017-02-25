@@ -10,7 +10,7 @@
     <div id="add_success" class="w3-center"> 成功加入購物車  </div>
 
     <!-- 菜單畫面 -->
-    <div class="w3-twothird w3-container" id="all_menu">
+    <div class="w3-twothird w3-cell w3-container" id="all_menu">
         <ul class="w3-navbar w3-lime ">
               {% for series in all_series %}
               <li><a href="javascript:void(0)" onclick="openMenu('s{{series.s_id}}')"> {{series.name}} </a></li>
@@ -34,34 +34,31 @@
         {% endfor %}
 
 
+        <div class="w3-card-4 w3-padding" id="material" class="material_position">
+              {% for a_item in all_material %}
+              <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}{{a_item.price}}</button>
+              {% endfor %}
+              <hr>
+        </div>
     </div>
 
-    <div class="w3-twothird  w3-row w3-container" id="material">
-          {% for a_item in all_material %}
-          <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}{{a_item.price}}</button>
-          {% endfor %}
-          <hr>
-    </div>
+    <!-- add -->
 
-    <!-- 即時訂單, 計算機, 登出 -->
-    <div  id="nav_right">
+    <div class="w3-third w3-cell" id="right_panel">
         <ul class="w3-navbar w3-lime">
             <li><a href="listorder.php" rel="external" class="w3-center">即時訂單</a></li>
             <li><a href="javascript:void(0)" onclick="showCalculator()">數字鍵盤</a></li>
             <li class="w3-right"><a href="logout.php" rel="external" class="w3-center">登出&nbsp;</a></li>
         </ul>
-    </div>
-    <p></p>
-    <div>
-        <ul class="w3-navbar w3-lime">
-            <li><a  class="w3-center">數量</a></li>
-            <li><a  class="w3-center" id="amount_of_item">1</a></li>
-            <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(-1)">&emsp;&emsp;&minus;&emsp;&emsp;</a></li>
-            <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(1)">&emsp;&emsp;&plus;&emsp;&emsp;</a></li>
-        </ul>
-    </div>
-
-        <div id="cart_list" class="w3-table w3-third" >
+        <div>
+            <ul class="w3-navbar w3-lime">
+                <li><a  class="w3-center">數量</a></li>
+                <li><a  class="w3-center" id="amount_of_item">1</a></li>
+                <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(-1)">&emsp;&emsp;&minus;&emsp;&emsp;</a></li>
+                <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(1)">&emsp;&emsp;&plus;&emsp;&emsp;</a></li>
+            </ul>
+        </div>
+        <div id="cart_list" class="w3-table" >
             <div class="w3-row calculator" >
                 <div class="w3-col" id='calculator' >
                     <button class="cal_button" value="1">1 </button
@@ -80,7 +77,6 @@
                 </div>
             </div>
 
-            <!-- 購物清單 -->
             <ul class="w3-navbar w3-lime" id="nav_discount">
                   <li><a href="javascript:void(0)" onclick="cacheList(0)">上一筆</a></li>
                   <li><a id="now_list">0</a></li>
@@ -126,7 +122,9 @@
             </footer>
         </div>
 
-    <div style="clear:both;"></div> <!-- clear not into footer -->
+    </div>
+    <!-- add -->
+
 
     <!-- 結帳畫面 -->
     <div id="check_out_page" class="w3-modal w3-large"> <!-- check_out_page -->
