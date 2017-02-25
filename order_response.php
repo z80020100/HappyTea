@@ -62,13 +62,25 @@ if( $request == "confirm_sum" ){
 		$sql = "INSERT INTO `share` (`sh_id`, `o_id`, `total`) VALUES (NULL, '".$o_id."', '0')";
 		$db->query($sql);
 		$sh_id = $db->insert_id();
-		echo $sql . '\n';
+		//echo $sql . '\n';
 
 		foreach($share['items_array'] as $item){
 			$sql = "INSERT INTO `share_item` (`sh-i_id`, `sh_id`, `m_id`, `quantity`, `comment`, `price` ) VALUES (NULL, '".$sh_id."', '".$item['m_id']."', '".$item['quantity']."', '".mysqli_real_escape_string($db->mysqli,$item['comment'])."','".$item['price']."');";
 			$db->query($sql);
 			$sh_i_id = $db->insert_id();
-			echo $sql . '\n';
+			//echo $sql . '\n';
+
+			$sql = "SELECT * FROM `main` WHERE `m_id` = ".$item['m_id'];
+			$m_result = $db->query($sql);
+			$main = $db->fetch_array($m_result);
+
+			$sql = "SELECT * FROM `series` WHERE `s_id` = ".$main['s_id'];
+			$se_result = $db->query($sql);
+			$series = $db->fetch_array($se_result);
+
+			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES ('".$_SESSION['u_id']."', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."')";
+			$db->query($sql);
+			//echo $sql . $db->insert_id();
 
 			if( isset($item['AI_array'])){
 				foreach($item['AI_array'] as $ai){
@@ -99,6 +111,28 @@ elseif( $request == "return_sum")
 {
 
 
+}
+elseif ( $request == "log_direct" ){
+	$sql = "INSERT INTO `orders` (`o_id`, `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`) VALUES (NULL, '".$_SESSION['u_id']."', NOW(), NULL, '".$order_info['table_num']."', '".$order_info['people_num']."', '".$GLOBALS['STATUS'][1]."', '".$_SHOP_ID."');";
+	$db->query($sql);
+	$o_id = $db->insert_id();
+
+	foreach($order_info['share_array'] as $share){
+		foreach($share['items_array'] as $item){
+			$sql = "SELECT * FROM `main` WHERE `m_id` = ".$item['m_id'];
+			$m_result = $db->query($sql);
+			$main = $db->fetch_array($m_result);
+
+			$sql = "SELECT * FROM `series` WHERE `s_id` = ".$main['s_id'];
+			$se_result = $db->query($sql);
+			$series = $db->fetch_array($se_result);
+
+			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES ('".$_SESSION['u_id']."', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."')";
+			$db->query($sql);
+			echo $sql . $db->insert_id();
+		}
+
+	}
 }
 
 
