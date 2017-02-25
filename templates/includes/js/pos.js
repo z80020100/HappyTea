@@ -22,6 +22,7 @@ var send_order_flag = false;
 
 $(document).ready(function(){
         free_flag = true;
+        resetAll();
         $("#now_list").text(cache_index);
 
         $(".calculator").hide();
@@ -72,6 +73,7 @@ $(document).ready(function(){
             $("#check_out_amount_result").val(0); // type price
             $("#check_out_change_price").val(0);
             $("#check_out_page").css({"display":"block"});
+            $("#check_out_total_amount").val( $("#check_out_price").val() - $("#discount_amount").val());
         });
 
         $("#check_out_button").click(function(){
@@ -84,11 +86,31 @@ $(document).ready(function(){
             resetAll();
         });
 
+        $("#discount_amount").click(function(){
+            if( $("#discount_amount").hasClass("discount_on") == false){
+                $("#discount_amount").addClass("discount_on");
+                $("#check_out_amount_result").removeClass("check_out_on");
+            }
+        });
+
+        $("#check_out_amount_result").click(function(){
+            if( $("#check_out_amount_result").hasClass("check_out_on") == false ){
+                $("#check_out_amount_result").addClass("check_out_on");
+                $("#discount_amount").removeClass("discount_on");
+            }
+        });
+
         $('.cal_button').click(function(){
-          if(first_cal_button){
-            first_cal_button = false;
-            one_item_number = 0;
+          if (send_order_flag == false)
+            one_item_number = parseInt($("#amount_of_item").text());
+          else {
+            if( $("#discount_amount").hasClass("discount_on") )
+                one_item_number = $("#discount_amount").val();
+            else if ( $("#check_out_amount_result").hasClass("check_out_on") ){
+                one_item_number = $("#check_out_amount_result").val();
+            }
           }
+
           switch(this.value){
             case "C":
                 one_item_number = 0;
@@ -97,7 +119,7 @@ $(document).ready(function(){
                 one_item_number = parseInt(one_item_number/10,10);
                 break;
             default:
-                if(one_item_number == 0)
+                if(one_item_number == 0 || (one_item_number == 1 && send_order_flag == false))
                   one_item_number = parseInt(this.value);
                 else
                   one_item_number = one_item_number*10 + parseInt(this.value);
@@ -105,8 +127,13 @@ $(document).ready(function(){
           if (send_order_flag == false)
             $("#amount_of_item").text(one_item_number);
           else {
-              $("#check_out_amount_result").val(one_item_number);
-              $("#check_out_change_price").val(one_item_number-$("#check_out_price").val());
+              if( $("#discount_amount").hasClass("discount_on") )
+                  $("#discount_amount").val(one_item_number);
+              else if ( $("#check_out_amount_result").hasClass("check_out_on") )
+                  $("#check_out_amount_result").val(one_item_number);
+
+              $("#check_out_total_amount").val( $("#check_out_price").val() - $("#discount_amount").val());
+              $("#check_out_change_price").val( $("#check_out_amount_result").val()- $("#check_out_total_amount").val());
           }
         })
 
@@ -123,6 +150,10 @@ function resetAll() {
     $("#amount_of_item").text("1");
     $("#check_out_page").css({"display":"none"});
     send_order_flag = false;
+    $("#check_out_amount_result").addClass("check_out_on");
+    $("#discount_amount").removeClass("discount_on");
+    $("#discount_amount").val(0);
+    $("#check_out_total_amount").val(0);
 }
 
 function openMenu(menuName) {
@@ -351,7 +382,7 @@ function checkOut(){
         $("#send_order_button").removeAttr('disabled');
         $("#check_out_button").removeAttr('disabled');
         order_info["share_array"][0]["items_array"]=[];
-        resetAll;
+        resetAll();
             /*$("#cart_list").css({"display":"none"});
             $("button[id^='m']").removeAttr('disabled');
             $("#send_order").removeAttr('disabled');*/
@@ -478,8 +509,8 @@ function removeOrder(){
     })
     .always(function(){
     });
-    
-    return;    
+
+    return;
 }
 
 
@@ -500,4 +531,3 @@ function addRemoveRow( order_number, item, quantity, order_price, comment){
 
 
 }
-

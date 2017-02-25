@@ -50,6 +50,7 @@
               <button class="addition_button">八折</button>
               <button class="addition_button">九折</button>
               <button class="addition_button">自備杯</button>
+
         </div>
     </div>
 
@@ -155,15 +156,27 @@
                   </h3>
                   <h3>
                       <span>折價</span>
-                      <input id="discount_amount" type="text" value="0" style="border: none;text-align:center;">
+                      <input id="discount_amount" type="text" value="0"  style="border: none;text-align:center;">
                       <span>元</span>
                   </h3>
                   <h3>
-                      <span>付款</span>
-                      <input id="check_out_amount_result" type="text" value="0" readonly style="border: none;text-align:center;">
+                      <span>總計</span>
+                      <input id="check_out_total_amount" type="text" value="0" style="border: none;text-align:center;">
                       <span>元</span>
                   </h3>
-                  <p></p>
+                  <br>
+                  <h3>
+                      <span>付款</span>
+                      <input id="check_out_amount_result" type="text" value="0" style="border: none;text-align:center;">
+                      <span>元</span>
+                  </h3>
+                  <h3>
+                      <span>找零</span>
+                      <input id="check_out_change_price" type="text" value="0" readonly style="border: none;text-align:center;">
+                      <span>元</span>
+                  </h3>
+
+				  <p></p>
                   <p></p>
                   <h3>
                     <div class="w3-half">
@@ -174,6 +187,9 @@
                         <input class="w3-radio" type="radio" name="inorout" value="drink_out">
                         <label class="w3-validate">外送</label>
                     </div>
+
+
+
 
                   </h3>
               </div>
@@ -195,12 +211,8 @@
           </div>
 
           <footer class="w3-container w3-lime">
-              <div class="w3-container w3-col s3 w3-padding-16"> 找零</div>
-              <div class="w3-container w3-col s3 w3-padding">
-                  <input id="check_out_change_price" class="w3-input w3-sand" type="text" value="0" readonly>
-              </div>
+
               <div class="w3-container w3-col s4 w3-padding-24">
-                元
                 <button id="check_out_button" class="w3-btn w3-right w3-round">結帳</button>
               </div>
           </footer>
@@ -211,7 +223,7 @@
     <div id="remove_modal" class="w3-modal">
       <div class="w3-modal-content">
           <div class="w3-container">
-                <span onclick="document.getElementById('remove_modal').style.display='none'" 
+                <span onclick="document.getElementById('remove_modal').style.display='none'"
                       class="w3-closebtn">&times;</span>
                 <table id="remove_table" class="w3-table w3-striped w3-border">
                     <tr>
