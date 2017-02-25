@@ -19,6 +19,7 @@ var one_item_number = 1;
 var first_cal_button = true;
 var free_flag = true;
 var send_order_flag = false;
+var click_bitton_flag = false;
 
 $(document).ready(function(){
         free_flag = true;
@@ -39,6 +40,16 @@ $(document).ready(function(){
             if(one_item_number != 0)
                 addRow(name,one_item_number, price, comment, m_id);
             hideCalculator();
+        });
+
+        $("input:radio[name='discount']").change(function() {
+            console.log($("input[name='discount']:checked").val());
+            var price = $("#total_price").val();
+            var dis = $("input[name='discount']:checked").val();
+            price = parseInt(price * dis);
+            $("#check_out_price").val(price);
+            $("#check_out_total_amount").val( $("#check_out_price").val() - $("#discount_amount").val());
+            $("#check_out_change_price").val( $("#check_out_amount_result").val()- $("#check_out_total_amount").val());
         });
 
         $("#send_order_button").click(function(){
@@ -154,6 +165,8 @@ function resetAll() {
     $("#discount_amount").removeClass("discount_on");
     $("#discount_amount").val(0);
     $("#check_out_total_amount").val(0);
+    $("input:radio[name='discount']").filter('[value="1"]').prop('checked', true);
+    click_bitton_flag = false;
 }
 
 function openMenu(menuName) {
@@ -233,8 +246,7 @@ function getFree(){
                 $(this).find("td").eq(2).text(-price);
                 console.log($(this).find("td").eq(0).text() + $(this).find("td").eq(2).text());
             }
-            if(parseInt(price) < 0)
-                $(this).removeClass("free");
+            $(this).removeClass("free");
         }
     });
     $("#total_item_number").text("總共 "+ total_item_number  +" 杯 ");
@@ -303,22 +315,42 @@ function getFree(){
 
 function addRow( name, amount, price, custom_comment, m_id){
     var tr_temp = $('<tr>');
-    if(price <= 0)
+    if(price <= 0){
         tr_temp.addClass('free');
-
+        console.log(name + amount + price);
+}
     $('#order_list').append(
          tr_temp.append(
                 $('<td>').text(name),
                 $('<td>').text(amount),
                 $('<td>').text(price),
-                $('<td>').text(custom_comment),
+                $('<td>').html(custom_comment),
                 $('<td>').text(m_id).hide()
          )
     );
 
     // if(parseInt(price) > 0){
+        var the_button = tr_temp.find("td").eq(3).find("button");
+        console.log(the_button);
+        the_button.click(function(){
+            var the_price = $(this).closest("tr").find("td").eq(2);
+            var btn_price = $(this).val();
+            console.log(the_price.text());
+            console.log(btn_price);
+            if(parseInt(the_price.text()) >= 0)
+                the_price.text( parseInt(the_price.text()) - btn_price );
+            else
+                the_price.text( parseInt(the_price.text()) + parseInt(btn_price) );
+            click_bitton_flag = true;
+            $(this).remove();
+            getFree();
+        });
+
         tr_temp.click(function(event) {
-            $(this).toggleClass('selected');
+            if(click_bitton_flag == false){
+                $(this).toggleClass('selected');
+            }
+            click_bitton_flag = false;
         });
         // Swipe Left
         tr_temp.on("swipeleft",function(){
@@ -357,6 +389,31 @@ function load_ajax(at_id_array){
 }
 
 function checkOut(){
+    if ($("#discount_amount").val() != 0){
+        var item_array= new Object();
+        item_array["quantity"] = "1";
+        item_array["price"] = -$("#discount_amount").val();
+        item_array["comment"] = "";
+        item_array["m_id"] = "174"; // 折價
+        item_array["RO_array"] = [];
+        item_array["AI_array"] = [];
+
+        order_info["share_array"][0]["items_array"].push(item_array);
+    }
+
+    var dis = $("input:radio[name='discount']:checked").val();
+    if(dis != 1){
+        var item_array= new Object();
+        item_array["quantity"] = "1";
+        item_array["price"] = - ($("#total_price").val() - parseInt($("#total_price").val() * dis) );
+        item_array["comment"] = "";
+        item_array["m_id"] = "173"; // 打折
+        item_array["RO_array"] = [];
+        item_array["AI_array"] = [];
+
+        order_info["share_array"][0]["items_array"].push(item_array);
+    }
+
     $.ajax( {
         url:"order_response.php",
         method: "POST",
@@ -453,17 +510,20 @@ function passList(name,price){
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0 && $(this).hasClass("selected")){
             haveSelected = true;
+            // var the_price = parseInt($(this).find("td").eq(2).text());
+            // if(parseInt(the_price) < 0)
+            //     $(this).find("td").eq(2).text( -parseInt(the_price) );
         }
     });
 
     if(haveSelected == false){
-        $("#order_list").find("tr").each(function(index, value){
-            if(index > 0){
-                var the_price = $(this).find("td").eq(2).text();
-                if(parseInt(the_price) < 0)
-                    $(this).remove();
-            }
-        });
+        // $("#order_list").find("tr").each(function(index, value){
+        //     if(index > 0){
+        //         var the_price = $(this).find("td").eq(2).text();
+        //         if(parseInt(the_price) < 0)
+        //             $(this).remove();
+        //     }
+        // });
         $('#order_list tbody tr:last').addClass("selected");
     }
 
@@ -476,18 +536,21 @@ function passList(name,price){
 
             add_btn = $('<button>');
             add_btn.addClass("w3-btn w3-orange");
-            add_btn.text(name); 
+            add_btn.text(name);
+            add_btn.val(price);
             comment.append(add_btn);
 
-
             add_btn.click(function(){
+                var the_price = $(this).closest("tr").find("td").eq(2);
+                var btn_price = $(this).val();
+                the_price.text( parseInt(the_price.text()) - btn_price );
+                click_bitton_flag = true;
                 $(this).remove();
+                getFree();
             });
 
-
-            
             if($(this).hasClass("free"))
-                new_price.text("0");
+                new_price.text( -parseInt(new_price.text()) + parseInt(price));
             else
                 new_price.text( parseInt(new_price.text()) + parseInt(price));
             $(this).removeClass('selected');

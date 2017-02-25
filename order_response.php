@@ -80,7 +80,7 @@ if( $request == "confirm_sum" ){
 
 			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES ('".$_SESSION['u_id']."', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."')";
 			$db->query($sql);
-			//echo $sql . $db->insert_id();
+			echo $sql . $db->insert_id();
 
 			if( isset($item['AI_array'])){
 				foreach($item['AI_array'] as $ai){
