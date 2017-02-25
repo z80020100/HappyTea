@@ -69,7 +69,7 @@ $(document).ready(function(){
             });
             send_order_flag = true;
             $("#check_out_price").val($("#total_price").val());
-            $("#check_out_amount_result").text("0"); // type price
+            $("#check_out_amount_result").val(0); // type price
             $("#check_out_change_price").val(0);
             $("#check_out_page").css({"display":"block"});
         });
@@ -105,7 +105,7 @@ $(document).ready(function(){
           if (send_order_flag == false)
             $("#amount_of_item").text(one_item_number);
           else {
-              $("#check_out_amount_result").text(one_item_number);
+              $("#check_out_amount_result").val(one_item_number);
               $("#check_out_change_price").val(one_item_number-$("#check_out_price").val());
           }
         })

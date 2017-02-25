@@ -135,20 +135,26 @@
               <h3>結帳</h3>
           </header>
 
-          <div class="w3-row w3-container">
-              <div class="w3-col s3 w3-padding-8">
-                  <h3>合計</h3>
-                  <input id="check_out_price" class="w3-input w3-sand" type="text" value="0" readonly style="border: none;text-align:center;">
-                  <h3>元</h3>
-              </div>
-              <div class="w3-col s4 w3-padding-16">
-                  <h3>付款金額</h3>
-                  <h3 id="check_out_amount_result">0</h3>
-                  <h3>元</h3>
+          <div class=" w3-row">
+              <div class="w3-col" style="width:60%">
+                  <h3>
+                      <span>合計</span>
+                      <input id="check_out_price" type="text" value="0" readonly style="border: none;text-align:center;">
+                      <span>元</span>
+                  </h3>
+                  <h3>
+                      <span>折價</span>
+                      <input id="discount_amount" type="text" value="0" style="border: none;text-align:center;">
+                      <span>元</span>
+                  </h3>
+                  <h3>
+                      <span>付款</span>
+                      <input id="check_out_amount_result" type="text" value="0" readonly style="border: none;text-align:center;">
+                      <span>元</span>
+                  </h3>
               </div>
 
-              <!-- 付款金額 計算機 -->
-              <div class=" w3-col s3 " id='checkout_calculator' >
+              <div class="w3-col" id='checkout_calculator' >
                   <button class="cal_button" value="1">1 </button
                   ><button class="cal_button" value="2">2</button
                   ><button class="cal_button" value="3">3</button
