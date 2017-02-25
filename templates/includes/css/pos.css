@@ -15,6 +15,8 @@ button[id^='m']{
     width:125px;
     margin-top:5px;
     margin-bottom:5px;
+    font-size: 20px;
+    white-space: normal;
 }
 
 .addition_button{
@@ -39,11 +41,11 @@ button[id^='m']{
 }
 
 .menu{
-    height: 55vh;
+    height: 50vh;
 
 }
 .material_position{
-    height: 10vh;
+    height: 30vh;
 
 }
 
