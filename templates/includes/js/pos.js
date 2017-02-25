@@ -275,7 +275,7 @@ function addRow( name, amount, price, custom_comment, m_id){
     if(price <= 0)
         tr_temp.addClass('free');
 
-    $('table tbody').append(
+    $('#order_list').append(
          tr_temp.append(
                 $('<td>').text(name),
                 $('<td>').text(amount),
@@ -452,3 +452,52 @@ function passList(name,price){
 
     getFree();
 }
+
+
+function removeOrder(){
+
+    $("#remove_modal").show();
+
+    $.ajax( {
+        url:"pos_remove_request.php",
+        method: "POST",
+        dataType:"text",
+        data: {"re_request":"1"}
+        //console.log(order_info.text());
+    } )
+    .done(function(msg){
+        //alertify.success("下單成功!");
+        //alert("下單成功!");
+        //alert(msg);
+        //for(var i=0; i<msg.length; ++i){
+        //    addRemoveRow('',msg[i].);
+        //}
+        console.log(msg);
+    })
+    .fail(function(){
+    })
+    .always(function(){
+    });
+    
+    return;    
+}
+
+
+
+function addRemoveRow( order_number, item, quantity, order_price, comment){
+    var tr_temp = $('<tr>');
+
+    $('#remove_table').append(
+         tr_temp.append(
+                $('<td>').text(order_number),
+                $('<td>').text(item),
+                $('<td>').text(quantity),
+                $('<td>').text(order_price),
+                $('<td>').text(comment),
+                $('<button').text("1234")
+         )
+    );
+
+
+}
+
