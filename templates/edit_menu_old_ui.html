@@ -1,0 +1,145 @@
+<!-- W3 CSS -->
+<link rel="stylesheet" href="templates/includes/css/w3.css">
+
+<!-- jQuery -->
+<script src="includes/vendor/jquery/jquery.min.js"></script>
+<script src="templates/includes/js/jquery-1.11.3.min.js"></script>
+
+<!-- Alertify -->
+<script src="templates/includes/alertify/alertify.js"></script>
+<link href="templates/includes/alertify/alertify.core.css" rel="stylesheet"/>
+<link href="templates/includes/alertify/alertify.default.css" rel="stylesheet"/>
+
+<!-- Sortable -->
+<script src="templates/includes/Sortable-1.4.0/Sortable.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="./includes/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="./includes/vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="./templates/includes/sb-admin-2/js/sb-admin-2.js"></script>
+
+<!-- Custom JS and CSS-->
+<script src="templates/includes/js/edit_menu.js"></script>
+<link href="templates/includes/css/edit_menu.css" rel="stylesheet">
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">菜單編輯</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+        <div class="row">
+        <div class="col-lg-12">
+            <font color="red">hint：輕觸後快速左右滑動即可開始排序</font></br>
+            <font color="red">hint：點擊系列名稱即可進行重新命名</font>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div id="button" style="text-align:center;">
+        <br>
+        <button id="add_series" class="w3-btn w3-round-xlarge" style="background: #66CD00;">新增系列</button>
+        <button id="edit_additional" class="w3-btn w3-round-xlarge" style="background: #66CD00;">編輯加點項目</button>
+        <button id="add_main" class="w3-btn w3-round-xlarge" style="background: #66CD00;">新增品項</button>
+        <select id="batch_main_series" style="background: #66CD00  0px 0px; color: #ffffff; font-size: 14px; border: #009688 1px solid; padding: 5px;">
+            <option value="s_0">預先選取新增系列</option>
+        </select>
+    </div>
+
+    <div id="series_table">
+        {% for series in all_series %}
+        <!--div id="s{{series.s_id}}" class="w3-group w3-row w3-padding-left"-->
+        <div id="s{{series.s_id}}" class="series_div w3-group w3-row w3-padding-left w3-card-4">
+
+                    <h3 style="text-align:center;">
+                        <input id="es_{{series.s_id}}" type="text" value="{{series.name}}"><br>
+                        <a class="icon" id="del_s_{{series.s_id}}" href="javascript:void(0)"><img src="icon/del_at_icon.png" alt="del_at_icon"></a>
+                    </h3>
+
+
+            {% for main in series.main %}
+                <div id="m{{main.m_id}}" class="w3-btn w3-margin-bottom w3-round" data-at_id={{main.at_id}} value="{{main.price}}"> {{main.name}} </div>
+                <script>
+                    
+                    $("#m{{main.m_id}}").data({ "ro_at_id" : [ 
+                       
+                    {% for ro in main.ro %}
+                       
+                       {{ro.at_id}}, 
+                    {% endfor %}
+                        -1] })
+                </script>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+
+    <div id="new_main_set" class="w3-modal w3-padding-top" style="z-index:1000">
+        <div class="w3-modal-content w3-card-4">
+            <header class="w3-container">
+                <span id="close_new_main_win" class="w3-closebtn w3-xlarge">&times;</span>
+                <h3 id="new_main_win_h3">新增品項</h3>
+            </header>
+            
+            <div id="detail_title" style= "padding:10px;">
+                <div style="height:10px;"></div>
+                <div>
+                    <span style="padding:5px">所屬系列：
+                        <select id="new_main_series" style="width: 100%;">
+                            <option value="s_0">請選擇所屬系列</option>
+                        </select>
+                    </span>
+                    <br>
+                    <span style="padding:5px">品項名稱：<input id="new_main_name" type="text" value="" placeholder="請輸入品項名稱" style="width: 100%;" /></span>
+                    <br>
+                    <span style="padding:5px">基底價格：<input id="new_main_price" type="number" value="0" min="0" style="width: 100%;" /></span>
+                    <br>
+                    <!--span style="padding:5px; text-align:center;">（總價=<span id="warning" style="font-weight: bold; color:red;">基底價格+細項價格</span>）</span-->
+                </div>
+                <div style="height:10px;"></div>
+            </div>
+            
+            <div>
+                <div style="width: 50%; width: 50%; padding:10px; float:left; word-break: break-all; border:0px solid #9bdf70;background:#f0fbeb">
+                    主餐細項
+                    <a href='javascript:void(0)' id="add_multi_choice"><img src="icon/add_at_icon.png" alt="add_at_icon"></a>
+                    <div class="multi_choice" id="multi_choice">
+                        <input type="checkbox" name="single" value="single_0" id="single_0">
+                        <label for="single_0">漢堡種類</label>
+                        
+                        <input type="checkbox" name="single" value="single_1" id="single_1">
+                        <label for="single_1">吐司種類</label>
+                    </div>				
+                </div>
+                <div style="width: 50%; padding:10px; float:right; word-break: break-all; border:0px solid #a9c9e2;background:#e8f5fe">
+                    加點細項
+                    <a href='javascript:void(0)' id="add_single_choice"><img src="icon/add_at_icon.png" alt="add_at_icon" ></a>
+                    <div class="single_choice" id="single_choice">
+                        <input type="radio" name="mul" value="mul_0" id="mul_0" checked>
+                        <label for="mul_0">
+                            <a href='javascript:void(0)' id="edit_at_icon_0" onclick="alert('編輯加點細項');"><img src="icon/edit_at_icon.png" alt="edit_at_icon"></a>
+                            無加點
+                            <a href='javascript:void(0)' id="del_at_icon_0" onclick="alert('刪除加點類別');"><img src="icon/del_at_icon.png" alt="del_at_icon"></a>
+                            </label>
+                    </div>
+                </div>
+                <div style="clear: both;"></div> <!--清除float效果-->
+                <div id="edit_add" style="padding:10px; word-break: break-all; border:0px solid #e3e197;background:#ffffdd">
+                    <span>細項編輯<a href="javascript:void(0)" id="add_additional_item"><img src="icon/add_at_icon.png" alt="add_at_icon"></a></span>
+                    <div id="edit_add_detail"></div>
+                </div>
+            </div>
+
+            <footer class="w3-container">
+                <div class="w3-container s2 w3-right w3-padding-top">
+                    <button id="add_item_finish" class="w3-btn w3-right w3-round" style="margin:5px">確定</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>

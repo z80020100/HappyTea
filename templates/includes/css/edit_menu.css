@@ -1,0 +1,93 @@
+input[id^='es']
+{
+	padding:5px 15px;
+	border:0px gray solid;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	text-align:center;
+}
+
+input[id^='ai']
+{
+	padding:0px 0px;
+	border:0px gray solid;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	//text-align:center;
+	text-decoration: underline;
+}
+
+
+.alertify-text
+{
+	background-color: #FFFFCC
+}
+
+/* 單選框 */
+.single_choice input[type="radio"] {
+	display: none;
+}
+.single_choice input[type="radio"] + label {
+	display: inline-block;
+	background-color: #ccc;
+	cursor: pointer;
+	padding: 5px 0px; // padding:上下 左右;
+	margin:3px 3px;
+}
+.single_choice input[type="radio"]:checked + label {
+	background-color: #f00;
+	color: #fff;
+}
+
+/* 多選框 */
+ .multi_choice input[type="checkbox"] {
+    display: none;
+}
+.multi_choice input[type="checkbox"] + label {
+    display: inline-block;
+    background-color: #ccc;
+    cursor: pointer;
+    padding: 5px 0px;
+	margin:3px 3px;
+}
+.multi_choice input[type="checkbox"]:checked + label {
+    background-color: #f3d42e;
+}
+
+.icon{
+	padding: 2px;
+}
+
+#edit_add_type_name{
+	padding:0px 15px;
+	border:1px gray solid;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	text-align:center;
+	background-color: #FFFFDD;
+}
+
+#add_additional_item{
+	cursor:pointer;
+}
+
+img[id^=del_additional_item_]{
+	cursor:pointer;
+}
+
+.sortable-chosen{
+	background-color: gray !important;
+}
+
+div[id^='m']:not(#main):not(#multi_choice)
+{
+    background-color:#66CD00;
+    height:50px;
+    width:125px;
+	line-height:50px;
+	text-align:center;
+	padding: 0px;
+}
