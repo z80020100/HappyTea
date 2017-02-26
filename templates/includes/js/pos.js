@@ -34,8 +34,15 @@ $(document).ready(function(){
             var name = $(this)[0].innerHTML;
             var price = parseInt($(this)[0].value);
             var m_id = ($(this)[0].id).slice(1); // slice : m64 ->64
-            var comment = ($(this).attr("series_s_id")).substr(-2,1);
+            var comment_name = ($(this).attr("data-series_name")).substr(-2,1);
 
+            //var comment =$('<td>');
+            var comment = $('<button>');
+            comment.addClass("w3-btn w3-orange");
+            comment.text(comment_name);
+            comment.val(-1); // for 冷 and 熱
+            //comment.append(add_btn);
+console.log(comment.val());
             one_item_number = parseInt($(amount_of_item).text());
             if(one_item_number != 0)
                 addRow(name,one_item_number, price, comment, m_id);
@@ -330,20 +337,20 @@ function addRow( name, amount, price, custom_comment, m_id){
 
     // if(parseInt(price) > 0){
         var the_button = tr_temp.find("td").eq(3).find("button");
-        console.log(the_button);
-        the_button.click(function(){
-            var the_price = $(this).closest("tr").find("td").eq(2);
-            var btn_price = $(this).val();
-            console.log(the_price.text());
-            console.log(btn_price);
-            if(parseInt(the_price.text()) >= 0)
-                the_price.text( parseInt(the_price.text()) - btn_price );
-            else
-                the_price.text( parseInt(the_price.text()) + parseInt(btn_price) );
-            click_bitton_flag = true;
-            $(this).remove();
-            getFree();
-        });
+        if (parseInt(the_button.val()) >= 0) { // hot and clod can not remove
+            the_button.click(function(){
+                var the_price = $(this).closest("tr").find("td").eq(2);
+                var btn_price = $(this).val();
+
+                if(parseInt(the_price.text()) >= 0)
+                    the_price.text( parseInt(the_price.text()) - btn_price );
+                else
+                    the_price.text( parseInt(the_price.text()) + parseInt(btn_price) );
+                click_bitton_flag = true;
+                $(this).remove();
+                getFree();
+            });
+        }
 
         tr_temp.click(function(event) {
             if(click_bitton_flag == false){
@@ -435,7 +442,7 @@ function checkOut(){
         //  printPage.document.getElementById('orderList').innerHTML = value;
         //  printPage.document.write("</PRE>");
         //  printPage.document.close("</BODY></HTML>");
-          console.log(printPage);
+         // console.log(printPage);
         //$.print("#order_list");
         jsPrintSetup.setPrinter("Adobe PDF");
         // set portrait orientation

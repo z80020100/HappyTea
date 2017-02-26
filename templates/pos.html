@@ -2,19 +2,26 @@
 <link rel="stylesheet" href="./templates/includes/css/pos.css">
 <link rel="stylesheet" href="./templates/includes/css/w3.css">
 <!-- jQuery -->
-<script src="./templates/includes/js/jsPrintSetup"></script>
+<!-- <script src="./templates/includes/js/jquery-1.11.3.min.js"></script>
+
+<script src="./includes/vendor/jquery/jquery.min.js"></script>
+<script src="./templates/includes/js/pos.js"></script>
+<script src="./templates/includes/js/jquery.mobile.custom.min.js"></script>
+<script src="./templates/includes/js/defaults.js"></script>
+<script src="./templates/includes/js/jsPrintSetup"></script> -->
+
 <script src="./includes/vendor/jquery/jquery.min.js"></script>
 <script src="./templates/includes/js/pos.js"></script>
 <script src="./templates/includes/js/jquery-1.11.3.min.js"></script>
 <script src="./templates/includes/js/jquery.mobile.custom.min.js"></script>
 <script src="./templates/includes/js/defaults.js"></script>
-
+<script src="./templates/includes/js/jsPrintSetup"></script>
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 window.jQuery || document.write('<script src="../bower_components/jquery/dist/jquery.min.js"><\/script>')
 </script> -->
-<script src="./templates/includes/js/jQuery.print.js"></script>
+<!-- <script src="./templates/includes/js/jQuery.print.js"></script> -->
 
 
     <div id="add_success" class="w3-center"> 成功加入購物車  </div>
@@ -31,7 +38,7 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
         <div id="s{{series.s_id}}" class="w3-group w3-row w3-padding-left w3-card-4 menu">
             {% for main in series.main %}
                 <div id="m{{main.m_id}}_ro_at_id" style="display:none"></div>
-                <button id="m{{main.m_id}}" class="w3-btn  w3-round" series_s_id="{{series.name}}" data-at_id="{{main.at_id}}" value="{{main.price}}">{{main.name}} </button>
+                <button id="m{{main.m_id}}" class="w3-btn  w3-round" data-series_name="{{series.name}}" data-at_id="{{main.at_id}}" value="{{main.price}}">{{main.name}} </button>
                 <script>
                     $("#m{{main.m_id}}").data({ "ro_at_id" : [
                     {% for ro in main.ro %}
