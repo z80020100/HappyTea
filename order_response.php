@@ -54,10 +54,10 @@ if( $request == "confirm_sum" ){
 	$db->query($sql);
 	$o_id = $db->insert_id();
 
-    echo $sql;
-    print_r( $order_info);
+    //echo $sql;
+    //print_r( $order_info);
 	foreach($order_info['share_array'] as $share){
-		print_r($share);
+		//print_r($share);
 
 		$sql = "INSERT INTO `share` (`sh_id`, `o_id`, `total`) VALUES (NULL, '".$o_id."', '0')";
 		$db->query($sql);
@@ -80,7 +80,7 @@ if( $request == "confirm_sum" ){
 
 			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES ('".$_SESSION['u_id']."', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."')";
 			$db->query($sql);
-			echo $sql . $db->insert_id();
+			//echo $sql . $db->insert_id();
 
 			if( isset($item['AI_array'])){
 				foreach($item['AI_array'] as $ai){
@@ -102,7 +102,19 @@ if( $request == "confirm_sum" ){
 		}
 
 	}
+	$sql = "SELECT * FROM `shop` WHERE `shop_id` = '".$_SHOP_ID."' ";
+	$result = $db->query($sql);
+	$shop_info = $db->fetch_array($result);
 
+	date_default_timezone_set('Asia/Taipei');
+	$send_back_order_info = array();
+	$send_back_order_info["o_id"] = $o_id;
+	$send_back_order_info["time"] = date("Y-m-j G:i:s");
+	$send_back_order_info["shop_name"] = $shop_info["shop_name"];
+	$send_back_order_info["shop_tel"] = $shop_info["shop_tel"];
+
+
+	echo json_encode($send_back_order_info,JSON_UNESCAPED_UNICODE);
 
 	if($_AWMode == "ACCOUNTING")
 		log_order($o_id);
@@ -129,7 +141,7 @@ elseif ( $request == "log_direct" ){
 
 			$sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`) VALUES ('".$_SESSION['u_id']."', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."')";
 			$db->query($sql);
-			echo $sql . $db->insert_id();
+			//echo $sql . $db->insert_id();
 		}
 
 	}

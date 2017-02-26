@@ -20,6 +20,7 @@ var first_cal_button = true;
 var free_flag = true;
 var send_order_flag = false;
 var click_bitton_flag = false;
+var send_check_out_total_amount;
 
 $(document).ready(function(){
         free_flag = true;
@@ -171,6 +172,7 @@ function resetAll() {
     $("#check_out_amount_result").addClass("check_out_on");
     $("#discount_amount").removeClass("discount_on");
     $("#discount_amount").val(0);
+    send_check_out_total_amount = $("#check_out_total_amount").val();
     $("#check_out_total_amount").val(0);
     $("input:radio[name='discount']").filter('[value="1"]').prop('checked', true);
     click_bitton_flag = false;
@@ -423,7 +425,7 @@ function checkOut(){
     $.ajax( {
         url:"order_response.php",
         method: "POST",
-        dataType:"text",
+        dataType:"json",
         data: {"order_info":order_info, "req":"confirm_sum"}
         //console.log(order_info.text());
     } )
@@ -431,27 +433,54 @@ function checkOut(){
         //alertify.success("下單成功!");
         //alert("下單成功!");
         console.log(msg);
-        // var value = document.getElementById("orderList").innerHTML;
-        // var printPage = window.open("", "", "width=200,height=100");
-        //  //printPage.document.open();
-        //
-        //  printPage.resizeTo(0,0);
-        //  printPage.moveTo(0,window.screen.availHeight+10);
-        //  printPage.document.write("<HTML><head></head><BODY onload='window.print(); window.close();'><table id='orderList'></table>");
-        //  printPage.document.write("<PRE>");
-        //  printPage.document.getElementById('orderList').innerHTML = value;
-        //  printPage.document.write("</PRE>");
-        //  printPage.document.close("</BODY></HTML>");
-         // console.log(printPage);
+
+        //console.log(msg[0]['time']);
+        console.log(msg['time']);
+        var value = $("#order_list").html();
+        var printPage = window.open("", "", "width=200,height=100");
+         //printPage.document.open();
+console.log(value);
+         printPage.resizeTo(500,500);
+         printPage.moveTo(0,window.screen.availHeight+10);
+
+         //printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY>");
+         printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY onload='jsPrintSetup.print(); window.close();'>");
+
+         printPage.document.write("<script> jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation); jsPrintSetup.setOption('printSilent', 1); </script>")
+         printPage.document.write("<script> jsPrintSetup.setShowPrintProgress(false); </script>");
+         var print_setting_string = "<script>jsPrintSetup.setOption('marginTop', 0); jsPrintSetup.setOption('marginBottom', 0);jsPrintSetup.setOption('marginLeft', 0);jsPrintSetup.setOption('marginRight', 0);</script>"
+         printPage.document.write(print_setting_string);
+         //printPage.document.write("<link rel=\"stylesheet\" href=\"./templates/includes/css/w3.css\">");
+         //printPage.document.write("<PRE>");
+
+         //printPage.document.write("<div class="+'w3-col m2'+" > <h3><span>牌號<h1>10</h1></span></h3></div>");
+
+         printPage.document.write("<span>牌號&nbsp&nbsp<span id=order_number style=\"font-size:60px;\"></span></span><br>");
+         //printPage.document.write("<h1 id=order_number style=\"font-size:60px;\"></h1>");
+         printPage.document.write("<span style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id=\"shop_info\"></span>");
+         printPage.document.write("<div style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id='order_id'>帳單號碼:</div><div style=\"font-size:12px;\" id ='the_time'></div>");
+         printPage.document.write("<table id='orderList' style=\"font-size:12px; width:250px\"></table>");
+         printPage.document.write("<h5 id='check_out_price'>合計</h5>");
+         printPage.document.write("<h5 id='check_out_total_amount'>總計</h5>");
+         printPage.document.getElementById('orderList').innerHTML = value;
+         printPage.document.getElementById('check_out_price').innerHTML =  "合計" + $("#total_price").val().toString();
+         printPage.document.getElementById('check_out_total_amount').innerHTML =  "總計" + send_check_out_total_amount.toString();
+         printPage.document.getElementById('the_time').innerHTML =  msg["time"];
+         printPage.document.getElementById('order_id').innerHTML =  "帳單號碼: " + msg["o_id"];
+         printPage.document.getElementById('order_number').innerHTML = parseInt(msg["o_id"]) % 100;
+         printPage.document.getElementById('shop_info').innerHTML = msg["shop_name"] + " (" + msg["shop_tel"] +")" ;
+
+         //printPage.document.write("</PRE>");
+         printPage.document.close("</BODY></HTML>");
         //$.print("#order_list");
         jsPrintSetup.setPrinter("Adobe PDF");
         // set portrait orientation
    jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation);
    // set top margins in millimeters
-   jsPrintSetup.setOption('marginTop', 15);
-   jsPrintSetup.setOption('marginBottom', 15);
-   jsPrintSetup.setOption('marginLeft', 20);
-   jsPrintSetup.setOption('marginRight', 10);
+   jsPrintSetup.setOption('marginTop', 0);
+   jsPrintSetup.setOption('marginBottom', 0);
+   jsPrintSetup.setOption('marginLeft', 0);
+   jsPrintSetup.setOption('marginRight', 0);
    // set page header
    jsPrintSetup.setOption('headerStrLeft', 'My custom header');
    jsPrintSetup.setOption('headerStrCenter', '');
@@ -468,23 +497,25 @@ function checkOut(){
    // Do Print
    // When print is submitted it is executed asynchronous and
    // script flow continues after print independently of completetion of print process!
-   jsPrintSetup.print();
+   //jsPrintSetup.print();
    // next commands
-
-        console.log(jsPrintSetup.getPrinter());
+   //jsPrintSetup.printWindow(window);
+   //$.print("#order_list");
+        console.log(jsPrintSetup.getPrintersList());
         //jsPrintSetup.setPrinter("PdC Printer");
         //jsPrintSetup.print();
          //$('#order_list').print();
          //window.print();
     })
-    .fail(function(){
+    .fail(function(msg){
+        console.log(msg);
         alert("fail2");
     })
     .always(function(){
         $('#order_list tr').has('td').each(function(index, value){
                 $(this).remove();
         });
-        $("#total_price").val(0);
+        //$("#total_price").val(0);
         free_flag = true;
         $("#total_item_number").text('總共 0 杯');
         $("#send_order_button").removeAttr('disabled');
