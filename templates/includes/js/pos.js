@@ -317,8 +317,7 @@ function addRow( name, amount, price, custom_comment, m_id){
     var tr_temp = $('<tr>');
     if(price <= 0){
         tr_temp.addClass('free');
-        console.log(name + amount + price);
-}
+    }
     $('#order_list').append(
          tr_temp.append(
                 $('<td>').text(name),
@@ -425,6 +424,51 @@ function checkOut(){
         //alertify.success("下單成功!");
         //alert("下單成功!");
         console.log(msg);
+        // var value = document.getElementById("orderList").innerHTML;
+        // var printPage = window.open("", "", "width=200,height=100");
+        //  //printPage.document.open();
+        //
+        //  printPage.resizeTo(0,0);
+        //  printPage.moveTo(0,window.screen.availHeight+10);
+        //  printPage.document.write("<HTML><head></head><BODY onload='window.print(); window.close();'><table id='orderList'></table>");
+        //  printPage.document.write("<PRE>");
+        //  printPage.document.getElementById('orderList').innerHTML = value;
+        //  printPage.document.write("</PRE>");
+        //  printPage.document.close("</BODY></HTML>");
+          console.log(printPage);
+        //$.print("#order_list");
+        jsPrintSetup.setPrinter("Adobe PDF");
+        // set portrait orientation
+   jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation);
+   // set top margins in millimeters
+   jsPrintSetup.setOption('marginTop', 15);
+   jsPrintSetup.setOption('marginBottom', 15);
+   jsPrintSetup.setOption('marginLeft', 20);
+   jsPrintSetup.setOption('marginRight', 10);
+   // set page header
+   jsPrintSetup.setOption('headerStrLeft', 'My custom header');
+   jsPrintSetup.setOption('headerStrCenter', '');
+   jsPrintSetup.setOption('headerStrRight', '&PT');
+   // set empty page footer
+   jsPrintSetup.setOption('footerStrLeft', '');
+   jsPrintSetup.setOption('footerStrCenter', '');
+   jsPrintSetup.setOption('footerStrRight', '');
+   // clears user preferences always silent print value
+   // to enable using 'printSilent' option
+   jsPrintSetup.clearSilentPrint();
+   // Suppress print dialog (for this context only)
+   jsPrintSetup.setOption('printSilent', 1);
+   // Do Print
+   // When print is submitted it is executed asynchronous and
+   // script flow continues after print independently of completetion of print process!
+   jsPrintSetup.print();
+   // next commands
+
+        console.log(jsPrintSetup.getPrinter());
+        //jsPrintSetup.setPrinter("PdC Printer");
+        //jsPrintSetup.print();
+         //$('#order_list').print();
+         //window.print();
     })
     .fail(function(){
         alert("fail2");
@@ -580,6 +624,7 @@ function removeOrder(){
         //    addRemoveRow('',msg[i].);
         //}
         console.log(msg);
+
     })
     .fail(function(){
     })
