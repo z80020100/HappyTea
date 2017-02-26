@@ -43,12 +43,6 @@
               <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}</button>
                 {% endif  %}
               {% endfor %}
-              <br>
-              <button class="addition_button">五折</button>
-              <button class="addition_button">六折</button>
-              <button class="addition_button">七折</button>
-              <button class="addition_button">八折</button>
-              <button class="addition_button">九折</button>
               <button class="addition_button">自備杯</button>
 
         </div>
@@ -58,7 +52,6 @@
 
     <div class="w3-third w3-cell" id="right_panel">
         <ul class="w3-navbar w3-lime">
-            <li><a href="listorder.php" rel="external" class="w3-center">即時訂單</a></li>
             <li><a href="javascript:void(0)" onclick="showCalculator()">數字鍵盤</a></li>
             <li class="w3-right"><a href="logout.php" rel="external" class="w3-center">登出&nbsp;</a></li>
             <li class="w3-right"><a href="javascript:void(0)" onclick="removeOrder()">刪單</a></li>
