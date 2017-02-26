@@ -339,10 +339,12 @@ function addRow( name, amount, price, custom_comment, m_id){
 
     // if(parseInt(price) > 0){
         var the_button = tr_temp.find("td").eq(3).find("button");
+        console.log(the_button.text());
         if (parseInt(the_button.val()) >= 0) { // hot and clod can not remove
             the_button.click(function(){
                 var the_price = $(this).closest("tr").find("td").eq(2);
                 var btn_price = $(this).val();
+                console.log(btn_price);
 
                 if(parseInt(the_price.text()) >= 0)
                     the_price.text( parseInt(the_price.text()) - btn_price );
@@ -353,6 +355,19 @@ function addRow( name, amount, price, custom_comment, m_id){
                 getFree();
             });
         }
+        $("material_button").click(function(){
+            var the_price = $(this).closest("tr").find("td").eq(2);
+            var btn_price = $(this).val();
+            console.log(btn_price);
+
+            if(parseInt(the_price.text()) >= 0)
+                the_price.text( parseInt(the_price.text()) - btn_price );
+            else
+                the_price.text( parseInt(the_price.text()) + parseInt(btn_price) );
+            click_bitton_flag = true;
+            $(this).remove();
+            getFree();
+        });
 
         tr_temp.click(function(event) {
             if(click_bitton_flag == false){
@@ -589,6 +604,7 @@ function cacheList(isRight){
 
 function passList(name,price){
     var haveSelected = false;
+    console.log(name,price);
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0 && $(this).hasClass("selected")){
             haveSelected = true;
@@ -596,6 +612,7 @@ function passList(name,price){
             // if(parseInt(the_price) < 0)
             //     $(this).find("td").eq(2).text( -parseInt(the_price) );
         }
+        console.log( parseInt($(this).find("td").eq(2).text()));
     });
 
     if(haveSelected == false){
@@ -617,11 +634,11 @@ function passList(name,price){
             //comment.text( comment.text() + ' ' + name);
 
             add_btn = $('<button>');
-            add_btn.addClass("w3-btn w3-orange");
+            add_btn.addClass("w3-btn w3-orange material_button");
             add_btn.text(name);
             add_btn.val(price);
             comment.append(add_btn);
-
+            console.log(add_btn.val());
             add_btn.click(function(){
                 var the_price = $(this).closest("tr").find("td").eq(2);
                 var btn_price = $(this).val();
@@ -650,19 +667,28 @@ function removeOrder(){
     $.ajax( {
         url:"pos_remove_request.php",
         method: "POST",
-        dataType:"text",
+        dataType:"json",
         data: {"re_request":"1"}
         //console.log(order_info.text());
     } )
     .done(function(msg){
-        //alertify.success("下單成功!");
-        //alert("下單成功!");
-        //alert(msg);
-        //for(var i=0; i<msg.length; ++i){
-        //    addRemoveRow('',msg[i].);
-        //}
-        console.log(msg);
 
+        var order_array = [];
+        order_array.push(msg[0]);
+        for(var i=1; i<msg.length; ++i){
+            if(msg[i]['o_id'] == msg[i-1]['o_id']){
+                order_array.push(msg[i]);
+            }else{
+
+                addRemoveRow(order_array);
+                order_array = [];
+                order_array.push(msg[i]);
+            }
+            if(i == msg.length -1){
+                addRemoveRow(order_array);
+
+            }
+        }
     })
     .fail(function(){
     })
@@ -674,19 +700,77 @@ function removeOrder(){
 
 
 
-function addRemoveRow( order_number, item, quantity, order_price, comment){
-    var tr_temp = $('<tr>');
-
-    $('#remove_table').append(
-         tr_temp.append(
-                $('<td>').text(order_number),
-                $('<td>').text(item),
-                $('<td>').text(quantity),
-                $('<td>').text(order_price),
-                $('<td>').text(comment),
-                $('<button').text("1234")
-         )
-    );
+function addRemoveRow( order_array){
 
 
+    var rm_btn = $('<button>');
+    var mod_btn = $('<button>');
+
+    rm_btn.text('刪除');
+    rm_btn.click(function(){
+       $("#remove_modal").hide();
+       $("#confirm_modal").show();
+
+    });
+    mod_btn.text('修改');
+    mod_btn.click(function(){
+
+        //$("#remove_table").find("tr").each(function(index, value){
+        var mod_o_id = $(this).parent().parent().children().html();
+        var mod_target_text = $(".rm_text"+mod_o_id);
+        var mod_target_quantity = $(".rm_quantity"+mod_o_id);
+        var mod_target_price = $(".rm_price"+mod_o_id);
+        var mod_target_comment = $(".rm_comment"+mod_o_id);
+
+        for(var j =0; j < mod_target_text.length; ++j){
+            console.log(mod_target_text.eq(j).html());
+
+            addRow( mod_target_text.eq(j).html(), mod_target_quantity.eq(j).html(), mod_target_price.eq(j).html(), mod_target_comment.eq(j).html(), '');
+        //addRow( name, amount, price, custom_comment, m_id)
+        }
+        //    console.log($(this).text()+"\n");
+        //});
+        //alert($(this).('tr').length);
+    });
+
+    for(var i =0 ;i< order_array.length; ++i){
+
+        var tr_temp = $('<tr>');
+        if(i==0){
+            $('#remove_table').append(
+                 tr_temp.append(
+                        $('<td>').attr('rowspan',order_array.length).text(order_array[i]['o_id']),
+                        $('<td>').addClass("rm_text"+order_array[i]['o_id']).text(order_array[i]['m_text']),
+                        $('<td>').addClass("rm_quantity"+order_array[i]['o_id']).text(order_array[i]['quantity']),
+                        $('<td>').addClass("rm_price"+order_array[i]['o_id']).text(order_array[i]['price']),
+                        $('<td>').addClass("rm_comment"+order_array[i]['o_id']).text(''),
+                        $('<td>').attr('rowspan',order_array.length).append(mod_btn, rm_btn)
+                 )
+            );
+        }else{
+            $('#remove_table').append(
+                 tr_temp.append(
+                        $('<td>').addClass("rm_text"+order_array[i]['o_id']).text(order_array[i]['m_text']),
+                        $('<td>').addClass("rm_quantity"+order_array[i]['o_id']).text(order_array[i]['quantity']),
+                        $('<td>').addClass("rm_price"+order_array[i]['o_id']).text(order_array[i]['price']),
+                        $('<td>').addClass("rm_comment"+order_array[i]['o_id']).text('')
+                 )
+            );
+
+        }
+    }
+    return;
 }
+
+
+$(document).on('click','#remove_times',function(){
+   $("#remove_table tbody tr").remove();
+   $("#remove_modal").hide();
+
+});
+
+$(document).on('click','#confirm_times',function(){
+   $("#confirm_modal").hide();
+   $("#remove_table tbody tr").remove();
+
+});

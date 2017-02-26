@@ -257,9 +257,9 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
     <div id="remove_modal" class="w3-modal">
       <div class="w3-modal-content">
           <div class="w3-container">
-                <span onclick="document.getElementById('remove_modal').style.display='none'"
-                      class="w3-closebtn">&times;</span>
+                <span id="remove_times" class="w3-closebtn">&times;</span>
                 <table id="remove_table" class="w3-table w3-striped w3-border">
+					<thead>
                     <tr>
                         <th>號碼</th>
                         <th>品項</th>
@@ -268,8 +268,31 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
                         <th>備註</th>
                         <th>動作</th>
                     </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot></tfoot>
                 </table>
 
+          </div>
+       </div>
+    </div>
+
+    <div id="confirm_modal" class="w3-modal">
+      <div class="w3-modal-content">
+          <div class="w3-container">
+                <span id="confirm_times" class="w3-closebtn">&times;</span>
+                <p>
+                請輸入帳號密碼 
+                </p>
+                <p>
+                <label class="w3-label">帳號</label>
+                <input class="w3-input" type="text"></p>
+                <p>      
+                <label class="w3-label">密碼</label>
+                <input class="w3-input" type="text"></p>
+                <button class="w3-right w3-button w3-light-green">確定</button>
+                <p>
+                </p>
           </div>
        </div>
     </div>
