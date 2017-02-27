@@ -547,8 +547,9 @@ function cacheList(isRight){
     $("#total_price").val(0);
     cache_items[cache_index].length = 0;
     $("#order_list").find("tr").each(function(index, value){
-        if(index > 0)
+        if(index > 0){
             cache_items[cache_index].push(value);
+        }
     });
 
     if(parseInt(isRight) == 1){
@@ -573,12 +574,13 @@ function cacheList(isRight){
     }
 
     $("#order_list").find("tr").each(function(index, value){
-        if(index > 0)
+        if(index > 0){
             $(this).remove();
+        }
     });
     for (var s=0; s<cache_items[cache_index].length ; ++s){
         $('table tbody').append(
-            cache_items[cache_index]
+            cache_items[cache_index][s]
         );
     }
     $("#order_list").find("tr").each(function(index, value){
