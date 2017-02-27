@@ -2,12 +2,12 @@
 
 require_once('includes/custom/php/general.php');
 
-$req = $_REQUEST['request'];
 
 
 //global $db, $shift_start, $shift_end;
 $sql;
-if(isset($req)){
+if(isset($_REQUEST['request'])){
+    $req = $_REQUEST['request'];
     $start = $req['start'];
     $end = $req['end'];
     $sql = "SELECT * FROM `log` WHERE `time` >= '".$start."' AND `time` <= '".$end."' AND HOUR(`time`) >= '".$shift_start."' AND HOUR(`time`) < '".($shift_end+1)."'";
