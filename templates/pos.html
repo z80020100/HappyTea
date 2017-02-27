@@ -60,7 +60,6 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
               <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}</button>
                 {% endif  %}
               {% endfor %}
-              <br>
 
 			  <button class="addition_button">自備杯</button>
 
@@ -191,13 +190,32 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
 
 				  <p></p>
                   <p></p>
-                    <div class="w3-half">
+                    <div class="w3-half w3-padding">
                         <input class="w3-radio" type="radio" name="inorout" value="drink_in" checked>
                         <label class="w3-validate">外帶</label>
                     </div>
-                    <div class="w3-half">
+                    <div class="w3-half w3-padding">
                         <input class="w3-radio" type="radio" name="inorout" value="drink_out">
                         <label class="w3-validate">外送</label>
+                    </div>
+                    <div class="w3-row w3-padding">
+                        <input class="w3-radio" type="radio" name="discount" value="1" checked>
+                        <label class="w3-validate">無打折</label>
+
+                        <input class="w3-radio" type="radio" name="discount" value="0.9">
+                        <label class="w3-validate">九折</label>
+
+                        <input class="w3-radio" type="radio" name="discount" value="0.8">
+                        <label class="w3-validate">八折</label>
+
+                        <input class="w3-radio" type="radio" name="discount" value="0.7">
+                        <label class="w3-validate">七折</label>
+
+                        <input class="w3-radio" type="radio" name="discount" value="0.6">
+                        <label class="w3-validate">六折</label>
+
+                        <input class="w3-radio" type="radio" name="discount" value="0.5">
+                        <label class="w3-validate">五折</label>
                     </div>
               </div>
 
@@ -216,37 +234,11 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
                   ><button class="cal_button" value="-1">&larr;</button>
               </div>
 
-              <div class="w3-col m2" >
-                    <div class="w3-row">
-                        <input class="w3-radio" type="radio" name="discount" value="1" checked>
-                        <label class="w3-validate">無打折</label>
-                    </div>
-                    <div class="w3-row">
-                        <input class="w3-radio" type="radio" name="discount" value="0.9">
-                        <label class="w3-validate">九折</label>
-                    </div>
-                    <div class="w3-row">
-                        <input class="w3-radio" type="radio" name="discount" value="0.8">
-                        <label class="w3-validate">八折</label>
-                    </div>
-                    <div class="w3-row">
-                        <input class="w3-radio" type="radio" name="discount" value="0.7">
-                        <label class="w3-validate">七折</label>
-                    </div>
-                    <div class="w3-row">
-                        <input class="w3-radio" type="radio" name="discount" value="0.6">
-                        <label class="w3-validate">六折</label>
-                    </div>
-                    <div class="w3-row">
-                        <input class="w3-radio" type="radio" name="discount" value="0.5">
-                        <label class="w3-validate">五折</label>
-                    </div>
-              </div>
           </div>
 
           <footer class="w3-container w3-lime">
 
-              <div class="w3-container w3-col s4 w3-padding-24">
+              <div class="w3-container w3-padding-24">
                 <button id="check_out_button" class="w3-btn w3-right w3-round">結帳</button>
               </div>
           </footer>

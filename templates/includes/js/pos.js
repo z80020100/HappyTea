@@ -43,7 +43,7 @@ $(document).ready(function(){
             comment.text(comment_name);
             comment.val(-1); // for 冷 and 熱
             //comment.append(add_btn);
-console.log(comment.val());
+//console.log(comment.val());
             one_item_number = parseInt($(amount_of_item).text());
             if(one_item_number != 0)
                 addRow(name,one_item_number, price, comment, m_id);
@@ -723,14 +723,11 @@ function addRemoveRow( order_array){
         var mod_target_comment = $(".rm_comment"+mod_o_id);
 
         for(var j =0; j < mod_target_text.length; ++j){
-            console.log(mod_target_text.eq(j).html());
 
             addRow( mod_target_text.eq(j).html(), mod_target_quantity.eq(j).html(), mod_target_price.eq(j).html(), mod_target_comment.eq(j).html(), '');
         //addRow( name, amount, price, custom_comment, m_id)
         }
-        //    console.log($(this).text()+"\n");
-        //});
-        //alert($(this).('tr').length);
+        $("#remove_modal").hide();
     });
 
     for(var i =0 ;i< order_array.length; ++i){
