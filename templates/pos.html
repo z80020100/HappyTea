@@ -117,10 +117,10 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
                     <table id="order_list" class="w3-table w3-hoverable w3-bordered w3-border w3-padding" >
                         <thead>
                         <tr>
-                            <th style="width:38%"> 品項 </th>
-                            <th style="width:17%"> 數量 </th>
+                            <th style="width:30%"> 品項 </th>
+                            <th style="width:12%"> 數量 </th>
                             <th style="width:20%"> 金額 </th>
-                            <th style="width:25%"> 備註 </th>
+                            <th style="width:38%"> 備註 </th>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -282,6 +282,16 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
                 <p>      
                 <label class="w3-label">密碼</label>
                 <input class="w3-input" type="text"></p>
+
+                <input class="w3-radio" type="radio" name="remove_reason" checked>
+                <label class="w3-validate">客戶點錯</label>
+
+                <input class="w3-radio" type="radio" name="remove_reason" checked>
+                <label class="w3-validate">店員聽錯</label>
+
+                <input class="w3-radio" type="radio" name="remove_reason" checked>
+                <label class="w3-validate">下錯單</label>
+
                 <button class="w3-right w3-button w3-light-green">確定</button>
                 <p>
                 </p>
