@@ -5,7 +5,7 @@ order_info["people_num"]="2";
 
 order_info["share_array"][0]=new Object();
 order_info["share_array"][0]["items_array"]=[];
-var cache_items = new Array(3);
+var cache_items = new Array(5);
 
 for (var l=0; l<cache_items.length; ++l){
     cache_items[l] = new Array();
@@ -664,6 +664,8 @@ function removeOrder(){
 
     $("#remove_modal").show();
 
+   $("#order_list tbody tr").remove();
+
     $.ajax( {
         url:"pos_remove_request.php",
         method: "POST",
@@ -727,6 +729,7 @@ function addRemoveRow( order_array){
             addRow( mod_target_text.eq(j).html(), mod_target_quantity.eq(j).html(), mod_target_price.eq(j).html(), mod_target_comment.eq(j).html(), '');
         //addRow( name, amount, price, custom_comment, m_id)
         }
+        $("#remove_table tbody tr").remove();
         $("#remove_modal").hide();
     });
 
