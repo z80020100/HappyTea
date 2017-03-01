@@ -447,46 +447,85 @@ function checkOut(){
     .done(function(msg){
         //alertify.success("下單成功!");
         //alert("下單成功!");
-        console.log(msg);
 
         //console.log(msg[0]['time']);
-        console.log(msg['time']);
+        //=======================print hot page start =================================================
         var value = $("#order_list").html();
-        var printPage = window.open("", "", "width=200,height=100");
-         //printPage.document.open();
-console.log(value);
-         printPage.resizeTo(500,500);
-         printPage.moveTo(0,window.screen.availHeight+10);
+    var printPage = window.open("", "", "width=200,height=100");
+     //printPage.document.open();
+     
+     printPage.resizeTo(500,500);
+     printPage.moveTo(0,window.screen.availHeight+10);
 
-         //printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY>");
-         printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY onload='jsPrintSetup.print(); window.close();'>");
+     printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY>");
+     printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY onload='jsPrintSetup.print(); window.close();'>");
 
-         printPage.document.write("<script> jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation); jsPrintSetup.setOption('printSilent', 1); </script>")
-         printPage.document.write("<script> jsPrintSetup.setShowPrintProgress(false); </script>");
-         var print_setting_string = "<script>jsPrintSetup.setOption('marginTop', 0); jsPrintSetup.setOption('marginBottom', 0);jsPrintSetup.setOption('marginLeft', 0);jsPrintSetup.setOption('marginRight', 0);</script>"
-         printPage.document.write(print_setting_string);
-         //printPage.document.write("<link rel=\"stylesheet\" href=\"./templates/includes/css/w3.css\">");
-         //printPage.document.write("<PRE>");
+     printPage.document.write("<script> jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation); jsPrintSetup.setOption('printSilent', 1); </script>")
+     printPage.document.write("<script> jsPrintSetup.setShowPrintProgress(false); </script>");
+     printPage.document.write("<script> jsPrintSetup.setPrinter(\"Adobe PDF\"); </script>");
+     
+     var print_setting_string = "<script>jsPrintSetup.setOption('marginTop', 0); jsPrintSetup.setOption('marginBottom', 0);jsPrintSetup.setOption('marginLeft', 0);jsPrintSetup.setOption('marginRight', 0);</script>"
+     printPage.document.write(print_setting_string);
+     //printPage.document.write("<link rel=\"stylesheet\" href=\"./templates/includes/css/w3.css\">");
+     //printPage.document.write("<PRE>");
 
-         //printPage.document.write("<div class="+'w3-col m2'+" > <h3><span>牌號<h1>10</h1></span></h3></div>");
+     //printPage.document.write("<div class="+'w3-col m2'+" > <h3><span>牌號<h1>10</h1></span></h3></div>");
 
-         printPage.document.write("<span>牌號&nbsp&nbsp<span id=order_number style=\"font-size:60px;\"></span></span><br>");
-         //printPage.document.write("<h1 id=order_number style=\"font-size:60px;\"></h1>");
-         printPage.document.write("<span style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id=\"shop_info\"></span>");
-         printPage.document.write("<div style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id='order_id'>帳單號碼:</div><div style=\"font-size:12px;\" id ='the_time'></div>");
-         printPage.document.write("<table id='orderList' style=\"font-size:12px; width:250px\"></table>");
-         printPage.document.write("<h5 id='check_out_price'>合計</h5>");
-         printPage.document.write("<h5 id='check_out_total_amount'>總計</h5>");
-         printPage.document.getElementById('orderList').innerHTML = value;
-         printPage.document.getElementById('check_out_price').innerHTML =  "合計" + $("#total_price").val().toString();
-         printPage.document.getElementById('check_out_total_amount').innerHTML =  "總計" + send_check_out_total_amount.toString();
-         printPage.document.getElementById('the_time').innerHTML =  msg["time"];
-         printPage.document.getElementById('order_id').innerHTML =  "帳單號碼: " + msg["o_id"];
-         printPage.document.getElementById('order_number').innerHTML = parseInt(msg["o_id"]) % 100;
-         printPage.document.getElementById('shop_info').innerHTML = msg["shop_name"] + " (" + msg["shop_tel"] +")" ;
+     printPage.document.write("<span>牌號&nbsp&nbsp<span id=order_number style=\"font-size:60px;\"></span></span><br>");
+     //printPage.document.write("<h1 id=order_number style=\"font-size:60px;\"></h1>");
+     printPage.document.write("<span style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id=\"shop_info\"></span>");
+     printPage.document.write("<div style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id='order_id'>帳單號碼:</div><div style=\"font-size:12px;\" id ='the_time'></div>");
+     printPage.document.write("<table id='orderList' style=\"font-size:12px; width:250px\"></table>");
+     printPage.document.write("<h5 id='check_out_price'>合計</h5>");
+     printPage.document.write("<h5 id='check_out_total_amount'>總計</h5>");
+     printPage.document.getElementById('orderList').innerHTML = value;
+     printPage.document.getElementById('check_out_price').innerHTML =  "合計" + $("#total_price").val().toString();
+     printPage.document.getElementById('check_out_total_amount').innerHTML =  "總計" + send_check_out_total_amount.toString();
+     printPage.document.getElementById('the_time').innerHTML =  msg["time"];
+     printPage.document.getElementById('order_id').innerHTML =  "帳單號碼: " + msg["o_id"];
+     printPage.document.getElementById('order_number').innerHTML = parseInt(msg["o_id"]) % 100;
+     printPage.document.getElementById('shop_info').innerHTML = msg["shop_name"] + " (" + msg["shop_tel"] +")" ;
 
-         //printPage.document.write("</PRE>");
-         printPage.document.close("</BODY></HTML>");
+     //printPage.document.write("</PRE>");
+     printPage.document.close("</BODY></HTML>");     
+         //=======================print hot page end =================================================
+         
+         //=======================print 標籤 page start =================================================
+         var value = $("#order_list").html();
+         
+         $("#order_list").find("tr").each(function(index, value){
+             if(index > 0 ){
+                    var name =     $(this).find("td").eq(0).text();
+                    var amount =   $(this).find("td").eq(1).text();
+                    var price =    $(this).find("td").eq(2).text();
+                    var comment =  $(this).find("td").eq(3).text();
+                    var printPage = window.open("", "", "width=200,height=100");
+                    printPage.document.write("<script> jsPrintSetup.setPrinter(\"EPSON TM-L90 Receipt\"); </script>");
+                    
+                    printPage.resizeTo(500,500);
+                    printPage.moveTo(0,window.screen.availHeight+10);
+
+                    printPage.document.write("<!DOCTYPE html><HTML><head></head><BODY>");
+                    printPage.document.write("<script> jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation); jsPrintSetup.setOption('printSilent', 1); </script>")
+                    printPage.document.write("<script> jsPrintSetup.setShowPrintProgress(false); </script>");
+                    printPage.document.write("<script> jsPrintSetup.setPrinter(\"EPSON TM-L90 Receipt\"); </script>");
+
+                    var print_setting_string = "<script>jsPrintSetup.setOption('marginTop', 0); jsPrintSetup.setOption('marginBottom', 0);jsPrintSetup.setOption('marginLeft', 0);jsPrintSetup.setOption('marginRight', 0);</script>"
+                    printPage.document.write(print_setting_string);
+
+                    printPage.document.write("<span style=\"font-size:20px;padding: 0px 0px 0px 0px;\" id=\"name\"></span>");
+                    printPage.document.write("<div style=\"font-size:14px;padding: 0px 0px 0px 0px;\" id=\"price\"></div>");
+                    printPage.document.write("<div style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id=\"comment\"></div>");
+                    printPage.document.getElementById('name').innerHTML =  name;
+                    printPage.document.getElementById('price').innerHTML =  price + "元";
+                    printPage.document.getElementById('comment').innerHTML =  comment + "&nbsp";
+                    printPage.document.write("<script> jsPrintSetup.print(); window.close(); </script>");
+             }
+         });
+         //=======================print 標籤 page end =================================================
+         
+         //printPage.document.write("<script> jsPrintSetup.setPrinter(\"EPSON TM-L90 Receipt\"); </script>");
+         
         //$.print("#order_list");
         jsPrintSetup.setPrinter("Adobe PDF");
         // set portrait orientation
