@@ -2,6 +2,7 @@ var order_info=new Object();
 order_info["share_array"]=[];
 order_info["table_num"]="16";
 order_info["people_num"]="2";
+order_info["in_or_out"]="";
 
 order_info["share_array"][0]=new Object();
 order_info["share_array"][0]["items_array"]=[];
@@ -37,10 +38,13 @@ $(document).ready(function(){
             $("#order_list").find("tr").each(function(index, value){
                 if (index>=1)  {
                     var item_array= new Object();
-                    item_array['comment'] = [];
 
+
+
+                    item_array['name'] = $(this).find("td").eq(0).text();
                     item_array["quantity"] = $(this).find("td").eq(1).text();
                     item_array["price"] = $(this).find("td").eq(2).text();
+                    item_array['comment'] = [];
 
                     var button_length = $(this).find('td').eq(3).find('button').length;
                     for(var i =0; i< button_length ; ++i){
@@ -547,6 +551,7 @@ function addRemoveRow( order_array){
         $("#remove_table tbody tr").remove();
         $("#remove_modal").hide();
 
+        // put modify ajax here
         calOrderPrice();
     });
 
@@ -587,18 +592,31 @@ function addRemoveRow( order_array){
 
 function checkOut(){
 
+    //alert($('.in_or_out:checked').val());
+
+    if($('.in_or_out:checked').val() == 'drink_in'){
+
+        order_info['in_or_out'] = 1 ;
+    }else if($('.in_or_out:checked').val() == 'drink_out'){
+
+        order_info['in_or_out'] = 2 ;
+    }
+
+   // console.log(order_info);
     $.ajax( {
         url:"order_response.php",
         method: "POST",
-        dataType:"json",
+        dataType:"text",
         data: {"order_info":order_info, "req":"confirm_sum"}
-        //console.log(order_info.text());
     } )
    .done(function(msg){
         // send order
         // please put printer function here
+        console.log(msg);
+        console.log('success');
     })
     .fail(function(msg){
+        console.log(msg);
         alert("結帳失敗");
     })
     .always(function(){
