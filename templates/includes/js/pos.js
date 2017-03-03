@@ -24,7 +24,7 @@ var cal_button_buffer='';
 $(document).ready(function(){
         $("#current_order").text(cache_index + 1);
 
-        
+
         buildMapTable();
 
         $("#order_button").click(function(){
@@ -81,7 +81,7 @@ $(document).ready(function(){
         });
 
         $(".checkout_cal_button").click(function(){
-            
+
 
             if($("#discount_amount").hasClass("discount_on") == true ){
                 temp_input = $("#discount_amount");
@@ -111,7 +111,7 @@ $(document).ready(function(){
                         temp_value = temp_value.slice(0, -1)
                         temp_input.val(temp_value);
                     }
-                
+
                 }else{
 
                     temp_input.val(temp_input.val() + $(this).val());
@@ -140,11 +140,11 @@ $(document).ready(function(){
 
 
         $("#check_out_button").click(function(){
+            checkOut();
             $("#check_out_button").attr('disabled', 'disabled');
             removeOrderList();
             $("#check_out_close_confirm").click();
 
-            checkOut();
 
         });
 
@@ -188,7 +188,7 @@ $(document).ready(function(){
                 var temp_quantity = $("#order_list").find("tr").eq(order_length-1).find('td').eq(1).text();
                 temp_quantity = parseInt(temp_quantity) + 1;
                 $("#order_list").find("tr").eq(order_length-1).find('td').eq(1).text(temp_quantity);
-            }        
+            }
             else{
                 $('.selected_row').each(function(index, value){
 
@@ -216,7 +216,7 @@ $(document).ready(function(){
                     temp_quantity = parseInt(temp_quantity) - 1;
                     $("#order_list").find("tr").eq(order_length-1).find('td').eq(1).text(temp_quantity);
                 }
-            }        
+            }
             else{
                 $('.selected_row').each(function(index, value){
 
@@ -283,7 +283,7 @@ $(document).ready(function(){
 
                 var order_length = $("#order_list tr").length;
                 $("#order_list").find("tr").eq(order_length-1).find('td').eq(3).append(add_btn);
-            }        
+            }
             else{
                 $('.selected_row').each(function(index, value){
                     var add_btn = $('<button>');
@@ -342,7 +342,7 @@ function calOrderPrice(){
             var button_length = $(this).find('td').eq(3).find('button').length;
             for(var i =0; i< button_length ; ++i){
                 var temp_price = $(this).find('td').eq(3).find('button').eq(i).data('price');
-                sum = sum + parseInt(temp_price) * parseInt($(this).find("td").eq(1).text()); 
+                sum = sum + parseInt(temp_price) * parseInt($(this).find("td").eq(1).text());
                 //alert($(this).find('td').eq(3).find('button').eq(i).text());
                 //alert(temp_price);
             }
@@ -360,7 +360,7 @@ function removeOrderList(){
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0){
             $(this).remove();
-        }   
+        }
     });
 
     return;
@@ -418,12 +418,12 @@ function cacheList(isRight){
 
 
     if(parseInt(isRight) == 1){
-        cache_index = cache_index + 1;  
+        cache_index = cache_index + 1;
         if(cache_index > number_cache_order - 1){
             cache_index = 0;
         }
     }else{
-        cache_index = cache_index - 1;  
+        cache_index = cache_index - 1;
         if(cache_index < 0){
             cache_index = number_cache_order - 1;
         }
@@ -612,6 +612,8 @@ function checkOut(){
    .done(function(msg){
         // send order
         // please put printer function here
+        printReceipt(msg);
+        printLabel();
         console.log(msg);
         console.log('success');
     })
@@ -631,13 +633,69 @@ function checkOut(){
 
 
 function printLabel(){
+    $("#order_list").find("tr").each(function(index, value){
+        if(index > 0 ){
+               var name =     $(this).find("td").eq(0).text();
+               var amount =   $(this).find("td").eq(1).text();
+               var price =    $(this).find("td").eq(2).text();
+               var comment =  $(this).find("td").eq(3).text();
+               var printPage = window.open("", "", "width=0,height=0");
+               var printer = "EPSON TM-L90 Receipt";
+               printPage.resizeTo(0,0);
+               printPage.moveTo(0,window.screen.availHeight+10);
+               var html = "<!DOCTYPE html><HTML><head></head><BODY>";
+               var script = "<script> jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation); jsPrintSetup.setOption('printSilent', 1);" +
+                           "jsPrintSetup.setShowPrintProgress(false);" + "jsPrintSetup.setOption('marginTop', 0); jsPrintSetup.setOption('marginBottom', 0);" +
+                           "jsPrintSetup.setOption('marginLeft', 0); jsPrintSetup.setOption('marginRight', 0);" +
+                           "jsPrintSetup.setPrinter(\"" + printer + "\");" +
+                           "</script>";
+               printPage.document.write( html + script);
 
+               var html = "<span style=\"font-size:20px;padding: 0px 0px 0px 0px;\" id=\"name\"></span>" +
+                           "<div style=\"font-size:14px;padding: 0px 0px 0px 0px;\" id=\"price\"></div>" +
+                           "<div style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id=\"comment\"></div>";
+               printPage.document.write( html );
+               printPage.document.getElementById('name').innerHTML =  name;
+               printPage.document.getElementById('price').innerHTML =  price + "元";
+               printPage.document.getElementById('comment').innerHTML =  comment + "&nbsp";
+               printPage.document.write("<script> jsPrintSetup.print(); window.close(); </script>");
+        }
+    });
     return;
 }
 
-function printReceipt(){
+function printReceipt(msg){
+    //=======================print hot page start =================================================
+    var order_list_html = $("#order_list").html();
+    var printPage = window.open("", "", "width=0,height=0");
+    var printer = "Adobe PDF";
+    printPage.resizeTo(0,0);
+    printPage.moveTo(0,window.screen.availHeight+10);
+    var html = "<!DOCTYPE html><HTML><head></head><BODY>";
+    var script = "<script> jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation); jsPrintSetup.setOption('printSilent', 1);" +
+               "jsPrintSetup.setShowPrintProgress(false);" + "jsPrintSetup.setOption('marginTop', 0); jsPrintSetup.setOption('marginBottom', 0);" +
+               "jsPrintSetup.setOption('marginLeft', 0); jsPrintSetup.setOption('marginRight', 0);" +
+               "jsPrintSetup.setPrinter(\"" + printer + "\");" +
+               "</script>";
+    printPage.document.write( html + script);
 
+    html = "<span>牌號&nbsp&nbsp<span id=order_number style=\"font-size:60px;\"></span></span><br>" +
+       "<span style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id=\"shop_info\"></span>" +
+       "<div style=\"font-size:12px;padding: 0px 0px 0px 0px;\" id='order_id'>帳單號碼:</div><div style=\"font-size:12px;\" id ='the_time'></div>" +
+       "<table id='orderList' style=\"font-size:12px; width:250px\"></table>" +
+       "<h5 id='check_out_price'>合計</h5>" +
+       "<h5 id='check_out_total_amount'>總計</h5>";
+    printPage.document.write( html );
+    printPage.document.getElementById('orderList').innerHTML = order_list_html;
+    printPage.document.getElementById('check_out_price').innerHTML =  "合計" + $("#total_price").val().toString();
+    printPage.document.getElementById('check_out_total_amount').innerHTML =  "總計" + $("#check_out_total_amount").val();
+    printPage.document.getElementById('the_time').innerHTML =  msg["time"];
+    printPage.document.getElementById('order_id').innerHTML =  "帳單號碼: " + msg["o_id"];
+    printPage.document.getElementById('order_number').innerHTML = parseInt(msg["o_id"]) % 100;
+    printPage.document.getElementById('shop_info').innerHTML = msg["shop_name"] + " (" + msg["shop_tel"] +")" ;
+    printPage.document.write("<script> jsPrintSetup.print(); window.close(); </script>");
+    printPage.document.close("</BODY></HTML>");
+    //=======================print hot page end =================================================
 
     return;
 }
-
