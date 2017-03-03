@@ -67,9 +67,14 @@ foreach($order_info['share_array'] as $share){
         $db->query($sql);
     }
 }
-    echo json_encode($o_id,JSON_UNESCAPED_UNICODE);
 
-
+$response = array();
+$sql = "SELECT * FROM `shop` WHERE `shop_id` = '".$_SHOP_ID."'";
+foreach($db->query($sql) as $row){
+    $response[] = $row;
+}
+$response[] = $o_id;
+echo json_encode($response,JSON_UNESCAPED_UNICODE);
 
 
 
