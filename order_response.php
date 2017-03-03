@@ -43,7 +43,7 @@ $request = $_REQUEST['req'];
 
 
 
-$sql = "INSERT INTO `orders` ( `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`, `in_or_out`) VALUES ( '0', NOW(), NULL, '1' , '0', 'WAIT', '".$_SHOP_ID."', '".$order_info['in_or_out']."');";
+$sql = "INSERT INTO `orders` ( `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`, `in_or_out`, `is_remove`) VALUES ( '0', NOW(), NULL, '1' , '0', 'WAIT', '".$_SHOP_ID."', '".$order_info['in_or_out']."', '0');";
 
 $db->query($sql);
 $o_id = $db->insert_id();
@@ -63,7 +63,7 @@ foreach($order_info['share_array'] as $share){
         $se_result = $db->query($sql);
         $series = $db->fetch_array($se_result);
 
-        $sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`, `volume`, `is_remove`) VALUES ( '0', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."', '0', '0')";
+        $sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`, `volume`) VALUES ( '0', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."', '0')";
         $db->query($sql);
     }
 }
