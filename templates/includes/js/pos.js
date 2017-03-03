@@ -24,7 +24,7 @@ var cal_button_buffer='';
 $(document).ready(function(){
         $("#current_order").text(cache_index + 1);
 
-
+        
         buildMapTable();
 
         $("#order_button").click(function(){
@@ -81,7 +81,7 @@ $(document).ready(function(){
         });
 
         $(".checkout_cal_button").click(function(){
-
+            
 
             if($("#discount_amount").hasClass("discount_on") == true ){
                 temp_input = $("#discount_amount");
@@ -111,7 +111,7 @@ $(document).ready(function(){
                         temp_value = temp_value.slice(0, -1)
                         temp_input.val(temp_value);
                     }
-
+                
                 }else{
 
                     temp_input.val(temp_input.val() + $(this).val());
@@ -188,7 +188,7 @@ $(document).ready(function(){
                 var temp_quantity = $("#order_list").find("tr").eq(order_length-1).find('td').eq(1).text();
                 temp_quantity = parseInt(temp_quantity) + 1;
                 $("#order_list").find("tr").eq(order_length-1).find('td').eq(1).text(temp_quantity);
-            }
+            }        
             else{
                 $('.selected_row').each(function(index, value){
 
@@ -216,7 +216,7 @@ $(document).ready(function(){
                     temp_quantity = parseInt(temp_quantity) - 1;
                     $("#order_list").find("tr").eq(order_length-1).find('td').eq(1).text(temp_quantity);
                 }
-            }
+            }        
             else{
                 $('.selected_row').each(function(index, value){
 
@@ -283,7 +283,7 @@ $(document).ready(function(){
 
                 var order_length = $("#order_list tr").length;
                 $("#order_list").find("tr").eq(order_length-1).find('td').eq(3).append(add_btn);
-            }
+            }        
             else{
                 $('.selected_row').each(function(index, value){
                     var add_btn = $('<button>');
@@ -342,7 +342,7 @@ function calOrderPrice(){
             var button_length = $(this).find('td').eq(3).find('button').length;
             for(var i =0; i< button_length ; ++i){
                 var temp_price = $(this).find('td').eq(3).find('button').eq(i).data('price');
-                sum = sum + parseInt(temp_price) * parseInt($(this).find("td").eq(1).text());
+                sum = sum + parseInt(temp_price) * parseInt($(this).find("td").eq(1).text()); 
                 //alert($(this).find('td').eq(3).find('button').eq(i).text());
                 //alert(temp_price);
             }
@@ -360,7 +360,7 @@ function removeOrderList(){
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0){
             $(this).remove();
-        }
+        }   
     });
 
     return;
@@ -418,12 +418,12 @@ function cacheList(isRight){
 
 
     if(parseInt(isRight) == 1){
-        cache_index = cache_index + 1;
+        cache_index = cache_index + 1;  
         if(cache_index > number_cache_order - 1){
             cache_index = 0;
         }
     }else{
-        cache_index = cache_index - 1;
+        cache_index = cache_index - 1;  
         if(cache_index < 0){
             cache_index = number_cache_order - 1;
         }
@@ -531,8 +531,7 @@ function addRemoveRow( order_array){
     rm_btn.click(function(){
        $("#remove_modal").hide();
        $("#confirm_modal").show();
-
-        // put remove ajax here
+        removeOrderDB($(this).parent().prev().prev().prev().prev().prev().text(), 1);
     });
 
     mod_btn.text('修改');
@@ -550,8 +549,7 @@ function addRemoveRow( order_array){
         }
         $("#remove_table tbody tr").remove();
         $("#remove_modal").hide();
-
-        // put modify ajax here
+        removeOrderDB($(this).parent().prev().prev().prev().prev().prev().text(), 0);
         calOrderPrice();
     });
 
@@ -606,14 +604,16 @@ function checkOut(){
     $.ajax( {
         url:"order_response.php",
         method: "POST",
-        dataType:"text",
+        dataType:"json",
         data: {"order_info":order_info, "req":"confirm_sum"}
     } )
    .done(function(msg){
         // send order
         // please put printer function here
+
         printReceipt(msg);
         printLabel();
+
         console.log(msg);
         console.log('success');
     })
@@ -633,6 +633,7 @@ function checkOut(){
 
 
 function printLabel(){
+
     $("#order_list").find("tr").each(function(index, value){
         if(index > 0 ){
                var name =     $(this).find("td").eq(0).text();
@@ -661,10 +662,12 @@ function printLabel(){
                printPage.document.write("<script> jsPrintSetup.print(); window.close(); </script>");
         }
     });
+
     return;
 }
 
-function printReceipt(msg){
+function printReceipt(){
+
     //=======================print hot page start =================================================
     var order_list_html = $("#order_list").html();
     var printPage = window.open("", "", "width=0,height=0");
@@ -696,6 +699,32 @@ function printReceipt(msg){
     printPage.document.write("<script> jsPrintSetup.print(); window.close(); </script>");
     printPage.document.close("</BODY></HTML>");
     //=======================print hot page end =================================================
+
+
+
+    return;
+}
+
+function removeOrderDB(o_id, is_remove_button){
+    $.ajax( {
+        url:"pos_remove_order.php",
+        method: "POST",
+        dataType:"json",
+        data: {"o_id":o_id}
+    } )
+   .done(function(msg){
+        // send order
+       // console.log(msg);
+       // console.log('success');
+    })
+    .fail(function(msg){
+        alert("刪除失敗");
+    })
+    .always(function(){
+        if(is_remove_button == 1){
+            location.reload();
+        }
+    });
 
     return;
 }

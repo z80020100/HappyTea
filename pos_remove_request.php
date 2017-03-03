@@ -3,7 +3,7 @@
 require_once('includes/custom/php/general.php');
 $remove_request = $_REQUEST;
 
-$sql = "SELECT * From orders ORDER BY `o_time` DESC LIMIT 5";
+$sql = "SELECT * From orders WHERE `is_remove`= 0 ORDER BY `o_time` DESC LIMIT 5 ";
 $remove_orders = array();
 
 foreach ($db->query($sql) as $orders) {
