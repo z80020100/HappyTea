@@ -611,8 +611,8 @@ function checkOut(){
         // send order
         // please put printer function here
 
-        printReceipt(msg);
-        printLabel();
+        //printReceipt(msg);
+        //printLabel();
 
         console.log(msg);
         console.log('success');
@@ -666,7 +666,7 @@ function printLabel(){
     return;
 }
 
-function printReceipt(){
+function printReceipt(msg){
 
     //=======================print hot page start =================================================
     var order_list_html = $("#order_list").html();

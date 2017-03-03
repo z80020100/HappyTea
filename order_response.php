@@ -67,7 +67,7 @@ foreach($order_info['share_array'] as $share){
         $db->query($sql);
     }
 }
-    echo json_encode("success",JSON_UNESCAPED_UNICODE);
+    echo json_encode($o_id,JSON_UNESCAPED_UNICODE);
 
 
 
