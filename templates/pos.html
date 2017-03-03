@@ -14,8 +14,6 @@
 <script src="./templates/includes/js/pos.js"></script>
 <script src="./templates/includes/js/jquery-1.11.3.min.js"></script>
 <script src="./templates/includes/js/jquery.mobile.custom.min.js"></script>
-<script src="./templates/includes/js/defaults.js"></script>
-<script src="./templates/includes/js/jsPrintSetup"></script>
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
@@ -26,43 +24,41 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
 
     <div id="add_success" class="w3-center"> 成功加入購物車  </div>
 
-    <!-- 菜單畫面 -->
+    <!-- menu page -->
     <div class="w3-twothird w3-cell w3-container" id="all_menu">
-        <ul class="w3-navbar w3-lime ">
+        <div class="w3-lime ">
               {% for series in all_series %}
-              <li><a href="javascript:void(0)" onclick="openMenu('s{{series.s_id}}')"> {{series.name}} </a></li>
+              <button class="w3-padding" id="s{{series.s_id}}"> {{series.name}} </button>
               {% endfor %}
-        </ul>
+        </div>
 
         {% for series in all_series %}
-        <div id="s{{series.s_id}}" class="w3-group w3-row w3-padding-left w3-card-4 menu">
-            {% for main in series.main %}
-                <div id="m{{main.m_id}}_ro_at_id" style="display:none"></div>
-                <button id="m{{main.m_id}}" class="w3-btn  w3-round" data-series_name="{{series.name}}" data-at_id="{{main.at_id}}" value="{{main.price}}">{{main.name}} </button>
-                <script>
-                    $("#m{{main.m_id}}").data({ "ro_at_id" : [
-                    {% for ro in main.ro %}
-                       {{ro.at_id}},
-                    {% endfor %}
-                        -1] })
-                </script>
-            {% endfor %}
-        </div>
+            {% if loop.first %}
+                <div id="s{{series.s_id}}_display" class="w3-padding w3-card-4 menu">
+                {% for main in series.main %}
+                    <button id="m{{main.m_id}}" class="w3-btn  w3-round" data-series_name="{{series.name}}"  value="{{main.price}}">{{main.name}} </button>
+                {% endfor %}
+                </div>
+            {% else %}
+                <div id="s{{series.s_id}}_display" class="w3-padding w3-card-4 menu" hidden>
+                {% for main in series.main %}
+                    <button id="m{{main.m_id}}" class="w3-btn  w3-round" data-series_name="{{series.name}}"  value="{{main.price}}">{{main.name}} </button>
+                {% endfor %}
+                </div>
+            {% endif %}
         {% endfor %}
 
 
         <div class="w3-card-4 w3-padding material_position" id="material">
-              {% for a_item in all_material %}
+            {% for a_item in all_material %}
                 {% if a_item.price != 0 %}
-              <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}{{a_item.price}}</button>
+                    <button id="ai_{{a_item.ai_id}}" class="addition_button" data-price="{{a_item.price}}" data-name="{{a_item.name}}">{{a_item.name}}{{a_item.price}}</button>
                 {% endif  %}
                 {% if a_item.price == 0 %}
-              <button class="addition_button" onclick="passList('{{a_item.name}}','{{a_item.price}}')">{{a_item.name}}</button>
+                    <button id="ai_{{a_item.ai_id}}" class="addition_button" data-price="{{a_item.price}}" data-name="{{a_item.name}}">{{a_item.name}}</button>
                 {% endif  %}
-              {% endfor %}
-
+            {% endfor %}
 			  <button class="addition_button">自備杯</button>
-
         </div>
     </div>
 
@@ -71,7 +67,7 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
     <div class="w3-third w3-cell" id="right_panel">
         <ul class="w3-navbar w3-lime">
             <!-- <li><a href="listorder.php" rel="external" class="w3-center">即時訂單</a></li> -->
-            <li><a href="javascript:void(0)" onclick="showCalculator()">數字鍵盤</a></li>
+            <li><a id="calculator_panel" >數字鍵盤</a></li>
             <li class="w3-right"><a href="logout.php" rel="external" class="w3-center">登出&nbsp;</a></li>
             <li class="w3-right"><a href="javascript:void(0)" onclick="removeOrder()">刪單</a></li>
         </ul>
@@ -79,13 +75,13 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
             <ul class="w3-navbar w3-lime">
                 <li><a  class="w3-center">數量</a></li>
                 <li><a  class="w3-center" id="amount_of_item">1</a></li>
-                <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(-1)">&emsp;&emsp;&minus;&emsp;&emsp;</a></li>
-                <li class="w3-right"><a  class="w3-center" onclick="addOneItemAmount(1)">&emsp;&emsp;&plus;&emsp;&emsp;</a></li>
+                <li class="w3-right"><a  class="w3-center minus_one">&emsp;&emsp;&minus;&emsp;&emsp;</a></li>
+                <li class="w3-right"><a  class="w3-center add_one">&emsp;&emsp;&plus;&emsp;&emsp;</a></li>
             </ul>
         </div>
         <div id="cart_list" class="w3-table" >
             <div class="w3-row calculator" >
-                <div class="w3-col" id='calculator' >
+                <div class="w3-col" id='calculator_number' hidden>
                     <button class="cal_button" value="1">1 </button
                     ><button class="cal_button" value="2">2</button
                     ><button class="cal_button" value="3">3</button
@@ -103,9 +99,9 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
             </div>
 
             <ul class="w3-navbar w3-lime" id="nav_discount">
-                  <li><a href="javascript:void(0)" onclick="cacheList(0)">上一筆</a></li>
-                  <li><a id="now_list">0</a></li>
-                  <li><a href="javascript:void(0)" onclick="cacheList(1)">下一筆</a></li>
+                  <li><a id="previous_order">上一筆</a></li>
+                  <li><a id="current_order">0</a></li>
+                  <li><a id="next_order">下一筆</a></li>
                   <li class="w3-right"><a id="total_item_number">總共 0 杯</a></li>
             </ul>
 
@@ -142,7 +138,7 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
                   <h4>元</h4>
               </div>
               <div class="w3-col s4 w3-right w3-padding-16">
-                  <button id="send_order_button" class="w3-btn w3-right w3-input w3-round-xlarge" >下單 </button>
+                  <button id="order_button" class="w3-btn w3-right w3-input w3-round-xlarge" >下單 </button>
               </div>
             </footer>
         </div>
@@ -220,18 +216,18 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
               </div>
 
               <div class="w3-col" id='checkout_calculator' >
-                  <button class="cal_button" value="1">1 </button
-                  ><button class="cal_button" value="2">2</button
-                  ><button class="cal_button" value="3">3</button
-                  ><button class="cal_button" value="4">4 </button
-                  ><button class="cal_button" value="5">5</button
-                  ><button class="cal_button" value="6">6</button
-                  ><button class="cal_button" value="7">7 </button
-                  ><button class="cal_button" value="8">8</button
-                  ><button class="cal_button" value="9">9</button
-                  ><button class="cal_button" value="C">C</button
-                  ><button class="cal_button" value="0">0</button
-                  ><button class="cal_button" value="-1">&larr;</button>
+                  <button class="checkout_cal_button" value="1">1 </button
+                  ><button class="checkout_cal_button" value="2">2</button
+                  ><button class="checkout_cal_button" value="3">3</button
+                  ><button class="checkout_cal_button" value="4">4 </button
+                  ><button class="checkout_cal_button" value="5">5</button
+                  ><button class="checkout_cal_button" value="6">6</button
+                  ><button class="checkout_cal_button" value="7">7 </button
+                  ><button class="checkout_cal_button" value="8">8</button
+                  ><button class="checkout_cal_button" value="9">9</button
+                  ><button class="checkout_cal_button" value="C">C</button
+                  ><button class="checkout_cal_button" value="0">0</button
+                  ><button class="checkout_cal_button" value="-1">&larr;</button>
               </div>
 
           </div>
@@ -246,9 +242,9 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
       </div>
     </div>
 
-    <div id="remove_modal" class="w3-modal">
+    <div id="remove_modal" class="w3-modal" hidden>
       <div class="w3-modal-content">
-          <div class="w3-container">
+          <div class="w3-container w3-padding">
                 <span id="remove_times" class="w3-closebtn">&times;</span>
                 <table id="remove_table" class="w3-table w3-striped w3-border">
 					<thead>

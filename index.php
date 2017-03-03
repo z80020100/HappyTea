@@ -29,7 +29,7 @@ while($series_data = $db->fetch_array($result)){
 	$all_series[$snum]['main'] = $all_main;
 }
 
-$sql = "SELECT DISTINCT name, price FROM `additional_item`";
+$sql = "SELECT DISTINCT name, price, ai_id FROM `additional_item`";
 $all_material = $db->query($sql);
 
 $template = $twig->loadTemplate('pos.html');
