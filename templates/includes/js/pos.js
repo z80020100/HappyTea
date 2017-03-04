@@ -3,6 +3,7 @@ order_info["share_array"]=[];
 order_info["table_num"]="16";
 order_info["people_num"]="2";
 order_info["in_or_out"]="";
+order_info["discount_ratio"]="";
 
 order_info["share_array"][0]=new Object();
 order_info["share_array"][0]["items_array"]=[];
@@ -44,6 +45,22 @@ $(document).ready(function(){
                     item_array['name'] = $(this).find("td").eq(0).text();
                     item_array["quantity"] = $(this).find("td").eq(1).text();
                     item_array["price"] = $(this).find("td").eq(2).text();
+
+                    if($(this).find("td").eq(0).text().indexOf('S') > -1){
+                        item_array["volume"] = 1;
+                    }else if($(this).find("td").eq(0).text().indexOf('M') > -1){
+                        item_array["volume"] = 2;
+
+                    }else if($(this).find("td").eq(0).text().indexOf('L') > -1){
+                        item_array["volume"] = 3;
+
+                    }else{
+                        item_array["volume"] = 0;
+
+                    }
+
+
+
                     item_array['comment'] = [];
 
                     var button_length = $(this).find('td').eq(3).find('button').length;
@@ -591,12 +608,13 @@ function addRemoveRow( order_array){
 
 function checkOut(){
 
-    //alert($('.in_or_out:checked').val());
 
-    if($('.in_or_out:checked').val() == 'drink_in'){
+    order_info["discount_ratio"]= $("input:radio[name='discount']:checked").val();
+
+    if($("input:radio[name='inorout']:checked").val() == 'drink_in'){
 
         order_info['in_or_out'] = 1 ;
-    }else if($('.in_or_out:checked').val() == 'drink_out'){
+    }else if($("input:radio[name='inorout']:checked").val()  == 'drink_out'){
 
         order_info['in_or_out'] = 2 ;
     }
@@ -612,12 +630,14 @@ function checkOut(){
         // send order
         // please put printer function here
 
-        printReceipt(msg);
-        printLabel();
+        //printReceipt(msg);
+        //printLabel();
 
         console.log(msg);
         console.log('success');
         removeOrderList();
+        $("#check_out_close_confirm").click();
+
 
     })
     .fail(function(msg){
