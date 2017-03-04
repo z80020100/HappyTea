@@ -43,7 +43,7 @@ $request = $_REQUEST['req'];
 
 
 
-$sql = "INSERT INTO `orders` ( `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`, `in_or_out`, `is_remove`, `discount_ratio`, `order_price`) VALUES ( '0', NOW(), NULL, '1' , '0', 'WAIT', '".$_SHOP_ID."', '".$order_info['in_or_out']."', '0', '".$order_info['discount_ratio']."', '".$order_info['check_out_total_amount']."');";
+$sql = "INSERT INTO `orders` ( `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`, `in_or_out`, `is_remove`, `discount_ratio`, `order_price`, `discount_amount`) VALUES ( '0', NOW(), NULL, '1' , '0', 'WAIT', '".$_SHOP_ID."', '".$order_info['in_or_out']."', '0', '".$order_info['discount_ratio']."', '".$order_info['check_out_total_amount']."', '".$order_info['discount_amount']."');";
 
 $db->query($sql);
 $o_id = $db->insert_id();
@@ -65,6 +65,15 @@ foreach($order_info['share_array'] as $share){
 
         $sql = "INSERT INTO `log` (`u_id`, `o_id`, `time`, `s_text`, `m_text`, `quantity`, `price`, `shop_id`, `volume`) VALUES ( '0', '".$o_id."', NOW(), '".$series['name']."', '".$main['name']."', ".$item['quantity'].", ".$item['price'].", '".$_SHOP_ID."', '".$item['volume']."')";
         $db->query($sql);
+        $log_id = $db->insert_id(); 
+
+        foreach($item['comment'] as $comment){
+            
+            $sql = "INSERT INTO `log_material` (`log_id`, `name`, `quantity`) VALUES ('".$log_id."', '".$comment."','1')";
+            $db->query($sql);
+
+        }
+
     }
 }
 
@@ -74,6 +83,7 @@ foreach($db->query($sql) as $row){
     $response[] = $row;
 }
 $response[] = $o_id;
+//$response[] = $share['items_array'][0]['comment'][0];
 echo json_encode($response,JSON_UNESCAPED_UNICODE);
 
 

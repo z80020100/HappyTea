@@ -4,6 +4,7 @@ order_info["table_num"]="16";
 order_info["people_num"]="2";
 order_info["in_or_out"]="";
 order_info["discount_ratio"]="";
+order_info["discount_amount"]="";
 order_info["check_out_total_amount"]="";
 
 order_info["share_array"][0]=new Object();
@@ -158,7 +159,6 @@ $(document).ready(function(){
 
 
         $("#check_out_button").click(function(){
-            console.log($("#order_list"));
 
             checkOut();
             $("#check_out_button").attr('disabled', 'disabled');
@@ -525,6 +525,7 @@ function removeOrder(){
     } )
     .done(function(msg){
 
+        //console.log(msg[0]['comment']);
         var order_array = [];
         order_array.push(msg[0]);
         for(var i=1; i<msg.length; ++i){
@@ -586,6 +587,12 @@ function addRemoveRow( order_array){
 
     for(var i =0 ;i< order_array.length; ++i){
 
+        //var total_comment ='';
+        //for(j=0; j<order_array[i]['comment'].length ; ++j){
+        //    total_comment = total_comment + order_array[i]['comment'][j];
+        //}
+
+
         var tr_temp = $('<tr>');
         if(i==0){
             $('#remove_table').append(
@@ -621,6 +628,8 @@ function checkOut(){
 
 
     order_info["discount_ratio"]= $("input:radio[name='discount']:checked").val();
+    order_info["discount_amount"]= $("#discount_amount").val();
+
     order_info["check_out_total_amount"]= $("#check_out_total_amount").val();
 
     if($("input:radio[name='inorout']:checked").val() == 'drink_in'){
