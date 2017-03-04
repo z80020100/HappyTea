@@ -542,6 +542,8 @@ function removeOrder(){
 
             }
         }
+
+       calOrderPrice();
     })
     .fail(function(){
     })
