@@ -43,7 +43,7 @@ $request = $_REQUEST['req'];
 
 
 
-$sql = "INSERT INTO `orders` ( `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`, `in_or_out`, `is_remove`, `discount_ratio`) VALUES ( '0', NOW(), NULL, '1' , '0', 'WAIT', '".$_SHOP_ID."', '".$order_info['in_or_out']."', '0', '".$order_info['discount_ratio']."');";
+$sql = "INSERT INTO `orders` ( `u_id`, `o_time`, `o_estimate_time`, `table_num`, `people_num`, `status`, `shop_id`, `in_or_out`, `is_remove`, `discount_ratio`, `order_price`) VALUES ( '0', NOW(), NULL, '1' , '0', 'WAIT', '".$_SHOP_ID."', '".$order_info['in_or_out']."', '0', '".$order_info['discount_ratio']."', '".$order_info['check_out_total_amount']."');";
 
 $db->query($sql);
 $o_id = $db->insert_id();

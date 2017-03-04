@@ -68,6 +68,7 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
         <ul class="w3-navbar w3-lime">
             <!-- <li><a href="listorder.php" rel="external" class="w3-center">即時訂單</a></li> -->
             <li><a id="calculator_panel" >數字鍵盤</a></li>
+            <li><a id="staff_report" >本日報表</a></li>
             <li class="w3-right"><a href="logout.php" rel="external" class="w3-center">登出&nbsp;</a></li>
             <li class="w3-right"><a href="javascript:void(0)" onclick="removeOrder()">刪單</a></li>
         </ul>
@@ -264,6 +265,21 @@ window.jQuery || document.write('<script src="../bower_components/jquery/dist/jq
           </div>
        </div>
     </div>
+
+    <div id="report_modal" class="w3-modal" hidden>
+      <div class="w3-modal-content">
+          <div class="w3-container w3-padding">
+                <span id="report_times" class="w3-closebtn">&times;</span>
+
+                <h4>本日目前營收:</h4><span>10000</span>
+                <h4>本日目前杯數:</h4><span>100</span>
+                <h4>杯子數量:</h4><span>1000</span>
+          </div>
+       </div>
+    </div>
+
+    
+
 <!--
     <div id="confirm_modal" class="w3-modal">
       <div class="w3-modal-content">

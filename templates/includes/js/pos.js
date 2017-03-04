@@ -4,6 +4,7 @@ order_info["table_num"]="16";
 order_info["people_num"]="2";
 order_info["in_or_out"]="";
 order_info["discount_ratio"]="";
+order_info["check_out_total_amount"]="";
 
 order_info["share_array"][0]=new Object();
 order_info["share_array"][0]["items_array"]=[];
@@ -181,6 +182,16 @@ $(document).ready(function(){
             }
 
             $("#calculator_number").toggle();
+
+        });
+
+        $("#staff_report").click(function(){
+            $("#report_modal").show();
+            requestReport();
+
+        });
+        $("#report_times").click(function(){
+            $("#report_modal").hide();
 
         });
 
@@ -610,6 +621,7 @@ function checkOut(){
 
 
     order_info["discount_ratio"]= $("input:radio[name='discount']:checked").val();
+    order_info["check_out_total_amount"]= $("#check_out_total_amount").val();
 
     if($("input:radio[name='inorout']:checked").val() == 'drink_in'){
 
@@ -748,6 +760,28 @@ function removeOrderDB(o_id, is_remove_button){
         if(is_remove_button == 1){
             location.reload();
         }
+    });
+
+    return;
+}
+
+function requestReport(){
+    $.ajax( {
+        url:"pos_request_report.php",
+        method: "POST",
+        dataType:"json",
+        data: {"req":'1'}
+    } )
+   .done(function(msg){
+        // send order
+        console.log(msg);
+       // console.log('success');
+    })
+    .fail(function(msg){
+        alert("刪除失敗");
+    })
+    .always(function(){
+
     });
 
     return;
